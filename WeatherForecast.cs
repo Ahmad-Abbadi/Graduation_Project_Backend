@@ -1,4 +1,4 @@
-namespace Graduation_Project_Backend
+namespace Cahser_API
 {
     public class WeatherForecast
     {
