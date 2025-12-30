@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Cahser_API.Models;
 using Cahser_API.Models.Entities;
 using System.Collections.Concurrent;
-using Cahser_API.Models;
+using Graduation_Project_Backend.DOTs;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -63,7 +62,7 @@ public class TransactionsController : ControllerBase
         );
     }
 
-    // 🔎 Helper endpoint
+    // 🔎 Helper 
     [HttpGet("{id:guid}")]
     public IActionResult GetTransactionById(Guid id)
     {
