@@ -1,74 +1,139 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Cahser_API.Models.Entities;
-using System.Collections.Concurrent;
+using Graduation_Project_Backend.Models.Entities;
 using Graduation_Project_Backend.DOTs;
+using Graduation_Project_Backend.Data;
+using Microsoft.EntityFrameworkCore;
 
-[ApiController]
-[Route("api/[controller]")]
-public class TransactionsController : ControllerBase
+namespace Graduation_Project_Backend.Controllers
 {
-    // Thread-safe dictionary
-    private static readonly ConcurrentDictionary<Guid, Transaction> all_transactions
-        = new ConcurrentDictionary<Guid, Transaction>();
-
-    [HttpPost]
-    public IActionResult AddTransaction([FromBody] AddTransactionDto addTransactionDto)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class TransactionsController : ControllerBase
     {
-        // 1️⃣ Null check
-        if (addTransactionDto == null)
-            return BadRequest("Request body is null.");
+        private readonly AppDbContext _db;
 
-        // 2 Model validation
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
-        // 3️⃣ Business validation
-        if (addTransactionDto.Price < 0)
-            return BadRequest("Price cannot be negative.");
-
-        if (addTransactionDto.Points < 0)
-            return BadRequest("Points cannot be negative.");
-
-        // 4️⃣ Generate ID if missing
-        var transactionId = addTransactionDto.Id == Guid.Empty
-            ? Guid.NewGuid()
-            : addTransactionDto.Id;
-
-        // 5️⃣ Create entity
-        var transaction = new Transaction
+        public TransactionsController(AppDbContext db)
         {
-            Id = transactionId,
-            ReceiptId = addTransactionDto.ReceiptId,
-            UserId = addTransactionDto.UserId,
-            StoreId = addTransactionDto.StoreId,
-            Price = addTransactionDto.Price,
-            Points = addTransactionDto.Points,
-            ValidatedBy = addTransactionDto.ValidatedBy,
-            ValidatedAt = addTransactionDto.ValidatedAt,
-            CreatedAt = addTransactionDto.CreatedAt
-        };
-
-        // 6️⃣ Prevent duplicate insert
-        if (!all_transactions.TryAdd(transaction.Id, transaction))
-        {
-            return Conflict($"Transaction with ID {transaction.Id} already exists.");
+            _db = db;
         }
 
-        // 7️⃣ Return proper response
-        return CreatedAtAction(
-            nameof(GetTransactionById),
-            new { id = transaction.Id },
-            transaction
-        );
+        [HttpPost]
+        public async Task<IActionResult> AddTransaction([FromBody] AddTransactionDto dto)
+        {
+            if (dto == null)
+                return BadRequest("Request body is null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (dto.Price < 0)
+                return BadRequest("Price cannot be negative.");
+
+            if (string.IsNullOrWhiteSpace(dto.PhoneNumber))
+                return BadRequest("Phone number is required.");
+
+            if (string.IsNullOrWhiteSpace(dto.ReceiptId))
+                return BadRequest("Receipt ID is required.");
+
+            // Normalize phone
+            var phone = NormalizePhone(dto.PhoneNumber);
+
+            // Find user
+            var user = await _db.UserProfiles
+                .SingleOrDefaultAsync(u => u.PhoneNumber == phone);
+
+            if (user == null)
+                return NotFound($"User with phone number {dto.PhoneNumber} not found.");
+
+            // Prevent duplicate receipt
+            var receiptExists = await _db.Transactions
+                .AnyAsync(t => t.ReceiptId == dto.ReceiptId);
+
+            if (receiptExists)
+                return Conflict($"Receipt with ID {dto.ReceiptId} already exists.");
+
+            // Calculate points
+            var points = CalculatePoints(dto.Price);
+            Console.WriteLine(user.Id);
+            // Create transaction (NO ID assignment)
+            var transaction = new Transaction
+            {
+                ReceiptId = dto.ReceiptId,
+                ReceiptDescription = dto.ReceiptDescription,
+                UserId = user.Id,
+                StoreId = dto.StoreId,
+                Price = dto.Price,
+                Points = points,
+                CreatedAt = DateTimeOffset.UtcNow
+            };
+
+            // Update user points
+            user.TotalPoints += points;
+
+            _db.Transactions.Add(transaction);
+            await _db.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetTransactionById),
+                new { id = transaction.Id },
+                new
+                {
+                    transaction.Id,
+                    transaction.ReceiptId,
+                    transaction.UserId,
+                    user_phone = user.PhoneNumber,
+                    user_name = user.Name,
+                    transaction.StoreId,
+                    transaction.Price,
+                    transaction.Points,
+                    user_total_points = user.TotalPoints,
+                    transaction.CreatedAt,
+                    message = "Transaction created successfully and points added to user."
+                }
+            );
+        }
+
+        // 🔎 Get transaction by ID
+        [HttpGet("{id:long}")]
+        public async Task<IActionResult> GetTransactionById(long id)
+        {
+            var transaction = await _db.Transactions
+                .Include(t => t.User)
+                .SingleOrDefaultAsync(t => t.Id == id);
+
+            if (transaction == null)
+                return NotFound("Transaction not found.");
+
+            return Ok(new
+            {
+                transaction.Id,
+                transaction.ReceiptId,
+                transaction.UserId,
+                user_phone = transaction.User?.PhoneNumber,
+                user_name = transaction.User?.Name,
+                transaction.StoreId,
+                transaction.Price,
+                transaction.Points,
+                transaction.CreatedAt
+            });
+        }
+
+        // 📊 Points calculation
+        private static int CalculatePoints(decimal price)
+        {
+            return (int)(price * 100);
+        }
+
+        // 📱 Normalize phone
+        private static string NormalizePhone(string phone)
+        {
+            phone = phone.Trim().Replace(" ", "").Replace("-", "");
+
+            if (phone.StartsWith("07") && phone.Length == 10)
+                return "+962" + phone[1..];
+
+            return phone.StartsWith("+") ? phone : phone;
+        }
     }
 
-    // 🔎 Helper 
-    [HttpGet("{id:guid}")]
-    public IActionResult GetTransactionById(Guid id)
-    {
-        if (!all_transactions.TryGetValue(id, out var transaction))
-            return NotFound("Transaction not found.");
-
-        return Ok(transaction);
-    }
 }

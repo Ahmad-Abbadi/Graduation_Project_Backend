@@ -1,25 +1,28 @@
-﻿namespace Graduation_Project_Backend.DOTs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Graduation_Project_Backend.DOTs
 {
     public class AddTransactionDto
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public Guid UserId { get; set; }
+        [Required(ErrorMessage = "Phone number is required")]
+        public string PhoneNumber { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Store ID is required")]
         public Guid StoreId { get; set; }
 
-        public required string ReceiptId { get; set; } = null!;
+        [Required(ErrorMessage = "Receipt ID is required")]
+        public string ReceiptId { get; set; } = string.Empty;
 
-        public required double Price { get; set; }
+        public string? ReceiptDescription { get; set; }
 
-        public required int Points { get; set; }
+        [Required(ErrorMessage = "Price is required")]
+        [Range(0, double.MaxValue, ErrorMessage = "Price must be non-negative")]
+        public decimal Price { get; set; }
 
-        public Guid? ValidatedBy { get; set; }
-
-        public DateTimeOffset? ValidatedAt { get; set; }
+        public DateTimeOffset? MadeAt { get; set; }
 
         public DateTimeOffset CreatedAt { get; set; }
-
-
     }
 }

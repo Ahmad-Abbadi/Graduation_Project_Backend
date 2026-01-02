@@ -26,7 +26,7 @@ namespace Graduation_Project_Backend.Controllers
             [FromQuery] bool activeOnly = true)
         {
             var now = DateTimeOffset.UtcNow;
-
+            
             var query = _db.Offers
                 .AsNoTracking()
                 .Include(o => o.Store)
