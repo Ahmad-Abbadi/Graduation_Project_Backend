@@ -11,6 +11,5 @@ namespace Graduation_Project_Backend.Models.Entities
         [Column("name")]
         public string Name { get; set; } = "";
 
-        public ICollection<Offer> Offers { get; set; } = new List<Offer>();
     }
 }

@@ -12,9 +12,9 @@ namespace Graduation_Project_Backend.Data
 
         public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
         public DbSet<UserSession> UserSessions => Set<UserSession>();
-        public DbSet<Offer> Offers => Set<Offer>();
         public DbSet<Store> Stores => Set<Store>();
         public DbSet<Transaction> Transactions => Set<Transaction>();
+        public DbSet<Coupon> Coupons => Set<Coupon>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,14 +35,6 @@ namespace Graduation_Project_Backend.Data
                     .WithMany()
                     .HasForeignKey(e => e.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<Offer>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.HasOne(e => e.Store)
-                    .WithMany(s => s.Offers)
-                    .HasForeignKey(e => e.StoreId);
             });
 
             modelBuilder.Entity<Store>(entity =>
@@ -102,6 +94,55 @@ namespace Graduation_Project_Backend.Data
                     .OnDelete(DeleteBehavior.Restrict);
 
                 
+            });
+
+            modelBuilder.Entity<Coupon>(entity =>
+            {
+                entity.ToTable("coupons");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("timestamptz")
+                    .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.ManagerId)
+                    .HasColumnName("manger_id")
+                    .IsRequired();
+
+                entity.Property(e => e.Type)
+                    .HasColumnName("type")
+                    .IsRequired();
+
+                entity.Property(e => e.StartAt)
+                    .HasColumnName("start_at")
+                    .HasColumnType("timestamptz")
+                    .IsRequired();
+
+                entity.Property(e => e.EndAt)
+                    .HasColumnName("end_at")
+                    .HasColumnType("timestamptz")
+                    .IsRequired();
+
+                entity.Property(e => e.DiscountPercent)
+                    .HasColumnName("discount_persent");
+
+                entity.Property(e => e.Bonus)
+                    .HasColumnName("bouns");
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("is_active");
+
+                entity.Property(e => e.CostPoint)
+                    .HasColumnName("cost_point");
+
+                entity.HasIndex(e => e.ManagerId)
+                    .IsUnique();
             });
 
         }
