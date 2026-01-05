@@ -15,6 +15,7 @@ namespace Graduation_Project_Backend.Data
         public DbSet<Store> Stores => Set<Store>();
         public DbSet<Transaction> Transactions => Set<Transaction>();
         public DbSet<Coupon> Coupons => Set<Coupon>();
+        public DbSet<UserCoupon> UserCoupons => Set<UserCoupon>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,7 @@ namespace Graduation_Project_Backend.Data
                 entity.Property(e => e.PhoneNumber).IsRequired();
                 entity.Property(e => e.PasswordHash).IsRequired();
                 entity.HasIndex(e => e.PhoneNumber).IsUnique();
+
             });
 
             modelBuilder.Entity<UserSession>(entity =>
@@ -143,6 +145,34 @@ namespace Graduation_Project_Backend.Data
 
                 entity.HasIndex(e => e.ManagerId)
                     .IsUnique();
+            });
+            modelBuilder.Entity<UserCoupon>(entity =>
+            {
+                entity.ToTable("users_coupons");
+
+                
+                entity.HasKey(e => e.SerialNumber);
+
+                entity.Property(e => e.SerialNumber)
+                    .HasColumnName("serial_number")
+                    .HasMaxLength(8)
+                    .IsRequired();
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .IsRequired();
+
+                entity.Property(e => e.CouponId)
+                    .HasColumnName("coupon_id")
+                    .IsRequired();
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasDefaultValueSql("now()");
+
+                
+
+                
             });
 
         }

@@ -8,6 +8,6 @@
     "\\Models\\Entities",
     "\\Models\\User"
   ],
-  "SelectedNode": "\\Program.cs",
+  "SelectedNode": "\\Controllers\\CouponsController.cs",
   "PreviewInSolutionExplorer": false
 }
