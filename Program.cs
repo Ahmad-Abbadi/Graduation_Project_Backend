@@ -1,5 +1,7 @@
 using Graduation_Project_Backend.Data;
 using Microsoft.EntityFrameworkCore;
+using Graduation_Project_Backend.Service;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddScoped<ServiceClass>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

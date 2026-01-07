@@ -7,7 +7,8 @@ namespace Graduation_Project_Backend.Models.Entities
     {
         public string SerialNumber { get; set; } = null!;
         public Guid UserId { get; set; }
-        public long CouponId { get; set; }
+        public Guid CouponId { get; set; }
+        public bool IsRedeemed { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // optional navigation props

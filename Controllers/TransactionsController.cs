@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Graduation_Project_Backend.Models.Entities;
-using Graduation_Project_Backend.DOTs;
-using Graduation_Project_Backend.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Graduation_Project_Backend.DOTs;
+using Graduation_Project_Backend.Service;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Graduation_Project_Backend.Controllers
 {
@@ -10,21 +8,18 @@ namespace Graduation_Project_Backend.Controllers
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase
     {
-        private readonly AppDbContext _db;
+        private readonly ServiceClass _service;
 
-        public TransactionsController(AppDbContext db)
+        public TransactionsController(ServiceClass service)
         {
-            _db = db;
+            _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTransaction([FromBody] AddTransactionDto dto)
+        public async Task<IActionResult> AddTransaction(AddTransactionDto dto)
         {
             if (dto == null)
                 return BadRequest("Request body is null.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             if (dto.Price < 0)
                 return BadRequest("Price cannot be negative.");
@@ -35,96 +30,50 @@ namespace Graduation_Project_Backend.Controllers
             if (string.IsNullOrWhiteSpace(dto.ReceiptId))
                 return BadRequest("Receipt ID is required.");
 
-            // Normalize phone
+            if (dto.StoreId==null)
+                return BadRequest("Store ID is required.");
+
+            
+
+            //var store = await _service.GetStoreByIdAsync(dto.StoreId);
+            //if (store==null)
+            //{
+            //    store = await _service.CreateStoreAsync("Walmart");
+
+            //}
+
             var phone = NormalizePhone(dto.PhoneNumber);
 
-            // Find user
-            var user = await _db.UserProfiles
-                .SingleOrDefaultAsync(u => u.PhoneNumber == phone);
-
-            if (user == null)
-                return NotFound($"User with phone number {dto.PhoneNumber} not found.");
-
-            // Prevent duplicate receipt
-            var receiptExists = await _db.Transactions
-                .AnyAsync(t => t.ReceiptId == dto.ReceiptId);
-
-            if (receiptExists)
-                return Conflict($"Receipt with ID {dto.ReceiptId} already exists.");
-
-            // Calculate points
-            var points = CalculatePoints(dto.Price);
-            Console.WriteLine(user.Id);
-            // Create transaction (NO ID assignment)
-            var transaction = new Transaction
+            try
             {
-                ReceiptId = dto.ReceiptId,
-                ReceiptDescription = dto.ReceiptDescription,
-                UserId = user.Id,
-                StoreId = dto.StoreId,
-                Price = dto.Price,
-                Points = points,
-                CreatedAt = DateTimeOffset.UtcNow
-            };
+                var result = await _service.ProcessTransactionAsync(
+                    phone,
+                    dto.StoreId,
+                    dto.ReceiptId,
+                    dto.ReceiptDescription,
+                    dto.Price
+                );
 
-            // Update user points
-            user.TotalPoints += points;
-
-            _db.Transactions.Add(transaction);
-            await _db.SaveChangesAsync();
-
-            return CreatedAtAction(
-                nameof(GetTransactionById),
-                new { id = transaction.Id },
-                new
-                {
-                    transaction.Id,
-                    transaction.ReceiptId,
-                    transaction.UserId,
-                    user_phone = user.PhoneNumber,
-                    user_name = user.Name,
-                    transaction.StoreId,
-                    transaction.Price,
-                    transaction.Points,
-                    user_total_points = user.TotalPoints,
-                    transaction.CreatedAt,
-                    message = "Transaction created successfully and points added to user."
-                }
-            );
+                return CreatedAtAction(nameof(GetTransactionById),
+                    new { id = result.TransactionId },
+                    result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // 🔎 Get transaction by ID
         [HttpGet("{id:long}")]
         public async Task<IActionResult> GetTransactionById(long id)
         {
-            var transaction = await _db.Transactions
-                .Include(t => t.User)
-                .SingleOrDefaultAsync(t => t.Id == id);
-
+            var transaction = await _service.GetTransactionDetailsAsync(id);
             if (transaction == null)
                 return NotFound("Transaction not found.");
 
-            return Ok(new
-            {
-                transaction.Id,
-                transaction.ReceiptId,
-                transaction.UserId,
-                user_phone = transaction.User?.PhoneNumber,
-                user_name = transaction.User?.Name,
-                transaction.StoreId,
-                transaction.Price,
-                transaction.Points,
-                transaction.CreatedAt
-            });
+            return Ok(transaction);
         }
 
-        // 📊 Points calculation
-        private static int CalculatePoints(decimal price)
-        {
-            return (int)(price * 100);
-        }
-
-        // 📱 Normalize phone
         private static string NormalizePhone(string phone)
         {
             phone = phone.Trim().Replace(" ", "").Replace("-", "");
@@ -132,8 +81,7 @@ namespace Graduation_Project_Backend.Controllers
             if (phone.StartsWith("07") && phone.Length == 10)
                 return "+962" + phone[1..];
 
-            return phone.StartsWith("+") ? phone : phone;
+            return phone;
         }
     }
-
 }

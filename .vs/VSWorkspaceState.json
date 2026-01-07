@@ -6,8 +6,9 @@
     "\\DOTs",
     "\\Models",
     "\\Models\\Entities",
-    "\\Models\\User"
+    "\\Models\\User",
+    "\\Service"
   ],
-  "SelectedNode": "\\Controllers\\CouponsController.cs",
+  "SelectedNode": "\\Data\\AppDbContext.cs",
   "PreviewInSolutionExplorer": false
 }
