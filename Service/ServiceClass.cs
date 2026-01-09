@@ -291,6 +291,39 @@ namespace Graduation_Project_Backend.Service
             return userCoupon;
         }
 
+        public async Task<UserCoupon> RedeemCouponBySerialAsync(string serialNumber)
+        {
+            if (string.IsNullOrWhiteSpace(serialNumber))
+                throw new InvalidOperationException("Serial number is required");
+
+            var serial = serialNumber.Trim();
+
+            var userCoupon = await _db.UserCoupons
+                .Include(uc => uc.Coupon)
+                .SingleOrDefaultAsync(uc => uc.SerialNumber == serial);
+
+            if (userCoupon == null)
+                throw new InvalidOperationException("Coupon serial not found");
+
+            if (userCoupon.IsRedeemed)
+                throw new InvalidOperationException("Coupon already redeemed");
+
+            if (userCoupon.Coupon == null)
+                throw new InvalidOperationException("Coupon not found");
+
+            if (!userCoupon.Coupon.IsActive)
+                throw new InvalidOperationException("Coupon is not active");
+
+            var now = DateTime.UtcNow;
+            if (userCoupon.Coupon.StartAt > now || userCoupon.Coupon.EndAt < now)
+                throw new InvalidOperationException("Coupon outside redeem period");
+
+            userCoupon.IsRedeemed = true;
+            await _db.SaveChangesAsync();
+
+            return userCoupon;
+        }
+
         public async Task<List<UserCoupon>> GetUserCouponsAsync(Guid userId)
         {
             return await _db.UserCoupons

@@ -9,6 +9,6 @@
     "\\Models\\User",
     "\\Service"
   ],
-  "SelectedNode": "\\Data\\AppDbContext.cs",
+  "SelectedNode": "\\Service\\ServiceClass.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -16,10 +16,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ServiceClass>();
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+var runMigrations = builder.Configuration.GetValue("RunMigrations", true);
+if (runMigrations)
 {
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        db.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "Database migration failed on startup.");
+    }
 }
 
 // Configure the HTTP request pipeline.

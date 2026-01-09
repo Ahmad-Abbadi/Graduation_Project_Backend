@@ -51,6 +51,25 @@ namespace Graduation_Project_Backend.Controllers
             }
         }
 
+        [HttpPost("redeem-by-serial")]
+        public async Task<IActionResult> RedeemCouponBySerial(RedeemCouponBySerialDto dto)
+        {
+            try
+            {
+                var result = await _service.RedeemCouponBySerialAsync(dto.SerialNumber);
+
+                return Ok(new
+                {
+                    message = "Coupon redeemed successfully",
+                    serial_number = result.SerialNumber
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("user/{userId:guid}")]
         public async Task<IActionResult> GetUserCoupons(Guid userId)
         {
