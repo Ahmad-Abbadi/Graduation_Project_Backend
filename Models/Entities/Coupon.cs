@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Graduation_Project_Backend.Models.Entities
 {
     public class Coupon
@@ -11,5 +13,7 @@ namespace Graduation_Project_Backend.Models.Entities
         public string Discription { get; set; } = "";
         public bool IsActive { get; set; }
         public decimal? CostPoint { get; set; }
+        [Column("mall_id")]
+        public Guid MallID { get; set; }
     }
 }

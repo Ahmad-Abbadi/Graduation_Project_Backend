@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Graduation_Project_Backend.Data;
-using Graduation_Project_Backend.DOTs;
+using Graduation_Project_Backend.DTOs;
 using Graduation_Project_Backend.Models.Entities;
 using Graduation_Project_Backend.Models.User;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +16,68 @@ namespace Graduation_Project_Backend.Service
             _db = db;
         }
 
-        /* =========================
-         * SERIAL GENERATION
-         * ========================= */
+        public string NormalizePhone(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone))
+                throw new ArgumentException("Phone number cannot be null or empty.", nameof(phone));
+
+            string cleaned = phone.Trim()
+                .Replace(" ", "")
+                .Replace("-", "")
+                .Replace("(", "")
+                .Replace(")", "")
+                .Replace(".", "");
+
+            bool hasPlus = cleaned.StartsWith("+");
+
+            if (hasPlus)
+                cleaned = cleaned.Substring(1);
+
+            if (!cleaned.All(char.IsDigit))
+                throw new ArgumentException("Phone number contains invalid characters.", nameof(phone));
+
+            if (string.IsNullOrEmpty(cleaned))
+                throw new ArgumentException("Phone number must contain digits.", nameof(phone));
+
+            if (hasPlus)
+            {
+                if (!cleaned.StartsWith("962"))
+                    throw new ArgumentException("Only Jordanian phone numbers are accepted. Expected format: +9627XXXXXXXX", nameof(phone));
+
+                if (cleaned.Length != 12)
+                    throw new ArgumentException($"Invalid Jordanian phone number length. Expected 12 digits (9627XXXXXXXX), got {cleaned.Length}.", nameof(phone));
+
+                if (cleaned[3] != '7')
+                    throw new ArgumentException("Invalid Jordanian mobile number. Expected format: +9627XXXXXXXX", nameof(phone));
+
+                return "+" + cleaned;
+            }
+            else
+            {
+                if (cleaned.StartsWith("07"))
+                {
+                    if (cleaned.Length != 10)
+                        throw new ArgumentException($"Invalid Jordanian mobile number. Expected 10 digits (07XXXXXXXX), got {cleaned.Length}.", nameof(phone));
+
+                    return "+962" + cleaned.Substring(1);
+                }
+                else if (cleaned.StartsWith("962"))
+                {
+                    if (cleaned.Length != 12)
+                        throw new ArgumentException($"Invalid phone number. Expected 12 digits (9627XXXXXXXX), got {cleaned.Length}.", nameof(phone));
+
+                    if (cleaned[3] != '7')
+                        throw new ArgumentException("Invalid Jordanian mobile number. Expected format: 9627XXXXXXXX", nameof(phone));
+
+                    return "+" + cleaned;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid phone number format. Expected Jordanian format: 07XXXXXXXX or +9627XXXXXXXX", nameof(phone));
+                }
+            }
+        }
+
         public async Task<string> GenerateUniqueSerialAsync()
         {
             string serial;
@@ -31,7 +90,7 @@ namespace Graduation_Project_Backend.Service
             return serial;
         }
 
-        private static string GenerateSerialNumber()
+        private string GenerateSerialNumber()
         {
             const int length = 8;
             Span<byte> bytes = stackalloc byte[length];
@@ -44,13 +103,10 @@ namespace Graduation_Project_Backend.Service
             return new string(result);
         }
 
-        /* =========================
-         * USERS
-         * ========================= */
-        public async Task<UserProfile?> GetUserByPhoneAsync(string phone)
+        public async Task<UserProfile?> GetUserByPhoneAndMallIDAsync(string phone, Guid mallID)
         {
             return await _db.UserProfiles
-                .SingleOrDefaultAsync(u => u.PhoneNumber == phone);
+                .SingleOrDefaultAsync(u => u.PhoneNumber == phone && mallID == u.MallID);
         }
 
         public async Task<UserProfile?> GetUserByIdAsync(Guid userId)
@@ -79,9 +135,6 @@ namespace Graduation_Project_Backend.Service
             return user;
         }
 
-        /* =========================
-         * TRANSACTIONS
-         * ========================= */
         public async Task<Store?> GetStoreByIdAsync(Guid storeId)
         {
             return await _db.Stores
@@ -137,7 +190,15 @@ namespace Graduation_Project_Backend.Service
 
             return transaction;
         }
+        public async Task<Guid?> GetMallIdByStoreIdAsync(Guid storeId)
+        {
+            var store = await _db.Stores
+                .Where(s => s.Id == storeId)
+                .Select(s => s.MallID)
+                .FirstOrDefaultAsync();
 
+            return store;
+        }
         public async Task<TransactionResultDto> ProcessTransactionAsync(
             string phoneNumber,
             Guid storeId,
@@ -146,15 +207,12 @@ namespace Graduation_Project_Backend.Service
             decimal price
         )
         {
-            // Check if receipt already exists
             if (await ReceiptExistsAsync(receiptId))
                 throw new InvalidOperationException("Receipt ID already exists");
-
-            // Get user by phone
-            var user = await GetUserByPhoneAsync(phoneNumber)
+            var mallId = await GetMallIdByStoreIdAsync(storeId);
+            var user = await GetUserByPhoneAndMallIDAsync(phoneNumber, mallId.Value)
                 ?? throw new InvalidOperationException("User not found");
 
-            // Create transaction
             var transaction = await CreateTransactionAsync(
                 user,
                 storeId,
@@ -203,9 +261,6 @@ namespace Graduation_Project_Backend.Service
         private static int CalculatePoints(decimal price)
             => (int)(price * 100);
 
-        /* =========================
-         * COUPONS
-         * ========================= */
         public async Task<List<Coupon>> GetCouponsAsync(bool? isActive)
         {
             var query = _db.Coupons.AsQueryable();

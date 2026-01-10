@@ -1,4 +1,4 @@
-﻿using Graduation_Project_Backend.DOTs;
+﻿using Graduation_Project_Backend.DTOs;
 using Graduation_Project_Backend.Models.User;
 using Graduation_Project_Backend.Service;
 using Microsoft.AspNetCore.Identity;
@@ -27,20 +27,53 @@ namespace Graduation_Project_Backend.Controllers
             if (string.IsNullOrWhiteSpace(dto.PhoneNumber) ||
                 string.IsNullOrWhiteSpace(dto.Password))
                 return BadRequest("PhoneNumber and Password are required.");
+            var phone = "";
+            try
+            {
+                phone = _service.NormalizePhone(dto.PhoneNumber);
 
-            var phone = NormalizePhone(dto.PhoneNumber);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Invalid phone number: {ex.Message}");
+                return BadRequest(new
+                {
+                    success = false,
+                    error = new
+                    {
+                        code = "INVALID_PHONE_NUMBER",
+                        message = ex.Message,
+                        field = "phoneNumber"
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error: {ex.Message}");
+                return StatusCode(500, new
+                {
+                    success = false,
+                    error = new
+                    {
+                        code = "INTERNAL_SERVER_ERROR",
+                        message = "An unexpected error occurred while processing the phone number."
+                    }
+                });
+            }
 
-            var user = await _service.GetUserByPhoneAsync(phone);
+            var user = await _service.GetUserByPhoneAndMallIDAsync(phone, dto.MallID);
 
             if (user == null)
             {
+                
                 user = new UserProfile
                 {
                     Id = Guid.NewGuid(),
                     PhoneNumber = phone,
                     Name = dto.Name?.Trim() ?? "",
                     Role = "user",
-                    TotalPoints = 0
+                    TotalPoints = 0,
+                    MallID=dto.MallID
                 };
 
                 user.PasswordHash = Hasher.HashPassword(user, dto.Password);
@@ -49,7 +82,7 @@ namespace Graduation_Project_Backend.Controllers
 
                 return Ok(ToResponse("Registered", user));
             }
-
+            Console.WriteLine("user is loged in");
             var verify = Hasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
             if (verify == PasswordVerificationResult.Failed)
                 return Unauthorized("Invalid phone number or password.");
@@ -67,15 +100,5 @@ namespace Graduation_Project_Backend.Controllers
                 TotalPoints = user.TotalPoints,
                 Role = user.Role
             };
-
-        private static string NormalizePhone(string phone)
-        {
-            phone = phone.Trim().Replace(" ", "").Replace("-", "");
-
-            if (phone.StartsWith("07") && phone.Length == 10)
-                return "+962" + phone[1..];
-
-            return phone;
-        }
     }
 }

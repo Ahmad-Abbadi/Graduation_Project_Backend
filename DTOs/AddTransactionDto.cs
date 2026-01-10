@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Graduation_Project_Backend.DOTs
+namespace Graduation_Project_Backend.DTOs
 {
     public class AddTransactionDto
     {
@@ -11,6 +11,9 @@ namespace Graduation_Project_Backend.DOTs
 
         [Required(ErrorMessage = "Store ID is required")]
         public Guid StoreId { get; set; }
+
+        [Required(ErrorMessage = "mall ID is required")]
+        public Guid MallID { get; set; }
 
         [Required(ErrorMessage = "Receipt ID is required")]
         public string ReceiptId { get; set; } = string.Empty;

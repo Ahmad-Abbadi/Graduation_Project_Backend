@@ -1,4 +1,4 @@
-namespace Graduation_Project_Backend.DOTs
+namespace Graduation_Project_Backend.DTOs
 {
     public class RedeemCouponBySerialDto
     {

@@ -1,6 +1,7 @@
 ﻿using Graduation_Project_Backend.Models.User;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Graduation_Project_Backend.Models.Entities  // ⬅️ Changed from Cahser_API.Models.Entities
+namespace Graduation_Project_Backend.Models.Entities 
 {
     public class Transaction
     {
@@ -13,5 +14,7 @@ namespace Graduation_Project_Backend.Models.Entities  // ⬅️ Changed from Cah
         public required int Points { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public UserProfile? User { get; set; }
+        
+
     }
 }

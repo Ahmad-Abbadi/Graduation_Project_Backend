@@ -1,4 +1,6 @@
-﻿namespace Graduation_Project_Backend.Models.User
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Graduation_Project_Backend.Models.User
 {
     public class UserProfile
     {
@@ -8,5 +10,8 @@
         public int TotalPoints { get; set; }        
         public string Role { get; set; } = "user";  
         public string PasswordHash { get; set; } = "";
+        [Column("mall_id")]
+        public Guid MallID { get; set; }
+
     }
 }

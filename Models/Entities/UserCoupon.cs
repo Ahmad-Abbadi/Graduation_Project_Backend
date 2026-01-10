@@ -11,7 +11,6 @@ namespace Graduation_Project_Backend.Models.Entities
         public bool IsRedeemed { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // optional navigation props
         public UserProfile? User { get; set; }
         public Coupon? Coupon { get; set; }
     }

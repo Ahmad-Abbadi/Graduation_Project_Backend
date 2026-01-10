@@ -1,4 +1,4 @@
-﻿using Graduation_Project_Backend.DOTs;
+﻿using Graduation_Project_Backend.DTOs;
 using Graduation_Project_Backend.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +33,7 @@ namespace Graduation_Project_Backend.Controllers
             if (dto.StoreId==null)
                 return BadRequest("Store ID is required.");
 
-            
+
 
             //var store = await _service.GetStoreByIdAsync(dto.StoreId);
             //if (store==null)
@@ -42,7 +42,7 @@ namespace Graduation_Project_Backend.Controllers
 
             //}
 
-            var phone = NormalizePhone(dto.PhoneNumber);
+            var phone = _service.NormalizePhone(dto.PhoneNumber);
 
             try
             {
@@ -74,14 +74,5 @@ namespace Graduation_Project_Backend.Controllers
             return Ok(transaction);
         }
 
-        private static string NormalizePhone(string phone)
-        {
-            phone = phone.Trim().Replace(" ", "").Replace("-", "");
-
-            if (phone.StartsWith("07") && phone.Length == 10)
-                return "+962" + phone[1..];
-
-            return phone;
-        }
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace Graduation_Project_Backend.DOTs
+﻿namespace Graduation_Project_Backend.DTOs
 {
     public class AuthResponseDto
     {
-        public string Message { get; set; } = "";     // Registered / LoggedIn
+        public string Message { get; set; } = "";     
         public Guid UserId { get; set; }            
         public string PhoneNumber { get; set; } = "";
         public string Name { get; set; } = "";       
