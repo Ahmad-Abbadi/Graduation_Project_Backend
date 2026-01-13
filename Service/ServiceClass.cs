@@ -410,5 +410,15 @@ namespace Graduation_Project_Backend.Service
             .Cast<object>()
             .ToList();
         }
+
+        public async Task<int?> GetUserTotalPointsAsync(Guid userId)
+        {
+            var user = await _db.UserProfiles
+                .Where(u => u.Id == userId)
+                .Select(u => new { u.TotalPoints })
+                .SingleOrDefaultAsync();
+
+            return user?.TotalPoints;
+        }
     }
 }

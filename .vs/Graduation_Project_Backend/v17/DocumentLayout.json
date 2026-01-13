@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Service\\ServiceClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Service\\ServiceClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Entities\\Transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\TransactionsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\TransactionsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Graduation_Project_Backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Graduation_Project_Backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Service\\ServiceClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Service\\ServiceClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Entities\\Transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\UserInfoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\UserInfoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Graduation_Project_Backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Graduation_Project_Backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\User\\UserProfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -90,7 +94,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,15 +102,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Graduation_Project_Backend.csproj",
-              "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Graduation_Project_Backend.csproj",
-              "RelativeDocumentMoniker": "Graduation_Project_Backend.csproj",
-              "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Graduation_Project_Backend.csproj",
-              "RelativeToolTip": "Graduation_Project_Backend.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-01-10T20:02:51.369Z",
+              "DocumentIndex": 3,
+              "Title": "UserInfoController.cs",
+              "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\UserInfoController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserInfoController.cs",
+              "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\UserInfoController.cs",
+              "RelativeToolTip": "Controllers\\UserInfoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T18:58:32.744Z",
               "EditorCaption": ""
             },
             {
@@ -117,7 +121,7 @@
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFQAAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAAwGgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-05T14:37:36.124Z",
               "EditorCaption": ""
@@ -130,27 +134,52 @@
               "RelativeDocumentMoniker": "Controllers\\TransactionsController.cs",
               "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\TransactionsController.cs",
               "RelativeToolTip": "Controllers\\TransactionsController.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAwCAAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAQwCAAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-05T14:38:17.882Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ServiceClass.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Service\\ServiceClass.cs",
               "RelativeDocumentMoniker": "Service\\ServiceClass.cs",
               "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Service\\ServiceClass.cs",
               "RelativeToolTip": "Service\\ServiceClass.cs",
-              "ViewState": "AgIAAMYAAAAAAAAAAAAAwM8AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAIQBAAAAAAAAAAAAAJwBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-05T13:40:55.503Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "Transaction.cs",
+              "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Transaction.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\Transaction.cs",
+              "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Transaction.cs",
+              "RelativeToolTip": "Models\\Entities\\Transaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T15:02:49.601Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Graduation_Project_Backend.csproj",
+              "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Graduation_Project_Backend.csproj",
+              "RelativeDocumentMoniker": "Graduation_Project_Backend.csproj",
+              "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Graduation_Project_Backend.csproj",
+              "RelativeToolTip": "Graduation_Project_Backend.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-01-10T20:02:51.369Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Coupon.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Coupon.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Coupon.cs",
@@ -158,25 +187,11 @@
               "RelativeToolTip": "Models\\Entities\\Coupon.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T19:22:34.872Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T19:22:34.872Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Transaction.cs",
-              "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Transaction.cs",
-              "RelativeDocumentMoniker": "Models\\Entities\\Transaction.cs",
-              "ToolTip": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Transaction.cs",
-              "RelativeToolTip": "Models\\Entities\\Transaction.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:02:49.601Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Store.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\Store.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Store.cs",
@@ -184,12 +199,11 @@
               "RelativeToolTip": "Models\\Entities\\Store.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:02:42.095Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T15:02:42.095Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "UserCoupon.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\Entities\\UserCoupon.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\UserCoupon.cs",
@@ -197,12 +211,11 @@
               "RelativeToolTip": "Models\\Entities\\UserCoupon.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T11:25:11.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T11:25:11.078Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "UserProfile.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\User\\UserProfile.cs",
               "RelativeDocumentMoniker": "Models\\User\\UserProfile.cs",
@@ -210,12 +223,11 @@
               "RelativeToolTip": "Models\\User\\UserProfile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T14:33:00.609Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T14:33:00.609Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "CouponsController.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Controllers\\CouponsController.cs",
               "RelativeDocumentMoniker": "Controllers\\CouponsController.cs",
@@ -223,12 +235,11 @@
               "RelativeToolTip": "Controllers\\CouponsController.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABQAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T11:03:46.949Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T11:03:46.949Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "LoginOrRegisterDto.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\DTOs\\LoginOrRegisterDto.cs",
               "RelativeDocumentMoniker": "DTOs\\LoginOrRegisterDto.cs",
@@ -236,12 +247,11 @@
               "RelativeToolTip": "DTOs\\LoginOrRegisterDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T16:15:48.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T16:15:48.06Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "AddTransactionDto.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\DTOs\\AddTransactionDto.cs",
               "RelativeDocumentMoniker": "DTOs\\AddTransactionDto.cs",
@@ -249,12 +259,11 @@
               "RelativeToolTip": "DTOs\\AddTransactionDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:56:17.936Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T15:56:17.936Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
@@ -262,12 +271,11 @@
               "RelativeToolTip": "Data\\AppDbContext.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABsAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T11:11:59.408Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T11:11:59.408Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "UserSession.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Models\\User\\UserSession.cs",
               "RelativeDocumentMoniker": "Models\\User\\UserSession.cs",
@@ -275,12 +283,11 @@
               "RelativeToolTip": "Models\\User\\UserSession.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T16:17:11.459Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T16:17:11.459Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "AppDbContextModelSnapshot.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Migrations\\AppDbContextModelSnapshot.cs",
               "RelativeDocumentMoniker": "Migrations\\AppDbContextModelSnapshot.cs",
@@ -288,12 +295,11 @@
               "RelativeToolTip": "Migrations\\AppDbContextModelSnapshot.cs",
               "ViewState": "AgIAAE4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-10T16:32:04.66Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-10T16:32:04.66Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "RedeemCouponDto.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\DTOs\\RedeemCouponDto.cs",
               "RelativeDocumentMoniker": "DTOs\\RedeemCouponDto.cs",
@@ -301,12 +307,11 @@
               "RelativeToolTip": "DTOs\\RedeemCouponDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T11:34:17.072Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T11:34:17.072Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "RedeemCouponBySerialDto.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\DTOs\\RedeemCouponBySerialDto.cs",
               "RelativeDocumentMoniker": "DTOs\\RedeemCouponBySerialDto.cs",
@@ -314,12 +319,11 @@
               "RelativeToolTip": "DTOs\\RedeemCouponBySerialDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-10T16:17:13.527Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-10T16:17:13.527Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "TransactionResultDto.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\DTOs\\TransactionResultDto.cs",
               "RelativeDocumentMoniker": "DTOs\\TransactionResultDto.cs",
@@ -327,12 +331,11 @@
               "RelativeToolTip": "DTOs\\TransactionResultDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T16:29:07.704Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T16:29:07.704Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "AuthResponseDto.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\DTOs\\AuthResponseDto.cs",
               "RelativeDocumentMoniker": "DTOs\\AuthResponseDto.cs",
@@ -340,12 +343,11 @@
               "RelativeToolTip": "DTOs\\AuthResponseDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:56:25.311Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T15:56:25.311Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\JUST\\Downloads\\gdiv\\Graduation_Project_Backend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -353,8 +355,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T15:51:42.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T15:51:42.234Z"
             }
           ]
         }
