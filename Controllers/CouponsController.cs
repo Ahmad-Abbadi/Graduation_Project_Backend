@@ -18,7 +18,7 @@ namespace Graduation_Project_Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCoupons([FromQuery] bool? isActive)
         {
-            var coupons = await _service.GetCouponsAsync(isActive);
+            var coupons = await _service.GetCouponsAsync(true);
             return Ok(coupons);
         }
 

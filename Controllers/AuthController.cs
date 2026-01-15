@@ -65,7 +65,10 @@ namespace Graduation_Project_Backend.Controllers
 
             if (user == null)
             {
-                
+                if ((string.IsNullOrWhiteSpace(dto.Name)))
+                {
+                    return Unauthorized("Invalid phone number or password.");
+                }
                 user = new UserProfile
                 {
                     Id = Guid.NewGuid(),
