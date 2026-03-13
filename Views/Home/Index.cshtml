@@ -1,0 +1,152 @@
+@model Graduation_Project_Backend.Models.ViewModels.TestConsoleViewModel
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Backend Test Console</title>
+    <link rel="stylesheet" href="/css/test-console.css">
+</head>
+<body>
+    <main
+        id="testConsoleApp"
+        class="shell"
+        data-session-header="@Model.SessionHeaderName"
+        data-points-stream-url="@Model.PointsStreamEndpoint">
+
+        <section class="hero">
+            <h1>Backend Test Console</h1>
+            <p>
+                Use this page to test auth, protected user endpoints, and the public third-party endpoints.
+                Protected requests automatically send <code>@Model.SessionHeaderName</code>.
+            </p>
+            <div class="session-bar">
+                <label>
+                    Current Session ID
+                    <input id="sessionIdInput" type="text" placeholder="Login or register to populate this automatically">
+                </label>
+                <button id="saveSessionButton" class="ghost" type="button">Save Session</button>
+                <button id="copySessionButton" class="ghost" type="button">Copy Session</button>
+                <button id="clearSessionButton" class="danger" type="button">Clear Session</button>
+            </div>
+            <div class="hero-statuses">
+                <span id="sessionStatus" class="status empty">No active session</span>
+                <span id="streamStatus" class="status empty">Live updates offline</span>
+                <span id="pointsStatus" class="status empty">Points: -</span>
+            </div>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Register</h2>
+                <p>Creates a user and starts a new session.</p>
+                <form id="registerForm" class="stack">
+                    <label>Name<input name="name" type="text" placeholder="User name" required></label>
+                    <label>Phone Number<input name="phoneNumber" type="text" placeholder="07XXXXXXXX or +9627XXXXXXXX" required></label>
+                    <label>Password<input name="password" type="password" placeholder="Password" required></label>
+                    <label>Mall ID<input name="mallID" type="text" placeholder="Mall GUID" required></label>
+                    <div class="actions">
+                        <button class="secondary" type="submit">Register</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="card">
+                <h2>Login / Logout</h2>
+                <p>Login refreshes the session. Logout removes the current one.</p>
+                <form id="loginForm" class="stack">
+                    <label>Phone Number<input name="phoneNumber" type="text" placeholder="07XXXXXXXX or +9627XXXXXXXX" required></label>
+                    <label>Password<input name="password" type="password" placeholder="Password" required></label>
+                    <label>Mall ID<input name="mallID" type="text" placeholder="Mall GUID" required></label>
+                    <div class="actions">
+                        <button type="submit">Login</button>
+                        <button id="logoutButton" class="danger" type="button">Logout</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="card">
+                <h2>Protected User API</h2>
+                <p>These calls require a valid session and use the current user automatically.</p>
+                <div class="stack">
+                    <div class="actions">
+                        <button id="pointsButton" class="secondary" type="button">Get My Points</button>
+                        <button id="myCouponsButton" class="secondary" type="button">Get My Coupons</button>
+                    </div>
+
+                    <form id="couponsForm" class="stack">
+                        <label>
+                            Coupons Filter
+                            <select name="isActive">
+                                <option value="all">All coupons</option>
+                                <option value="true">Active only</option>
+                                <option value="false">Inactive only</option>
+                            </select>
+                        </label>
+                        <button type="submit">Get Coupons</button>
+                    </form>
+
+                    <form id="couponByIdForm" class="stack">
+                        <label>Coupon ID<input name="couponId" type="text" placeholder="Coupon GUID" required></label>
+                        <button type="submit">Get Coupon By ID</button>
+                    </form>
+
+                    <form id="redeemCouponForm" class="stack">
+                        <label>Coupon ID<input name="couponId" type="text" placeholder="Coupon GUID" required></label>
+                        <button type="submit">Redeem Coupon</button>
+                    </form>
+                </div>
+            </article>
+
+            <article class="card">
+                <h2>Public Third-Party API</h2>
+                <p>These stay public and do not send the session header.</p>
+                <div class="stack">
+                    <form id="redeemSerialForm" class="stack">
+                        <label>Serial Number<input name="serialNumber" type="text" placeholder="Coupon serial" required></label>
+                        <button type="submit">Redeem By Serial</button>
+                    </form>
+
+                    <form id="transactionForm" class="stack">
+                        <div class="row">
+                            <label>Phone Number<input name="phoneNumber" type="text" placeholder="07XXXXXXXX" required></label>
+                            <label>Store ID<input name="storeId" type="text" placeholder="Store GUID" required></label>
+                        </div>
+                        <div class="row">
+                            <label>Mall ID<input name="mallID" type="text" placeholder="Mall GUID" required></label>
+                            <label>Receipt ID<input name="receiptId" type="text" placeholder="Receipt reference" required></label>
+                        </div>
+                        <label>Receipt Description<textarea name="receiptDescription" placeholder="Optional description"></textarea></label>
+                        <label>Price<input name="price" type="number" step="0.01" min="0" placeholder="0.00" required></label>
+                        <button type="submit">Add Transaction</button>
+                    </form>
+
+                    <form id="transactionByIdForm" class="stack">
+                        <label>Transaction ID<input name="transactionId" type="number" min="1" placeholder="Transaction id" required></label>
+                        <button type="submit">Get Transaction By ID</button>
+                    </form>
+                </div>
+            </article>
+
+            <article class="card wide">
+                <h2>Response Viewer</h2>
+                <p>The latest request and response will appear here.</p>
+                <div class="meta">
+                    <span id="lastRequest">Request: none</span>
+                    <span id="lastStatus">Status: -</span>
+                </div>
+                <div class="hint" style="margin-bottom: 12px;">
+                    Protected endpoints use the current session id from the top input. You can also paste one manually and press
+                    <strong>Save Session</strong>.
+                </div>
+                <pre id="responseOutput">Ready.</pre>
+            </article>
+        </section>
+    </main>
+
+    <script src="/js/test-console.js"></script>
+</body>
+</html>

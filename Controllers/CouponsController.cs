@@ -10,18 +10,18 @@ namespace Graduation_Project_Backend.Controllers
     [Route("api/[controller]")]
     public sealed class CouponsController : ControllerBase
     {
-        private readonly ServiceClass _service;
+        private readonly IRewardsService _rewardsService;
 
-        public CouponsController(ServiceClass service)
+        public CouponsController(IRewardsService rewardsService)
         {
-            _service = service;
+            _rewardsService = rewardsService;
         }
 
         [SessionRequired]
         [HttpGet]
         public async Task<IActionResult> GetCoupons([FromQuery] bool? isActive)
         {
-            var coupons = await _service.GetCouponsAsync(isActive);
+            var coupons = await _rewardsService.GetCouponsAsync(isActive);
             return Ok(coupons);
         }
 
@@ -29,7 +29,7 @@ namespace Graduation_Project_Backend.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetCouponById(Guid id)
         {
-            var coupon = await _service.GetCouponDetailsAsync(id);
+            var coupon = await _rewardsService.GetCouponDetailsAsync(id);
             if (coupon == null)
                 return NotFound("Coupon not found.");
 
@@ -49,7 +49,7 @@ namespace Graduation_Project_Backend.Controllers
             try
             {
                 var session = HttpContext.GetCurrentUserSession();
-                var result = await _service.RedeemCouponAsync(session.UserId, dto.CouponId);
+                var result = await _rewardsService.RedeemCouponAsync(session.UserId, dto.CouponId);
 
                 return Ok(new
                 {
@@ -71,7 +71,7 @@ namespace Graduation_Project_Backend.Controllers
 
             try
             {
-                var result = await _service.RedeemCouponBySerialAsync(dto.SerialNumber);
+                var result = await _rewardsService.RedeemCouponBySerialAsync(dto.SerialNumber);
 
                 return Ok(new
                 {
@@ -90,7 +90,7 @@ namespace Graduation_Project_Backend.Controllers
         public async Task<IActionResult> GetUserCoupons()
         {
             var session = HttpContext.GetCurrentUserSession();
-            var coupons = await _service.GetUserCouponsViewAsync(session.UserId);
+            var coupons = await _rewardsService.GetUserCouponsViewAsync(session.UserId);
             return Ok(coupons);
         }
     }

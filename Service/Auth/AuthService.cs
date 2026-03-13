@@ -54,7 +54,6 @@ namespace Graduation_Project_Backend.Service.Auth
                 MallID = request.MallID
             };
 
-            // Passwords should be stored with a one-way hash instead of reversible encryption.
             user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
 
             _db.UserProfiles.Add(user);

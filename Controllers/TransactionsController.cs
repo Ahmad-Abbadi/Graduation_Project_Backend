@@ -6,17 +6,17 @@ namespace Graduation_Project_Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TransactionsController : ControllerBase
+    public sealed class TransactionsController : ControllerBase
     {
-        private readonly ServiceClass _service;
+        private readonly IRewardsService _rewardsService;
 
-        public TransactionsController(ServiceClass service)
+        public TransactionsController(IRewardsService rewardsService)
         {
-            _service = service;
+            _rewardsService = rewardsService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTransaction(AddTransactionDto dto)
+        public async Task<IActionResult> AddTransaction([FromBody] AddTransactionDto? dto)
         {
             if (dto == null)
                 return BadRequest("Request body is null.");
@@ -30,24 +30,13 @@ namespace Graduation_Project_Backend.Controllers
             if (string.IsNullOrWhiteSpace(dto.ReceiptId))
                 return BadRequest("Receipt ID is required.");
 
-            if (dto.StoreId==null)
+            if (dto.StoreId == Guid.Empty)
                 return BadRequest("Store ID is required.");
-
-
-
-            //var store = await _service.GetStoreByIdAsync(dto.StoreId);
-            //if (store==null)
-            //{
-            //    store = await _service.CreateStoreAsync("Walmart");
-
-            //}
-
-            var phone = _service.NormalizePhone(dto.PhoneNumber);
 
             try
             {
-                var result = await _service.ProcessTransactionAsync(
-                    phone,
+                var result = await _rewardsService.ProcessTransactionAsync(
+                    dto.PhoneNumber,
                     dto.StoreId,
                     dto.ReceiptId,
                     dto.ReceiptDescription,
@@ -67,12 +56,11 @@ namespace Graduation_Project_Backend.Controllers
         [HttpGet("{id:long}")]
         public async Task<IActionResult> GetTransactionById(long id)
         {
-            var transaction = await _service.GetTransactionDetailsAsync(id);
+            var transaction = await _rewardsService.GetTransactionDetailsAsync(id);
             if (transaction == null)
                 return NotFound("Transaction not found.");
 
             return Ok(transaction);
         }
-
     }
 }

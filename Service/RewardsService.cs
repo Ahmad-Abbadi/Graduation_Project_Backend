@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Graduation_Project_Backend.Service
 {
-    public sealed class ServiceClass
+    public sealed class RewardsService : IRewardsService
     {
         private readonly AppDbContext _db;
         private readonly IPhoneNumberService _phoneNumberService;
         private readonly IUserPointsUpdatesService _userPointsUpdatesService;
 
-        public ServiceClass(
+        public RewardsService(
             AppDbContext db,
             IPhoneNumberService phoneNumberService,
             IUserPointsUpdatesService userPointsUpdatesService)
@@ -25,10 +25,10 @@ namespace Graduation_Project_Backend.Service
             _userPointsUpdatesService = userPointsUpdatesService;
         }
 
-        public string NormalizePhone(string phone)
+        private string NormalizePhone(string phone)
             => _phoneNumberService.Normalize(phone);
 
-        public async Task<string> GenerateUniqueSerialAsync()
+        private async Task<string> GenerateUniqueSerialAsync()
         {
             string serial;
             do
@@ -53,24 +53,24 @@ namespace Graduation_Project_Backend.Service
             return new string(result);
         }
 
-        public async Task<UserProfile?> GetUserByPhoneAndMallIDAsync(string phone, Guid mallID)
+        private async Task<UserProfile?> GetUserByPhoneAndMallIdAsync(string phone, Guid mallId)
         {
             return await _db.UserProfiles
-                .SingleOrDefaultAsync(u => u.PhoneNumber == phone && mallID == u.MallID);
+                .SingleOrDefaultAsync(user => user.PhoneNumber == phone && user.MallID == mallId);
         }
 
-        public async Task<UserProfile?> GetUserByIdAsync(Guid userId)
+        private async Task<UserProfile?> GetUserByIdAsync(Guid userId)
         {
             return await _db.UserProfiles
-                .SingleOrDefaultAsync(u => u.Id == userId);
+                .SingleOrDefaultAsync(user => user.Id == userId);
         }
 
-        public void AddPoints(UserProfile user, int points)
+        private static void AddPoints(UserProfile user, int points)
         {
             user.TotalPoints += points;
         }
 
-        public void DeductPoints(UserProfile user, int points)
+        private static void DeductPoints(UserProfile user, int points)
         {
             if (user.TotalPoints < points)
                 throw new InvalidOperationException("Not enough points");
@@ -78,41 +78,13 @@ namespace Graduation_Project_Backend.Service
             user.TotalPoints -= points;
         }
 
-        public async Task<UserProfile> CreateUserAsync(UserProfile user)
-        {
-            _db.UserProfiles.Add(user);
-            await _db.SaveChangesAsync();
-            return user;
-        }
-
-        public async Task<Store?> GetStoreByIdAsync(Guid storeId)
-        {
-            return await _db.Stores
-                .SingleOrDefaultAsync(s => s.Id == storeId);
-        }
-        public async Task<Store> CreateStoreAsync(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new InvalidOperationException("Store name is required");
-
-            var store = new Store
-            {
-                Id = Guid.NewGuid(),
-                Name = name.Trim()
-            };
-
-            _db.Stores.Add(store);
-            await _db.SaveChangesAsync();
-
-            return store;
-        }
-        public async Task<bool> ReceiptExistsAsync(string receiptId)
+        private async Task<bool> ReceiptExistsAsync(string receiptId)
         {
             return await _db.Transactions
                 .AnyAsync(t => t.ReceiptId == receiptId);
         }
 
-        public async Task<Transaction> CreateTransactionAsync(
+        private async Task<Transaction> CreateTransactionAsync(
             UserProfile user,
             Guid storeId,
             string receiptId,
@@ -141,15 +113,15 @@ namespace Graduation_Project_Backend.Service
 
             return transaction;
         }
-        public async Task<Guid?> GetMallIdByStoreIdAsync(Guid storeId)
-        {
-            var store = await _db.Stores
-                .Where(s => s.Id == storeId)
-                .Select(s => s.MallID)
-                .FirstOrDefaultAsync();
 
-            return store;
+        private async Task<Guid?> GetMallIdByStoreIdAsync(Guid storeId)
+        {
+            return await _db.Stores
+                .Where(s => s.Id == storeId)
+                .Select(store => (Guid?)store.MallID)
+                .FirstOrDefaultAsync();
         }
+
         public async Task<TransactionResultDto> ProcessTransactionAsync(
             string phoneNumber,
             Guid storeId,
@@ -158,13 +130,30 @@ namespace Graduation_Project_Backend.Service
             decimal price
         )
         {
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                throw new InvalidOperationException("Phone number is required");
+
+            if (storeId == Guid.Empty)
+                throw new InvalidOperationException("Store ID is required");
+
+            if (string.IsNullOrWhiteSpace(receiptId))
+                throw new InvalidOperationException("Receipt ID is required");
+
+            if (price < 0)
+                throw new InvalidOperationException("Price cannot be negative");
+
             if (await ReceiptExistsAsync(receiptId))
                 throw new InvalidOperationException("Receipt ID already exists");
-            var mallId = await GetMallIdByStoreIdAsync(storeId);
-            var user = await GetUserByPhoneAndMallIDAsync(phoneNumber, mallId.Value)
+
+            Guid? mallId = await GetMallIdByStoreIdAsync(storeId);
+            if (mallId == null)
+                throw new InvalidOperationException("Store not found");
+
+            string normalizedPhone = NormalizePhone(phoneNumber);
+            UserProfile user = await GetUserByPhoneAndMallIdAsync(normalizedPhone, mallId.Value)
                 ?? throw new InvalidOperationException("User not found");
 
-            var transaction = await CreateTransactionAsync(
+            Transaction transaction = await CreateTransactionAsync(
                 user,
                 storeId,
                 receiptId,
@@ -218,7 +207,7 @@ namespace Graduation_Project_Backend.Service
 
             if (isActive.HasValue)
             {
-                var now = DateTime.UtcNow;
+                DateTimeOffset now = DateTimeOffset.UtcNow;
                 query = query.Where(c =>
                     c.IsActive == isActive.Value &&
                     c.StartAt <= now &&
@@ -253,7 +242,7 @@ namespace Graduation_Project_Backend.Service
             };
         }
 
-        public async Task<Coupon?> GetCouponAsync(Guid couponId)
+        private async Task<Coupon?> GetCouponAsync(Guid couponId)
         {
             return await _db.Coupons
                 .SingleOrDefaultAsync(c => c.Id == couponId);
@@ -267,11 +256,11 @@ namespace Graduation_Project_Backend.Service
             if (!coupon.IsActive)
                 throw new InvalidOperationException("Coupon is not active");
 
-            var now = DateTime.UtcNow;
+            DateTimeOffset now = DateTimeOffset.UtcNow;
             if (coupon.StartAt > now || coupon.EndAt < now)
                 throw new InvalidOperationException("Coupon outside redeem period");
 
-            var user = await GetUserByIdAsync(userId)
+            UserProfile user = await GetUserByIdAsync(userId)
                 ?? throw new InvalidOperationException("User not found");
 
             using var tx = await _db.Database.BeginTransactionAsync();
@@ -321,7 +310,7 @@ namespace Graduation_Project_Backend.Service
             if (!userCoupon.Coupon.IsActive)
                 throw new InvalidOperationException("Coupon is not active");
 
-            var now = DateTime.UtcNow;
+            DateTimeOffset now = DateTimeOffset.UtcNow;
             if (userCoupon.Coupon.StartAt > now || userCoupon.Coupon.EndAt < now)
                 throw new InvalidOperationException("Coupon outside redeem period");
 
@@ -329,15 +318,6 @@ namespace Graduation_Project_Backend.Service
             await _db.SaveChangesAsync();
 
             return userCoupon;
-        }
-
-        public async Task<List<UserCoupon>> GetUserCouponsAsync(Guid userId)
-        {
-            return await _db.UserCoupons
-                .Include(uc => uc.Coupon)
-                .Where(uc => uc.UserId == userId)
-                .OrderByDescending(uc => uc.CreatedAt)
-                .ToListAsync();
         }
 
         public async Task<List<object>> GetUserCouponsViewAsync(Guid userId)

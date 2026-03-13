@@ -13,16 +13,16 @@ namespace Graduation_Project_Backend.Controllers
     {
         private readonly ISessionService _sessionService;
         private readonly IUserPointsUpdatesService _userPointsUpdatesService;
-        private readonly ServiceClass _service;
+        private readonly IRewardsService _rewardsService;
 
         public RealtimeController(
             ISessionService sessionService,
             IUserPointsUpdatesService userPointsUpdatesService,
-            ServiceClass service)
+            IRewardsService rewardsService)
         {
             _sessionService = sessionService;
             _userPointsUpdatesService = userPointsUpdatesService;
-            _service = service;
+            _rewardsService = rewardsService;
         }
 
         [HttpGet("points-stream")]
@@ -35,7 +35,7 @@ namespace Graduation_Project_Backend.Controllers
             if (session == null)
                 return Unauthorized(CreateError("INVALID_SESSION", "Session id is invalid or expired."));
 
-            int? totalPoints = await _service.GetUserTotalPointsAsync(session.UserId);
+            int? totalPoints = await _rewardsService.GetUserTotalPointsAsync(session.UserId);
             if (totalPoints == null)
                 return NotFound(CreateError("USER_NOT_FOUND", "User not found."));
 

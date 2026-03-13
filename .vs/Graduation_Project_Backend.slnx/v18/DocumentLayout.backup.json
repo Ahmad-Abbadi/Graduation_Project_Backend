@@ -73,6 +73,10 @@
           "SelectedChildIndex": 2,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "RegisterRequestDto.cs",
@@ -87,6 +91,19 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T12:02:25.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
               "Title": "LogoutRequestDto.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LogoutRequestDto.cs",
@@ -96,19 +113,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T20:37:07.014Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:02:25.321Z",
               "EditorCaption": ""
             },
             {
@@ -212,7 +216,7 @@
               "RelativeDocumentMoniker": "Filters\\SessionRequiredFilter.cs",
               "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Filters\\SessionRequiredFilter.cs",
               "RelativeToolTip": "Filters\\SessionRequiredFilter.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T21:10:12.129Z",
               "EditorCaption": ""
@@ -264,7 +268,7 @@
               "RelativeDocumentMoniker": "Service\\ServiceClass.cs",
               "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\ServiceClass.cs",
               "RelativeToolTip": "Service\\ServiceClass.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-07T21:43:06.752Z",
               "EditorCaption": ""
