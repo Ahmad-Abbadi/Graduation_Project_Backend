@@ -1,6 +1,72 @@
-@Graduation_Project_Backend_HostAddress = http://localhost:5294
+@baseUrl = https://localhost:7123
+@sessionId = paste-session-id-here
 
-GET {{Graduation_Project_Backend_HostAddress}}/weatherforecast/
-Accept: application/json
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
 
-###
+{
+  "name": "Test User",
+  "phoneNumber": "0791234567",
+  "password": "123456",
+  "mallID": "00000000-0000-0000-0000-000000000001"
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "phoneNumber": "0791234567",
+  "password": "123456",
+  "mallID": "00000000-0000-0000-0000-000000000001"
+}
+
+### Logout
+POST {{baseUrl}}/api/auth/logout
+Content-Type: application/json
+
+{
+  "sessionId": "{{sessionId}}"
+}
+
+### Get User Points
+GET {{baseUrl}}/api/userinfo/points
+X-Session-Id: {{sessionId}}
+
+### Get Coupons
+GET {{baseUrl}}/api/coupons?isActive=true
+X-Session-Id: {{sessionId}}
+
+### Get User Coupons
+GET {{baseUrl}}/api/coupons/user
+X-Session-Id: {{sessionId}}
+
+### Redeem Coupon
+POST {{baseUrl}}/api/coupons/redeem
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "couponId": "00000000-0000-0000-0000-000000000002"
+}
+
+### Redeem Coupon By Serial
+POST {{baseUrl}}/api/coupons/redeem-by-serial
+Content-Type: application/json
+
+{
+  "serialNumber": "12345678"
+}
+
+### Add Transaction
+POST {{baseUrl}}/api/transactions
+Content-Type: application/json
+
+{
+  "phoneNumber": "0791234567",
+  "storeId": "00000000-0000-0000-0000-000000000003",
+  "receiptId": "receipt-001",
+  "receiptDescription": "Test receipt",
+  "price": 19.99
+}

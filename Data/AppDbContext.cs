@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Graduation_Project_Backend.Data
 {
-    public class AppDbContext : DbContext
+    public sealed class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
@@ -18,7 +18,6 @@ namespace Graduation_Project_Backend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
             modelBuilder.Entity<UserProfile>(entity =>
             {
                 entity.ToTable("user_profiles");
@@ -30,6 +29,7 @@ namespace Graduation_Project_Backend.Data
                 entity.Property(e => e.PasswordHash).IsRequired();
                 entity.Property(e => e.TotalPoints).HasDefaultValue(0);
                 entity.Property(e => e.Role).HasDefaultValue("user");
+                entity.Property(e => e.MallID).HasColumnName("mall_id").IsRequired();
 
                 entity.HasIndex(e => e.PhoneNumber).IsUnique();
             });
@@ -49,7 +49,6 @@ namespace Graduation_Project_Backend.Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
-
             modelBuilder.Entity<Store>(entity =>
             {
                 entity.ToTable("stores");
@@ -59,8 +58,11 @@ namespace Graduation_Project_Backend.Data
                 entity.Property(e => e.Name)
                       .HasColumnName("name")
                       .IsRequired();
-            });
 
+                entity.Property(e => e.MallID)
+                      .HasColumnName("mall_id")
+                      .IsRequired();
+            });
 
             modelBuilder.Entity<Transaction>(entity =>
             {
@@ -109,7 +111,6 @@ namespace Graduation_Project_Backend.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            
             modelBuilder.Entity<Coupon>(entity =>
             {
                 entity.ToTable("coupons");
@@ -152,9 +153,12 @@ namespace Graduation_Project_Backend.Data
 
                 entity.Property(e => e.CostPoint)
                       .HasColumnName("cost_point");
+
+                entity.Property(e => e.MallID)
+                      .HasColumnName("mall_id")
+                      .IsRequired();
             });
 
-            
             modelBuilder.Entity<UserCoupon>(entity =>
             {
                 entity.ToTable("users_coupons");

@@ -1,16 +1,17 @@
 {
   "ExpandedNodes": [
     "",
-    "\\DTOs",
-    "\\DTOs\\Auth",
-    "\\Filters",
+    "\\Controllers",
+    "\\Data",
     "\\Models",
     "\\Models\\User",
     "\\Service",
     "\\Service\\Auth",
     "\\Service\\Common",
+    "\\Service\\Realtime",
+    "\\Service\\Session",
     "\\tools"
   ],
-  "SelectedNode": "\\Filters\\SessionRequiredFilter.cs",
+  "SelectedNode": "\\DTOs\\Auth\\RegisterRequestDto.cs",
   "PreviewInSolutionExplorer": false
 }

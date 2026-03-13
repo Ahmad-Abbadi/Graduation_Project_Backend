@@ -10,18 +10,18 @@ namespace Graduation_Project_Backend.Controllers
     [SessionRequired]
     public sealed class UserInfoController : ControllerBase
     {
-        private readonly ServiceClass _service;
+        private readonly IRewardsService _rewardsService;
 
-        public UserInfoController(ServiceClass service)
+        public UserInfoController(IRewardsService rewardsService)
         {
-            _service = service;
+            _rewardsService = rewardsService;
         }
 
         [HttpGet("points")]
         public async Task<IActionResult> GetUserPoints()
         {
             var session = HttpContext.GetCurrentUserSession();
-            var totalPoints = await _service.GetUserTotalPointsAsync(session.UserId);
+            var totalPoints = await _rewardsService.GetUserTotalPointsAsync(session.UserId);
 
             if (totalPoints == null)
                 return NotFound(new { message = "User not found" });

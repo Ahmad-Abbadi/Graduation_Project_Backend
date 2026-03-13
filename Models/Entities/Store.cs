@@ -1,19 +1,9 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Graduation_Project_Backend.Models.Entities
 {
-    [Table("store")]
-    public class Store
+    public sealed class Store
     {
-        [Column("id")]
         public Guid Id { get; set; }
-
-        [Column("name")]
-        public string Name { get; set; } = "";
-
-        [Column("mall_id")]
+        public string Name { get; set; } = string.Empty;
         public Guid MallID { get; set; }
-
-
     }
 }
