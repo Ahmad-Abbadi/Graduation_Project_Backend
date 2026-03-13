@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Backend Test Console</title>
+    <style>
+        :root {
+            --bg: #f4efe5;
+            --panel: #fffdf7;
+            --panel-strong: #fff7e7;
+            --ink: #1f1a17;
+            --muted: #6f675f;
+            --line: #d4c6b3;
+            --accent: #0e7490;
+            --accent-soft: #d9f0f5;
+            --danger: #b42318;
+            --shadow: 0 18px 40px rgba(56, 44, 29, 0.12);
+            --radius: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(14, 116, 144, 0.12), transparent 34%),
+                radial-gradient(circle at top right, rgba(180, 35, 24, 0.08), transparent 28%),
+                linear-gradient(180deg, #f9f4ea 0%, var(--bg) 100%);
+            min-height: 100vh;
+        }
+
+        .shell {
+            width: min(1220px, calc(100% - 32px));
+            margin: 24px auto 40px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(255, 247, 231, 0.96), rgba(255, 253, 247, 0.98));
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            margin: 0 0 10px;
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 760px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .session-bar {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 12px;
+            margin-top: 18px;
+            align-items: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 18px;
+        }
+
+        .card.wide {
+            grid-column: 1 / -1;
+        }
+
+        .card h2 {
+            margin: 0 0 6px;
+            font-size: 1.15rem;
+        }
+
+        .card p {
+            margin: 0 0 14px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .stack {
+            display: grid;
+            gap: 12px;
+        }
+
+        .row {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        }
+
+        label {
+            display: grid;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            font: inherit;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 11px 13px;
+            background: #fff;
+            color: var(--ink);
+        }
+
+        textarea {
+            min-height: 88px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid rgba(14, 116, 144, 0.18);
+            border-color: var(--accent);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 999px;
+            padding: 10px 16px;
+            cursor: pointer;
+            background: var(--ink);
+            color: #fff;
+            transition: transform 120ms ease, opacity 120ms ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        button.secondary {
+            background: var(--accent);
+        }
+
+        button.ghost {
+            background: #ece4d4;
+            color: var(--ink);
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .status.empty {
+            background: #eee7db;
+            color: var(--muted);
+        }
+
+        .hero-statuses {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .hint {
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: var(--panel-strong);
+            border: 1px dashed var(--line);
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        pre {
+            margin: 0;
+            padding: 16px;
+            border-radius: 18px;
+            background: #161411;
+            color: #f8f4ee;
+            overflow: auto;
+            min-height: 320px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 720px) {
+            .session-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <section class="hero">
+            <h1>Backend Test Console</h1>
+            <p>
+                Use this page to test auth, protected user endpoints, and the public third-party endpoints.
+                Protected requests automatically send <code>X-Session-Id</code>.
+            </p>
+            <div class="session-bar">
+                <label>
+                    Current Session ID
+                    <input id="sessionIdInput" type="text" placeholder="Login or register to populate this automatically">
+                </label>
+                <button id="saveSessionButton" class="ghost" type="button">Save Session</button>
+                <button id="copySessionButton" class="ghost" type="button">Copy Session</button>
+                <button id="clearSessionButton" class="danger" type="button">Clear Session</button>
+            </div>
+            <div class="hero-statuses">
+                <span id="sessionStatus" class="status empty">No active session</span>
+                <span id="streamStatus" class="status empty">Live updates offline</span>
+                <span id="pointsStatus" class="status empty">Points: -</span>
+            </div>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Register</h2>
+                <p>Creates a user and starts a new session.</p>
+                <form id="registerForm" class="stack">
+                    <label>Name<input name="name" type="text" placeholder="User name" required></label>
+                    <label>Phone Number<input name="phoneNumber" type="text" placeholder="07XXXXXXXX or +9627XXXXXXXX" required></label>
+                    <label>Password<input name="password" type="password" placeholder="Password" required></label>
+                    <label>Mall ID<input name="mallID" type="text" placeholder="Mall GUID" required></label>
+                    <div class="actions">
+                        <button class="secondary" type="submit">Register</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="card">
+                <h2>Login / Logout</h2>
+                <p>Login refreshes the session. Logout removes the current one.</p>
+                <form id="loginForm" class="stack">
+                    <label>Phone Number<input name="phoneNumber" type="text" placeholder="07XXXXXXXX or +9627XXXXXXXX" required></label>
+                    <label>Password<input name="password" type="password" placeholder="Password" required></label>
+                    <label>Mall ID<input name="mallID" type="text" placeholder="Mall GUID" required></label>
+                    <div class="actions">
+                        <button type="submit">Login</button>
+                        <button id="logoutButton" class="danger" type="button">Logout</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="card">
+                <h2>Protected User API</h2>
+                <p>These calls require a valid session and use the current user automatically.</p>
+                <div class="stack">
+                    <div class="actions">
+                        <button id="pointsButton" class="secondary" type="button">Get My Points</button>
+                        <button id="myCouponsButton" class="secondary" type="button">Get My Coupons</button>
+                    </div>
+
+                    <form id="couponsForm" class="stack">
+                        <label>
+                            Coupons Filter
+                            <select name="isActive">
+                                <option value="all">All coupons</option>
+                                <option value="true">Active only</option>
+                                <option value="false">Inactive only</option>
+                            </select>
+                        </label>
+                        <button type="submit">Get Coupons</button>
+                    </form>
+
+                    <form id="couponByIdForm" class="stack">
+                        <label>Coupon ID<input name="couponId" type="text" placeholder="Coupon GUID" required></label>
+                        <button type="submit">Get Coupon By ID</button>
+                    </form>
+
+                    <form id="redeemCouponForm" class="stack">
+                        <label>Coupon ID<input name="couponId" type="text" placeholder="Coupon GUID" required></label>
+                        <button type="submit">Redeem Coupon</button>
+                    </form>
+                </div>
+            </article>
+
+            <article class="card">
+                <h2>Public Third-Party API</h2>
+                <p>These stay public and do not send the session header.</p>
+                <div class="stack">
+                    <form id="redeemSerialForm" class="stack">
+                        <label>Serial Number<input name="serialNumber" type="text" placeholder="Coupon serial" required></label>
+                        <button type="submit">Redeem By Serial</button>
+                    </form>
+
+                    <form id="transactionForm" class="stack">
+                        <div class="row">
+                            <label>Phone Number<input name="phoneNumber" type="text" placeholder="07XXXXXXXX" required></label>
+                            <label>Store ID<input name="storeId" type="text" placeholder="Store GUID" required></label>
+                        </div>
+                        <div class="row">
+                            <label>Mall ID<input name="mallID" type="text" placeholder="Mall GUID" required></label>
+                            <label>Receipt ID<input name="receiptId" type="text" placeholder="Receipt reference" required></label>
+                        </div>
+                        <label>Receipt Description<textarea name="receiptDescription" placeholder="Optional description"></textarea></label>
+                        <label>Price<input name="price" type="number" step="0.01" min="0" placeholder="0.00" required></label>
+                        <button type="submit">Add Transaction</button>
+                    </form>
+
+                    <form id="transactionByIdForm" class="stack">
+                        <label>Transaction ID<input name="transactionId" type="number" min="1" placeholder="Transaction id" required></label>
+                        <button type="submit">Get Transaction By ID</button>
+                    </form>
+                </div>
+            </article>
+
+            <article class="card wide">
+                <h2>Response Viewer</h2>
+                <p>The latest request and response will appear here.</p>
+                <div class="meta">
+                    <span id="lastRequest">Request: none</span>
+                    <span id="lastStatus">Status: -</span>
+                </div>
+                <div class="hint" style="margin-bottom: 12px;">
+                    Protected endpoints use the current session id from the top input. You can also paste one manually and press
+                    <strong>Save Session</strong>.
+                </div>
+                <pre id="responseOutput">Ready.</pre>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        const sessionStorageKey = "test-console-session-id";
+        const sessionInput = document.getElementById("sessionIdInput");
+        const sessionStatus = document.getElementById("sessionStatus");
+        const streamStatus = document.getElementById("streamStatus");
+        const pointsStatus = document.getElementById("pointsStatus");
+        const responseOutput = document.getElementById("responseOutput");
+        const lastRequest = document.getElementById("lastRequest");
+        const lastStatus = document.getElementById("lastStatus");
+        let pointsStream = null;
+
+        function getSessionId() {
+            return sessionInput.value.trim();
+        }
+
+        function setStreamStatus(text, isActive) {
+            streamStatus.textContent = text;
+            streamStatus.className = isActive ? "status" : "status empty";
+        }
+
+        function setPointsStatus(points) {
+            if (typeof points === "number" && Number.isFinite(points)) {
+                pointsStatus.textContent = "Points: " + points;
+                pointsStatus.className = "status";
+                return;
+            }
+
+            pointsStatus.textContent = "Points: -";
+            pointsStatus.className = "status empty";
+        }
+
+        function closePointsStream() {
+            if (pointsStream) {
+                pointsStream.close();
+                pointsStream = null;
+            }
+        }
+
+        function connectPointsStream() {
+            closePointsStream();
+
+            const sessionId = getSessionId();
+            if (!sessionId) {
+                setStreamStatus("Live updates offline", false);
+                setPointsStatus(null);
+                return;
+            }
+
+            setStreamStatus("Connecting to live updates", false);
+
+            const streamUrl = "/api/realtime/points-stream?sessionId=" + encodeURIComponent(sessionId);
+            const eventSource = new EventSource(streamUrl);
+            pointsStream = eventSource;
+
+            eventSource.onopen = () => {
+                if (pointsStream !== eventSource) {
+                    return;
+                }
+
+                setStreamStatus("Live updates connected", true);
+            };
+
+            eventSource.addEventListener("points-updated", (event) => {
+                if (pointsStream !== eventSource) {
+                    return;
+                }
+
+                const payload = JSON.parse(event.data);
+                if (typeof payload.totalPoints === "number") {
+                    setPointsStatus(payload.totalPoints);
+                }
+            });
+
+            eventSource.onerror = () => {
+                if (pointsStream !== eventSource) {
+                    return;
+                }
+
+                setStreamStatus("Live updates reconnecting", false);
+            };
+        }
+
+        function setSessionId(sessionId) {
+            const value = (sessionId || "").trim();
+            sessionInput.value = value;
+
+            if (value) {
+                localStorage.setItem(sessionStorageKey, value);
+                sessionStatus.textContent = "Active session loaded";
+                sessionStatus.className = "status";
+                connectPointsStream();
+                return;
+            }
+
+            localStorage.removeItem(sessionStorageKey);
+            sessionStatus.textContent = "No active session";
+            sessionStatus.className = "status empty";
+            closePointsStream();
+            setStreamStatus("Live updates offline", false);
+            setPointsStatus(null);
+        }
+
+        function showResponse(method, url, status, payload) {
+            lastRequest.textContent = "Request: " + method + " " + url;
+            lastStatus.textContent = "Status: " + status;
+
+            if (payload && typeof payload === "object") {
+                if (typeof payload.totalPoints === "number") {
+                    setPointsStatus(payload.totalPoints);
+                }
+
+                if (typeof payload.newTotalPoints === "number") {
+                    setPointsStatus(payload.newTotalPoints);
+                }
+            }
+
+            responseOutput.textContent =
+                typeof payload === "string"
+                    ? payload
+                    : JSON.stringify(payload, null, 2);
+        }
+
+        async function parseResponse(response) {
+            const text = await response.text();
+            if (!text) {
+                return null;
+            }
+
+            try {
+                return JSON.parse(text);
+            } catch {
+                return text;
+            }
+        }
+
+        async function callApi(url, options = {}) {
+            const {
+                method = "GET",
+                body = null,
+                requiresSession = false,
+                autoClearSession = false
+            } = options;
+
+            const headers = {};
+            if (body !== null) {
+                headers["Content-Type"] = "application/json";
+            }
+
+            if (requiresSession) {
+                const sessionId = getSessionId();
+                if (!sessionId) {
+                    showResponse(method, url, "blocked", {
+                        error: "A session id is required for this request."
+                    });
+                    return;
+                }
+
+                headers["X-Session-Id"] = sessionId;
+            }
+
+            const response = await fetch(url, {
+                method,
+                headers,
+                body: body !== null ? JSON.stringify(body) : undefined
+            });
+
+            const payload = await parseResponse(response);
+            if (payload && typeof payload === "object" && payload.sessionId) {
+                setSessionId(payload.sessionId);
+            }
+
+            if (autoClearSession && response.ok) {
+                setSessionId("");
+            }
+
+            showResponse(method, url, response.status, payload ?? {});
+        }
+
+        function formValue(form, name) {
+            return new FormData(form).get(name)?.toString().trim() || "";
+        }
+
+        document.getElementById("saveSessionButton").addEventListener("click", () => {
+            setSessionId(getSessionId());
+            showResponse("LOCAL", "session", "saved", {
+                sessionId: getSessionId()
+            });
+        });
+
+        document.getElementById("clearSessionButton").addEventListener("click", () => {
+            setSessionId("");
+            showResponse("LOCAL", "session", "cleared", {
+                sessionId: null
+            });
+        });
+
+        document.getElementById("copySessionButton").addEventListener("click", async () => {
+            const sessionId = getSessionId();
+            if (!sessionId) {
+                showResponse("LOCAL", "session", "empty", {
+                    error: "There is no session id to copy."
+                });
+                return;
+            }
+
+            await navigator.clipboard.writeText(sessionId);
+            showResponse("LOCAL", "session", "copied", {
+                sessionId
+            });
+        });
+
+        document.getElementById("registerForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+
+            await callApi("/api/auth/register", {
+                method: "POST",
+                body: {
+                    name: formValue(form, "name"),
+                    phoneNumber: formValue(form, "phoneNumber"),
+                    password: formValue(form, "password"),
+                    mallID: formValue(form, "mallID")
+                }
+            });
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+
+            await callApi("/api/auth/login", {
+                method: "POST",
+                body: {
+                    phoneNumber: formValue(form, "phoneNumber"),
+                    password: formValue(form, "password"),
+                    mallID: formValue(form, "mallID")
+                }
+            });
+        });
+
+        document.getElementById("logoutButton").addEventListener("click", async () => {
+            await callApi("/api/auth/logout", {
+                method: "POST",
+                body: {
+                    sessionId: getSessionId()
+                },
+                autoClearSession: true
+            });
+        });
+
+        document.getElementById("pointsButton").addEventListener("click", async () => {
+            await callApi("/api/userinfo/points", {
+                requiresSession: true
+            });
+        });
+
+        document.getElementById("myCouponsButton").addEventListener("click", async () => {
+            await callApi("/api/coupons/user", {
+                requiresSession: true
+            });
+        });
+
+        document.getElementById("couponsForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const isActive = formValue(form, "isActive");
+            const query = isActive === "all" ? "" : "?isActive=" + encodeURIComponent(isActive);
+
+            await callApi("/api/coupons" + query, {
+                requiresSession: true
+            });
+        });
+
+        document.getElementById("couponByIdForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+
+            await callApi("/api/coupons/" + encodeURIComponent(formValue(form, "couponId")), {
+                requiresSession: true
+            });
+        });
+
+        document.getElementById("redeemCouponForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+
+            await callApi("/api/coupons/redeem", {
+                method: "POST",
+                requiresSession: true,
+                body: {
+                    couponId: formValue(form, "couponId")
+                }
+            });
+        });
+
+        document.getElementById("redeemSerialForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+
+            await callApi("/api/coupons/redeem-by-serial", {
+                method: "POST",
+                body: {
+                    serialNumber: formValue(form, "serialNumber")
+                }
+            });
+        });
+
+        document.getElementById("transactionForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const description = formValue(form, "receiptDescription");
+
+            await callApi("/api/transactions", {
+                method: "POST",
+                body: {
+                    phoneNumber: formValue(form, "phoneNumber"),
+                    storeId: formValue(form, "storeId"),
+                    mallID: formValue(form, "mallID"),
+                    receiptId: formValue(form, "receiptId"),
+                    receiptDescription: description || null,
+                    price: Number(formValue(form, "price"))
+                }
+            });
+        });
+
+        document.getElementById("transactionByIdForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const form = event.currentTarget;
+
+            await callApi("/api/transactions/" + encodeURIComponent(formValue(form, "transactionId")));
+        });
+
+        setSessionId(localStorage.getItem(sessionStorageKey) || "");
+    </script>
+</body>
+</html>

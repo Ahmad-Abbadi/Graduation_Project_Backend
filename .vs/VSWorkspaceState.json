@@ -1,14 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Controllers",
-    "\\Data",
     "\\DTOs",
+    "\\DTOs\\Auth",
+    "\\Filters",
     "\\Models",
-    "\\Models\\Entities",
     "\\Models\\User",
-    "\\Service"
+    "\\Service",
+    "\\Service\\Auth",
+    "\\Service\\Common",
+    "\\tools"
   ],
-  "SelectedNode": "\\Service\\ServiceClass.cs",
+  "SelectedNode": "\\Filters\\SessionRequiredFilter.cs",
   "PreviewInSolutionExplorer": false
 }

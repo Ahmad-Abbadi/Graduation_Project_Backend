@@ -3,6 +3,8 @@ using Graduation_Project_Backend.Data;
 using Graduation_Project_Backend.DTOs;
 using Graduation_Project_Backend.Models.Entities;
 using Graduation_Project_Backend.Models.User;
+using Graduation_Project_Backend.Service.Common;
+using Graduation_Project_Backend.Service.Realtime;
 using Microsoft.EntityFrameworkCore;
 
 namespace Graduation_Project_Backend.Service
@@ -10,73 +12,21 @@ namespace Graduation_Project_Backend.Service
     public sealed class ServiceClass
     {
         private readonly AppDbContext _db;
+        private readonly IPhoneNumberService _phoneNumberService;
+        private readonly IUserPointsUpdatesService _userPointsUpdatesService;
 
-        public ServiceClass(AppDbContext db)
+        public ServiceClass(
+            AppDbContext db,
+            IPhoneNumberService phoneNumberService,
+            IUserPointsUpdatesService userPointsUpdatesService)
         {
             _db = db;
+            _phoneNumberService = phoneNumberService;
+            _userPointsUpdatesService = userPointsUpdatesService;
         }
 
         public string NormalizePhone(string phone)
-        {
-            if (string.IsNullOrWhiteSpace(phone))
-                throw new ArgumentException("Phone number cannot be null or empty.", nameof(phone));
-
-            string cleaned = phone.Trim()
-                .Replace(" ", "")
-                .Replace("-", "")
-                .Replace("(", "")
-                .Replace(")", "")
-                .Replace(".", "");
-
-            bool hasPlus = cleaned.StartsWith("+");
-
-            if (hasPlus)
-                cleaned = cleaned.Substring(1);
-
-            if (!cleaned.All(char.IsDigit))
-                throw new ArgumentException("Phone number contains invalid characters.", nameof(phone));
-
-            if (string.IsNullOrEmpty(cleaned))
-                throw new ArgumentException("Phone number must contain digits.", nameof(phone));
-
-            if (hasPlus)
-            {
-                if (!cleaned.StartsWith("962"))
-                    throw new ArgumentException("Only Jordanian phone numbers are accepted. Expected format: +9627XXXXXXXX", nameof(phone));
-
-                if (cleaned.Length != 12)
-                    throw new ArgumentException($"Invalid Jordanian phone number length. Expected 12 digits (9627XXXXXXXX), got {cleaned.Length}.", nameof(phone));
-
-                if (cleaned[3] != '7')
-                    throw new ArgumentException("Invalid Jordanian mobile number. Expected format: +9627XXXXXXXX", nameof(phone));
-
-                return "+" + cleaned;
-            }
-            else
-            {
-                if (cleaned.StartsWith("07"))
-                {
-                    if (cleaned.Length != 10)
-                        throw new ArgumentException($"Invalid Jordanian mobile number. Expected 10 digits (07XXXXXXXX), got {cleaned.Length}.", nameof(phone));
-
-                    return "+962" + cleaned.Substring(1);
-                }
-                else if (cleaned.StartsWith("962"))
-                {
-                    if (cleaned.Length != 12)
-                        throw new ArgumentException($"Invalid phone number. Expected 12 digits (9627XXXXXXXX), got {cleaned.Length}.", nameof(phone));
-
-                    if (cleaned[3] != '7')
-                        throw new ArgumentException("Invalid Jordanian mobile number. Expected format: 9627XXXXXXXX", nameof(phone));
-
-                    return "+" + cleaned;
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid phone number format. Expected Jordanian format: 07XXXXXXXX or +9627XXXXXXXX", nameof(phone));
-                }
-            }
-        }
+            => _phoneNumberService.Normalize(phone);
 
         public async Task<string> GenerateUniqueSerialAsync()
         {
@@ -187,6 +137,7 @@ namespace Graduation_Project_Backend.Service
 
             _db.Transactions.Add(transaction);
             await _db.SaveChangesAsync();
+            await PublishPointsChangedAsync(user.Id, user.TotalPoints, "transaction");
 
             return transaction;
         }
@@ -342,6 +293,7 @@ namespace Graduation_Project_Backend.Service
             _db.UserCoupons.Add(userCoupon);
             await _db.SaveChangesAsync();
             await tx.CommitAsync();
+            await PublishPointsChangedAsync(user.Id, user.TotalPoints, "coupon_redeem");
 
             return userCoupon;
         }
@@ -420,5 +372,8 @@ namespace Graduation_Project_Backend.Service
 
             return user?.TotalPoints;
         }
+
+        private ValueTask PublishPointsChangedAsync(Guid userId, int totalPoints, string source)
+            => _userPointsUpdatesService.PublishAsync(userId, totalPoints, source);
     }
 }

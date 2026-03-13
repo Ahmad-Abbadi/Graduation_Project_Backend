@@ -1,4 +1,6 @@
 using Graduation_Project_Backend.DTOs;
+using Graduation_Project_Backend.Extensions;
+using Graduation_Project_Backend.Filters;
 using Graduation_Project_Backend.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +8,7 @@ namespace Graduation_Project_Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CouponsController : ControllerBase
+    public sealed class CouponsController : ControllerBase
     {
         private readonly ServiceClass _service;
 
@@ -15,13 +17,15 @@ namespace Graduation_Project_Backend.Controllers
             _service = service;
         }
 
+        [SessionRequired]
         [HttpGet]
         public async Task<IActionResult> GetCoupons([FromQuery] bool? isActive)
         {
-            var coupons = await _service.GetCouponsAsync(true);
+            var coupons = await _service.GetCouponsAsync(isActive);
             return Ok(coupons);
         }
 
+        [SessionRequired]
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetCouponById(Guid id)
         {
@@ -32,12 +36,20 @@ namespace Graduation_Project_Backend.Controllers
             return Ok(coupon);
         }
 
+        [SessionRequired]
         [HttpPost("redeem")]
-        public async Task<IActionResult> RedeemCoupon(RedeemCouponDto dto)
+        public async Task<IActionResult> RedeemCoupon([FromBody] RedeemCouponDto? dto)
         {
+            if (dto == null)
+                return BadRequest("Request body is null.");
+
+            if (dto.CouponId == Guid.Empty)
+                return BadRequest("Coupon ID is required.");
+
             try
             {
-                var result = await _service.RedeemCouponAsync(dto.UserId, dto.CouponId);
+                var session = HttpContext.GetCurrentUserSession();
+                var result = await _service.RedeemCouponAsync(session.UserId, dto.CouponId);
 
                 return Ok(new
                 {
@@ -52,8 +64,11 @@ namespace Graduation_Project_Backend.Controllers
         }
 
         [HttpPost("redeem-by-serial")]
-        public async Task<IActionResult> RedeemCouponBySerial(RedeemCouponBySerialDto dto)
+        public async Task<IActionResult> RedeemCouponBySerial([FromBody] RedeemCouponBySerialDto? dto)
         {
+            if (dto == null || string.IsNullOrWhiteSpace(dto.SerialNumber))
+                return BadRequest("Serial number is required.");
+
             try
             {
                 var result = await _service.RedeemCouponBySerialAsync(dto.SerialNumber);
@@ -70,10 +85,12 @@ namespace Graduation_Project_Backend.Controllers
             }
         }
 
-        [HttpGet("user/{userId:guid}")]
-        public async Task<IActionResult> GetUserCoupons(Guid userId)
+        [SessionRequired]
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUserCoupons()
         {
-            var coupons = await _service.GetUserCouponsViewAsync(userId);
+            var session = HttpContext.GetCurrentUserSession();
+            var coupons = await _service.GetUserCouponsViewAsync(session.UserId);
             return Ok(coupons);
         }
     }
