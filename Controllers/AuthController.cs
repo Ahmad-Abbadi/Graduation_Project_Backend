@@ -1,107 +1,84 @@
-﻿using Graduation_Project_Backend.DTOs;
-using Graduation_Project_Backend.Models.User;
-using Graduation_Project_Backend.Service;
-using Microsoft.AspNetCore.Identity;
+using Graduation_Project_Backend.DTOs;
+using Graduation_Project_Backend.DTOs.Auth;
+using Graduation_Project_Backend.Service.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Graduation_Project_Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public sealed class AuthController : ControllerBase
     {
-        private static readonly PasswordHasher<UserProfile> Hasher = new();
-        private readonly ServiceClass _service;
+        private readonly IAuthService _authService;
 
-        public AuthController(ServiceClass service)
+        public AuthController(IAuthService authService)
         {
-            _service = service;
+            _authService = authService;
         }
 
-        [HttpPost("login-or-register")]
-        public async Task<ActionResult<AuthResponseDto>> LoginOrRegister(LoginOrRegisterDto dto)
+        [HttpPost("register")]
+        public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterRequestDto? dto, CancellationToken cancellationToken)
         {
-            if (dto == null)
-                return BadRequest("Invalid body.");
-
-            if (string.IsNullOrWhiteSpace(dto.PhoneNumber) ||
-                string.IsNullOrWhiteSpace(dto.Password))
-                return BadRequest("PhoneNumber and Password are required.");
-            var phone = "";
             try
             {
-                phone = _service.NormalizePhone(dto.PhoneNumber);
-
+                AuthResponseDto response = await _authService.RegisterAsync(dto, cancellationToken);
+                return Ok(response);
             }
-            catch (ArgumentException ex)
+            catch (AuthValidationException ex)
             {
-                Console.WriteLine($"Invalid phone number: {ex.Message}");
-                return BadRequest(new
-                {
-                    success = false,
-                    error = new
-                    {
-                        code = "INVALID_PHONE_NUMBER",
-                        message = ex.Message,
-                        field = "phoneNumber"
-                    }
-                });
+                return BadRequest(ToError(ex));
             }
-            catch (Exception ex)
+            catch (AuthConflictException ex)
             {
-                Console.WriteLine($"Unexpected error: {ex.Message}");
-                return StatusCode(500, new
-                {
-                    success = false,
-                    error = new
-                    {
-                        code = "INTERNAL_SERVER_ERROR",
-                        message = "An unexpected error occurred while processing the phone number."
-                    }
-                });
+                return Conflict(ToError(ex));
             }
-
-            var user = await _service.GetUserByPhoneAndMallIDAsync(phone, dto.MallID);
-
-            if (user == null)
-            {
-                if ((string.IsNullOrWhiteSpace(dto.Name)))
-                {
-                    return Unauthorized("Invalid phone number or password.");
-                }
-                user = new UserProfile
-                {
-                    Id = Guid.NewGuid(),
-                    PhoneNumber = phone,
-                    Name = dto.Name?.Trim() ?? "",
-                    Role = "user",
-                    TotalPoints = 0,
-                    MallID=dto.MallID
-                };
-
-                user.PasswordHash = Hasher.HashPassword(user, dto.Password);
-
-                await _service.CreateUserAsync(user);
-
-                return Ok(ToResponse("Registered", user));
-            }
-            Console.WriteLine("user is loged in");
-            var verify = Hasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
-            if (verify == PasswordVerificationResult.Failed)
-                return Unauthorized("Invalid phone number or password.");
-
-            return Ok(ToResponse("LoggedIn", user));
         }
 
-        private static AuthResponseDto ToResponse(string msg, UserProfile user)
-            => new()
+        [HttpPost("login")]
+        public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginRequestDto? dto, CancellationToken cancellationToken)
+        {
+            try
             {
-                Message = msg,
-                UserId = user.Id,
-                PhoneNumber = user.PhoneNumber,
-                Name = user.Name,
-                TotalPoints = user.TotalPoints,
-                Role = user.Role
+                AuthResponseDto response = await _authService.LoginAsync(dto, cancellationToken);
+                return Ok(response);
+            }
+            catch (AuthValidationException ex)
+            {
+                return BadRequest(ToError(ex));
+            }
+            catch (AuthUnauthorizedException ex)
+            {
+                return Unauthorized(ToError(ex));
+            }
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] LogoutRequestDto? dto, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _authService.LogoutAsync(dto?.SessionId ?? string.Empty, cancellationToken);
+                return Ok(new { message = "Logged out successfully." });
+            }
+            catch (AuthValidationException ex)
+            {
+                return BadRequest(ToError(ex));
+            }
+            catch (AuthNotFoundException ex)
+            {
+                return NotFound(ToError(ex));
+            }
+        }
+
+        private static object ToError(AuthException exception)
+            => new
+            {
+                success = false,
+                error = new
+                {
+                    code = exception.Code,
+                    message = exception.Message
+                }
             };
     }
 }

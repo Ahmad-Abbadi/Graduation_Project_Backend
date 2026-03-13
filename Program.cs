@@ -1,7 +1,13 @@
 using Graduation_Project_Backend.Data;
-using Microsoft.EntityFrameworkCore;
+using Graduation_Project_Backend.Filters;
+using Graduation_Project_Backend.Models.User;
 using Graduation_Project_Backend.Service;
-
+using Graduation_Project_Backend.Service.Auth;
+using Graduation_Project_Backend.Service.Common;
+using Graduation_Project_Backend.Service.Realtime;
+using Graduation_Project_Backend.Service.Session;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +19,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IPasswordHasher<UserProfile>, PasswordHasher<UserProfile>>();
+builder.Services.AddScoped<IPhoneNumberService, PhoneNumberService>();
+builder.Services.AddSingleton<IUserPointsUpdatesService, UserPointsUpdatesService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<SessionRequiredFilter>();
 builder.Services.AddScoped<ServiceClass>();
 var app = builder.Build();
 
@@ -36,6 +48,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
