@@ -20,9 +20,12 @@
         <section class="hero">
             <h1>Backend Test Console</h1>
             <p>
-                Use this page to test auth, protected user endpoints, and the public third-party endpoints.
+                Use this page to test auth, protected user endpoints, offers, and the public third-party endpoints.
                 Protected requests automatically send <code>@Model.SessionHeaderName</code>.
             </p>
+            <div id="clientBootStatus" class="hint" style="margin-top: 14px;">
+                UI bootstrap: waiting for client script.
+            </div>
             <div class="session-bar">
                 <label>
                     Current Session ID
@@ -75,7 +78,14 @@
                     <div class="actions">
                         <button id="pointsButton" class="secondary" type="button">Get My Points</button>
                         <button id="myCouponsButton" class="secondary" type="button">Get My Coupons</button>
+                        <button id="offersButton" class="secondary" type="button">Get Offers</button>
+                        <button id="storesButton" class="secondary" type="button">Get Stores</button>
                     </div>
+
+                    <form id="storeByIdForm" class="stack">
+                        <label>Store ID<input name="storeId" type="text" placeholder="Store GUID" required></label>
+                        <button type="submit">Get Store By ID</button>
+                    </form>
 
                     <form id="couponsForm" class="stack">
                         <label>
@@ -144,9 +154,39 @@
                 </div>
                 <pre id="responseOutput">Ready.</pre>
             </article>
+
+            <article class="card wide">
+                <h2>Client Log</h2>
+                <p>Button clicks, request starts, and request failures appear here.</p>
+                <pre id="clientLogOutput">Ready.</pre>
+            </article>
         </section>
     </main>
 
-    <script src="/js/test-console.js"></script>
+    <script>
+        (function () {
+            const bootStatus = document.getElementById("clientBootStatus");
+
+            function setBootStatus(message) {
+                if (bootStatus) {
+                    bootStatus.textContent = "UI bootstrap: " + message;
+                }
+            }
+
+            window.__setTestConsoleBootStatus = setBootStatus;
+            setBootStatus("inline bootstrap ready.");
+
+            window.addEventListener("error", function (event) {
+                const message = event && event.message ? event.message : "Unknown client error.";
+                setBootStatus("client error: " + message);
+            });
+
+            window.addEventListener("unhandledrejection", function (event) {
+                const reason = event && event.reason ? event.reason : "Unknown promise rejection.";
+                setBootStatus("promise rejection: " + reason);
+            });
+        })();
+    </script>
+    <script src="/js/test-console.js?v=20260406-3"></script>
 </body>
 </html>

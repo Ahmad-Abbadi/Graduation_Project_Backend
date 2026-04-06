@@ -1,6 +1,6 @@
 # Graduation Project Backend
 
-ASP.NET Core 8 backend for authentication, session-based user access, transactions, coupons, and realtime points updates.
+ASP.NET Core 8 backend for authentication, session-based user access, stores, transactions, coupons, offers, and realtime points updates.
 
 ## Stack
 - .NET 8
@@ -31,6 +31,9 @@ dotnet run
 - `POST /api/coupons/redeem`
 - `POST /api/coupons/redeem-by-serial`
 - `GET /api/coupons/user`
+- `GET /api/offers`
+- `GET /api/stores`
+- `GET /api/stores/{id}`
 - `POST /api/transactions`
 - `GET /api/transactions/{id}`
 - `GET /api/userinfo/points`
