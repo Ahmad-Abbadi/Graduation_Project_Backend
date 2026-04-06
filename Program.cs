@@ -23,6 +23,8 @@ builder.Services.AddSingleton<IUserPointsUpdatesService, UserPointsUpdatesServic
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<SessionRequiredFilter>();
+builder.Services.AddScoped<IOffersService, OffersService>();
+builder.Services.AddScoped<IStoresService, StoresService>();
 builder.Services.AddScoped<IRewardsService, RewardsService>();
 var app = builder.Build();
 

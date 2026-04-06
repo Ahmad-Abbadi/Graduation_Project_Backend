@@ -7,9 +7,35 @@ const sessionStatus = document.getElementById("sessionStatus");
 const streamStatus = document.getElementById("streamStatus");
 const pointsStatus = document.getElementById("pointsStatus");
 const responseOutput = document.getElementById("responseOutput");
+const clientLogOutput = document.getElementById("clientLogOutput");
 const lastRequest = document.getElementById("lastRequest");
 const lastStatus = document.getElementById("lastStatus");
 let pointsStream = null;
+
+if (typeof window.__setTestConsoleBootStatus === "function") {
+    window.__setTestConsoleBootStatus("client script loaded.");
+}
+
+function appendLog(message, details = null) {
+    const timestamp = new Date().toLocaleTimeString();
+    const entry = "[" + timestamp + "] " + message;
+    const extra =
+        details === null
+            ? ""
+            : "\n" + (typeof details === "string"
+                ? details
+                : JSON.stringify(details, null, 2));
+
+    if (clientLogOutput) {
+        if (clientLogOutput.textContent === "Ready.") {
+            clientLogOutput.textContent = entry + extra;
+        } else {
+            clientLogOutput.textContent = entry + extra + "\n\n" + clientLogOutput.textContent;
+        }
+    }
+
+    console.log(message, details ?? "");
+}
 
 function getSessionId() {
     return sessionInput.value.trim();
@@ -45,10 +71,14 @@ function connectPointsStream() {
     if (!sessionId) {
         setStreamStatus("Live updates offline", false);
         setPointsStatus(null);
+        appendLog("Skipped live updates connection because there is no active session.");
         return;
     }
 
     setStreamStatus("Connecting to live updates", false);
+    appendLog("Connecting to live updates stream.", {
+        url: pointsStreamUrl
+    });
 
     const streamUrl = pointsStreamUrl + "?sessionId=" + encodeURIComponent(sessionId);
     const eventSource = new EventSource(streamUrl);
@@ -60,6 +90,7 @@ function connectPointsStream() {
         }
 
         setStreamStatus("Live updates connected", true);
+        appendLog("Live updates stream connected.");
     };
 
     eventSource.addEventListener("points-updated", (event) => {
@@ -71,6 +102,8 @@ function connectPointsStream() {
         if (typeof payload.totalPoints === "number") {
             setPointsStatus(payload.totalPoints);
         }
+
+        appendLog("Received points update.", payload);
     });
 
     eventSource.onerror = () => {
@@ -79,6 +112,7 @@ function connectPointsStream() {
         }
 
         setStreamStatus("Live updates reconnecting", false);
+        appendLog("Live updates stream reported an error and will retry.");
     };
 }
 
@@ -90,6 +124,9 @@ function setSessionId(sessionId) {
         localStorage.setItem(sessionStorageKey, value);
         sessionStatus.textContent = "Active session loaded";
         sessionStatus.className = "status";
+        appendLog("Session saved.", {
+            sessionId: value
+        });
         connectPointsStream();
         return;
     }
@@ -97,6 +134,7 @@ function setSessionId(sessionId) {
     localStorage.removeItem(sessionStorageKey);
     sessionStatus.textContent = "No active session";
     sessionStatus.className = "status empty";
+    appendLog("Session cleared.");
     closePointsStream();
     setStreamStatus("Live updates offline", false);
     setPointsStatus(null);
@@ -151,6 +189,10 @@ async function callApi(url, options = {}) {
     if (requiresSession) {
         const sessionId = getSessionId();
         if (!sessionId) {
+            appendLog("Blocked request because there is no active session.", {
+                method,
+                url
+            });
             showResponse(method, url, "blocked", {
                 error: "A session id is required for this request."
             });
@@ -160,22 +202,48 @@ async function callApi(url, options = {}) {
         headers[sessionHeaderName] = sessionId;
     }
 
-    const response = await fetch(url, {
+    appendLog("Sending request.", {
         method,
-        headers,
-        body: body !== null ? JSON.stringify(body) : undefined
+        url,
+        requiresSession,
+        body
     });
 
-    const payload = await parseResponse(response);
-    if (payload && typeof payload === "object" && payload.sessionId) {
-        setSessionId(payload.sessionId);
-    }
+    try {
+        const response = await fetch(url, {
+            method,
+            headers,
+            body: body !== null ? JSON.stringify(body) : undefined
+        });
 
-    if (autoClearSession && response.ok) {
-        setSessionId("");
-    }
+        const payload = await parseResponse(response);
+        if (payload && typeof payload === "object" && payload.sessionId) {
+            setSessionId(payload.sessionId);
+        }
 
-    showResponse(method, url, response.status, payload ?? {});
+        if (autoClearSession && response.ok) {
+            setSessionId("");
+        }
+
+        appendLog("Received response.", {
+            method,
+            url,
+            status: response.status
+        });
+
+        showResponse(method, url, response.status, payload ?? {});
+    } catch (error) {
+        appendLog("Request failed before a response was received.", {
+            method,
+            url,
+            error: error instanceof Error ? error.message : String(error)
+        });
+
+        showResponse(method, url, "error", {
+            success: false,
+            error: error instanceof Error ? error.message : String(error)
+        });
+    }
 }
 
 function formValue(form, name) {
@@ -269,6 +337,29 @@ document.getElementById("myCouponsButton").addEventListener("click", async () =>
     });
 });
 
+document.getElementById("offersButton").addEventListener("click", async () => {
+    appendLog("Offers button clicked.");
+    await callApi("/api/offers", {
+        requiresSession: true
+    });
+});
+
+document.getElementById("storesButton").addEventListener("click", async () => {
+    appendLog("Stores button clicked.");
+    await callApi("/api/stores", {
+        requiresSession: true
+    });
+});
+
+document.getElementById("storeByIdForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    await callApi("/api/stores/" + encodeURIComponent(formValue(form, "storeId")), {
+        requiresSession: true
+    });
+});
+
 document.getElementById("couponsForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -340,3 +431,7 @@ document.getElementById("transactionByIdForm").addEventListener("submit", async 
 });
 
 setSessionId(localStorage.getItem(sessionStorageKey) || "");
+
+if (typeof window.__setTestConsoleBootStatus === "function") {
+    window.__setTestConsoleBootStatus("client script initialized.");
+}

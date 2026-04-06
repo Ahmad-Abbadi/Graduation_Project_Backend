@@ -3,6 +3,38 @@
   "WorkspaceRootPath": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\RegisterRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Auth\\RegisterRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LogoutRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Auth\\LogoutRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LoginRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Auth\\LoginRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\Session\\SessionService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Service\\Session\\SessionService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\RealtimeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\RealtimeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\HomeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\HomeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Filters\\SessionRequiredFilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Filters\\SessionRequiredFilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,26 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\ServiceClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Service\\ServiceClass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\RegisterRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Auth\\RegisterRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LogoutRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Auth\\LogoutRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LoginRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DTOs\\Auth\\LoginRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\CouponsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -69,42 +81,38 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 162,
-          "SelectedChildIndex": 2,
+          "DockedWidth": 243,
+          "SelectedChildIndex": 5,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "RegisterRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\RegisterRequestDto.cs",
-              "RelativeDocumentMoniker": "DTOs\\Auth\\RegisterRequestDto.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\RegisterRequestDto.cs",
-              "RelativeToolTip": "DTOs\\Auth\\RegisterRequestDto.cs",
+              "DocumentIndex": 4,
+              "Title": "SessionService.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\Session\\SessionService.cs",
+              "RelativeDocumentMoniker": "Service\\Session\\SessionService.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\Session\\SessionService.cs",
+              "RelativeToolTip": "Service\\Session\\SessionService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T20:37:08.94Z",
+              "WhenOpened": "2026-03-13T23:17:12.566Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAxAAAAAAAAAA==",
+              "Title": "RealtimeController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\RealtimeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RealtimeController.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\RealtimeController.cs",
+              "RelativeToolTip": "Controllers\\RealtimeController.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAABwAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:02:25.321Z",
+              "WhenOpened": "2026-03-13T23:16:05.876Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "LogoutRequestDto.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LogoutRequestDto.cs",
               "RelativeDocumentMoniker": "DTOs\\Auth\\LogoutRequestDto.cs",
@@ -117,20 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "LoginRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LoginRequestDto.cs",
-              "RelativeDocumentMoniker": "DTOs\\Auth\\LoginRequestDto.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LoginRequestDto.cs",
-              "RelativeToolTip": "DTOs\\Auth\\LoginRequestDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T20:37:05.1Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
@@ -143,7 +138,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 2,
+              "Title": "LoginRequestDto.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LoginRequestDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\Auth\\LoginRequestDto.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\LoginRequestDto.cs",
+              "RelativeToolTip": "DTOs\\Auth\\LoginRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-13T20:37:05.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RegisterRequestDto.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\RegisterRequestDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\Auth\\RegisterRequestDto.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\DTOs\\Auth\\RegisterRequestDto.cs",
+              "RelativeToolTip": "DTOs\\Auth\\RegisterRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-13T20:37:08.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-13T23:16:09.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T12:02:25.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "CouponsController.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\CouponsController.cs",
               "RelativeDocumentMoniker": "Controllers\\CouponsController.cs",
@@ -151,12 +198,11 @@
               "RelativeToolTip": "Controllers\\CouponsController.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAAAEgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T11:52:47.05Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-04T11:52:47.05Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "TransactionsController.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Controllers\\TransactionsController.cs",
               "RelativeDocumentMoniker": "Controllers\\TransactionsController.cs",
@@ -168,7 +214,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "Coupon.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Models\\Entities\\Coupon.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Coupon.cs",
@@ -180,7 +226,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "Store.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Models\\Entities\\Store.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Store.cs",
@@ -192,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "Transaction.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Models\\Entities\\Transaction.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Transaction.cs",
@@ -205,25 +251,25 @@
           ]
         },
         {
-          "DockedWidth": 238,
+          "DockedWidth": 157,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 8,
               "Title": "SessionRequiredFilter.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Filters\\SessionRequiredFilter.cs",
               "RelativeDocumentMoniker": "Filters\\SessionRequiredFilter.cs",
               "ToolTip": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Filters\\SessionRequiredFilter.cs",
               "RelativeToolTip": "Filters\\SessionRequiredFilter.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T21:10:12.129Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "SessionRequiredAttribute.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Filters\\SessionRequiredAttribute.cs",
               "RelativeDocumentMoniker": "Filters\\SessionRequiredAttribute.cs",
@@ -231,12 +277,11 @@
               "RelativeToolTip": "Filters\\SessionRequiredAttribute.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T21:10:02.113Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-13T21:10:02.113Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\Auth\\AuthService.cs",
               "RelativeDocumentMoniker": "Service\\Auth\\AuthService.cs",
@@ -244,12 +289,11 @@
               "RelativeToolTip": "Service\\Auth\\AuthService.cs",
               "ViewState": "AgIAADAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T20:37:55.349Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-13T20:37:55.349Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
               "Title": "AuthExceptions.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\Auth\\AuthExceptions.cs",
               "RelativeDocumentMoniker": "Service\\Auth\\AuthExceptions.cs",
@@ -257,12 +301,11 @@
               "RelativeToolTip": "Service\\Auth\\AuthExceptions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T20:37:50.374Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-13T20:37:50.374Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "ServiceClass.cs",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\.NetProjects\\Graduation_Project_Backend\\Service\\ServiceClass.cs",
               "RelativeDocumentMoniker": "Service\\ServiceClass.cs",
@@ -270,8 +313,7 @@
               "RelativeToolTip": "Service\\ServiceClass.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T21:43:06.752Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-07T21:43:06.752Z"
             }
           ]
         }

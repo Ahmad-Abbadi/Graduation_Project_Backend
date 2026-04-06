@@ -12,6 +12,7 @@ namespace Graduation_Project_Backend.Data
         public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
         public DbSet<UserSession> UserSessions => Set<UserSession>();
         public DbSet<Store> Stores => Set<Store>();
+        public DbSet<Offer> Offers => Set<Offer>();
         public DbSet<Transaction> Transactions => Set<Transaction>();
         public DbSet<Coupon> Coupons => Set<Coupon>();
         public DbSet<UserCoupon> UserCoupons => Set<UserCoupon>();
@@ -55,6 +56,10 @@ namespace Graduation_Project_Backend.Data
 
                 entity.HasKey(e => e.Id);
 
+                entity.Property(e => e.Id)
+                      .HasColumnName("id")
+                      .IsRequired();
+
                 entity.Property(e => e.Name)
                       .HasColumnName("name")
                       .IsRequired();
@@ -62,6 +67,50 @@ namespace Graduation_Project_Backend.Data
                 entity.Property(e => e.MallID)
                       .HasColumnName("mall_id")
                       .IsRequired();
+            });
+
+            modelBuilder.Entity<Offer>(entity =>
+            {
+                entity.ToTable("offers");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                      .HasColumnName("id")
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.StoreId)
+                      .HasColumnName("store_id")
+                      .IsRequired();
+
+                entity.Property(e => e.Title)
+                      .HasColumnName("title")
+                      .IsRequired();
+
+                entity.Property(e => e.Description)
+                      .HasColumnName("description");
+
+                entity.Property(e => e.StartAt)
+                      .HasColumnName("start_at")
+                      .HasColumnType("timestamptz")
+                      .IsRequired();
+
+                entity.Property(e => e.EndAt)
+                      .HasColumnName("end_at")
+                      .HasColumnType("timestamptz")
+                      .IsRequired();
+
+                entity.Property(e => e.IsActive)
+                      .HasColumnName("is_active")
+                      .HasDefaultValue(true);
+
+                entity.Property(e => e.MadeAt)
+                      .HasColumnName("made_at")
+                      .HasColumnType("timestamptz")
+                      .HasDefaultValueSql("now()");
+
+                entity.Property(e => e.MallID)
+                      .HasColumnName("mall_id");
             });
 
             modelBuilder.Entity<Transaction>(entity =>

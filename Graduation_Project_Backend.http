@@ -42,6 +42,18 @@ X-Session-Id: {{sessionId}}
 GET {{baseUrl}}/api/coupons/user
 X-Session-Id: {{sessionId}}
 
+### Get Offers
+GET {{baseUrl}}/api/offers
+X-Session-Id: {{sessionId}}
+
+### Get Stores
+GET {{baseUrl}}/api/stores
+X-Session-Id: {{sessionId}}
+
+### Get Store By ID
+GET {{baseUrl}}/api/stores/00000000-0000-0000-0000-000000000003
+X-Session-Id: {{sessionId}}
+
 ### Redeem Coupon
 POST {{baseUrl}}/api/coupons/redeem
 Content-Type: application/json
