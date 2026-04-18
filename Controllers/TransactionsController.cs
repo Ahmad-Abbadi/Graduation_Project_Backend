@@ -1,5 +1,9 @@
-﻿using Graduation_Project_Backend.DTOs;
+using Graduation_Project_Backend.DTOs;
+using Graduation_Project_Backend.DTOs.Receipts;
+using Graduation_Project_Backend.Extensions;
+using Graduation_Project_Backend.Filters;
 using Graduation_Project_Backend.Service;
+using Graduation_Project_Backend.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Graduation_Project_Backend.Controllers
@@ -54,13 +58,49 @@ namespace Graduation_Project_Backend.Controllers
         }
 
         [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetTransactionById(long id)
+        [SessionRequired]
+        public async Task<IActionResult> GetTransactionById(long id, CancellationToken cancellationToken)
         {
-            var transaction = await _rewardsService.GetTransactionDetailsAsync(id);
-            if (transaction == null)
-                return NotFound("Transaction not found.");
+            try
+            {
+                var session = HttpContext.GetCurrentUserSession();
+                var transaction = await _rewardsService.GetReceiptDetailsForUserAsync(session.UserId, id, cancellationToken);
+                if (transaction == null)
+                    return NotFound("Transaction not found.");
 
-            return Ok(transaction);
+                return Ok(transaction);
+            }
+            catch (ApiException ex)
+            {
+                return ToErrorResult(ex);
+            }
         }
+
+        [HttpGet("my-receipts")]
+        [SessionRequired]
+        public async Task<IActionResult> GetMyReceipts([FromQuery] ReceiptListQuery query, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var session = HttpContext.GetCurrentUserSession();
+                var result = await _rewardsService.GetMyReceiptsAsync(session.UserId, query, cancellationToken);
+                return Ok(result);
+            }
+            catch (ApiException ex)
+            {
+                return ToErrorResult(ex);
+            }
+        }
+
+        private IActionResult ToErrorResult(ApiException exception)
+            => StatusCode(exception.StatusCode, new
+            {
+                success = false,
+                error = new
+                {
+                    code = exception.Code,
+                    message = exception.Message
+                }
+            });
     }
 }

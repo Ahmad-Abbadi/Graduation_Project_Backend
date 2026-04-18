@@ -11,6 +11,6 @@
     "\\Views\\Home",
     "\\wwwroot"
   ],
-  "SelectedNode": "\\Filters\\SessionRequiredFilter.cs",
+  "SelectedNode": "\\Service\\OffersService.cs",
   "PreviewInSolutionExplorer": false
 }

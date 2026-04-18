@@ -23,9 +23,13 @@ builder.Services.AddSingleton<IUserPointsUpdatesService, UserPointsUpdatesServic
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<SessionRequiredFilter>();
+builder.Services.AddScoped<IUserAccessService, UserAccessService>();
 builder.Services.AddScoped<IOffersService, OffersService>();
+builder.Services.AddScoped<IAnnouncementsService, AnnouncementsService>();
 builder.Services.AddScoped<IStoresService, StoresService>();
 builder.Services.AddScoped<IRewardsService, RewardsService>();
+builder.Services.AddScoped<IChatbotService, ChatbotService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 var app = builder.Build();
 
 var runMigrations = builder.Configuration.GetValue("RunMigrations", true);

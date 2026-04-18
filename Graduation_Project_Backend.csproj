@@ -16,4 +16,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Graduation_Project_Backend.Tests\**\*.cs" />
+    <EmbeddedResource Remove="Graduation_Project_Backend.Tests\**\*" />
+    <None Remove="Graduation_Project_Backend.Tests\**\*" />
+  </ItemGroup>
+
 </Project>

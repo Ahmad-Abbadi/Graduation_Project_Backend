@@ -7,6 +7,7 @@ namespace Graduation_Project_Backend.Service.Auth
     {
         Task<AuthResponseDto> RegisterAsync(RegisterRequestDto? dto, CancellationToken cancellationToken = default);
         Task<AuthResponseDto> LoginAsync(LoginRequestDto? dto, CancellationToken cancellationToken = default);
+        Task<AuthResponseDto> ManagerQuickLoginAsync(ManagerQuickLoginRequestDto? dto, CancellationToken cancellationToken = default);
         Task LogoutAsync(string sessionId, CancellationToken cancellationToken = default);
     }
 }

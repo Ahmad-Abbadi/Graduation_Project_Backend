@@ -1,0 +1,10 @@
+namespace Graduation_Project_Backend.Models.Entities
+{
+    public sealed class Manager
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public Guid MallID { get; set; }
+    }
+}

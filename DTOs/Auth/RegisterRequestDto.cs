@@ -6,5 +6,6 @@ namespace Graduation_Project_Backend.DTOs.Auth
         public string PhoneNumber { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public Guid MallID { get; set; }
+        public Guid? ManagerId { get; set; }
     }
 }
