@@ -52,6 +52,20 @@ namespace Graduation_Project_Backend.Controllers
             }
         }
 
+        [HttpPost("manager-quick-login")]
+        public async Task<ActionResult<AuthResponseDto>> ManagerQuickLogin([FromBody] ManagerQuickLoginRequestDto? dto, CancellationToken cancellationToken)
+        {
+            try
+            {
+                AuthResponseDto response = await _authService.ManagerQuickLoginAsync(dto, cancellationToken);
+                return Ok(response);
+            }
+            catch (AuthValidationException ex)
+            {
+                return BadRequest(ToError(ex));
+            }
+        }
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromBody] LogoutRequestDto? dto, CancellationToken cancellationToken)
         {

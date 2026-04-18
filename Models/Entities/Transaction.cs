@@ -12,6 +12,10 @@ namespace Graduation_Project_Backend.Models.Entities
         public required decimal Price { get; set; }
         public required int Points { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
+        public string? ReceiptUrl { get; set; }
+        public string? ReceiptImageUrl { get; set; }
+        public string? TransactionStatus { get; set; }
         public UserProfile? User { get; set; }
+        public Store? Store { get; set; }
     }
 }

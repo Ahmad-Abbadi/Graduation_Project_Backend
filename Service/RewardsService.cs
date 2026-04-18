@@ -1,6 +1,8 @@
 ﻿using System.Security.Cryptography;
 using Graduation_Project_Backend.Data;
 using Graduation_Project_Backend.DTOs;
+using Graduation_Project_Backend.DTOs.Common;
+using Graduation_Project_Backend.DTOs.Receipts;
 using Graduation_Project_Backend.Models.Entities;
 using Graduation_Project_Backend.Models.User;
 using Graduation_Project_Backend.Service.Common;
@@ -14,15 +16,18 @@ namespace Graduation_Project_Backend.Service
         private readonly AppDbContext _db;
         private readonly IPhoneNumberService _phoneNumberService;
         private readonly IUserPointsUpdatesService _userPointsUpdatesService;
+        private readonly IUserAccessService _userAccessService;
 
         public RewardsService(
             AppDbContext db,
             IPhoneNumberService phoneNumberService,
-            IUserPointsUpdatesService userPointsUpdatesService)
+            IUserPointsUpdatesService userPointsUpdatesService,
+            IUserAccessService userAccessService)
         {
             _db = db;
             _phoneNumberService = phoneNumberService;
             _userPointsUpdatesService = userPointsUpdatesService;
+            _userAccessService = userAccessService;
         }
 
         private string NormalizePhone(string phone)
@@ -102,7 +107,8 @@ namespace Graduation_Project_Backend.Service
                 ReceiptDescription = description ?? "",
                 Price = price,
                 Points = points,
-                CreatedAt = DateTimeOffset.UtcNow
+                CreatedAt = DateTimeOffset.UtcNow,
+                TransactionStatus = "completed"
             };
 
             AddPoints(user, points);
@@ -351,6 +357,119 @@ namespace Graduation_Project_Backend.Service
                 .SingleOrDefaultAsync();
 
             return user?.TotalPoints;
+        }
+
+        public async Task<PagedResult<ReceiptListItemResponse>> GetMyReceiptsAsync(Guid userId, ReceiptListQuery query, CancellationToken cancellationToken = default)
+        {
+            if (query.From.HasValue && query.To.HasValue && query.From > query.To)
+                throw new ApiValidationException("The from date must be earlier than the to date.", "INVALID_DATE_RANGE");
+
+            IQueryable<Transaction> transactions = _db.Transactions
+                .AsNoTracking()
+                .Include(transaction => transaction.Store)
+                .Where(transaction => transaction.UserId == userId);
+
+            if (query.StoreId.HasValue)
+                transactions = transactions.Where(transaction => transaction.StoreId == query.StoreId.Value);
+
+            if (!string.IsNullOrWhiteSpace(query.Status))
+            {
+                string status = query.Status.Trim();
+                transactions = transactions.Where(transaction => transaction.TransactionStatus == status);
+            }
+
+            if (query.From.HasValue)
+                transactions = transactions.Where(transaction => transaction.CreatedAt >= query.From.Value);
+
+            if (query.To.HasValue)
+                transactions = transactions.Where(transaction => transaction.CreatedAt <= query.To.Value);
+
+            int totalCount = await transactions.CountAsync(cancellationToken);
+
+            List<ReceiptListItemResponse> items = await transactions
+                .OrderByDescending(transaction => transaction.CreatedAt)
+                .Skip((query.Page - 1) * query.PageSize)
+                .Take(query.PageSize)
+                .Select(transaction => new ReceiptListItemResponse
+                {
+                    TransactionId = transaction.Id,
+                    ReceiptId = transaction.ReceiptId,
+                    StoreId = transaction.StoreId,
+                    StoreName = transaction.Store != null ? transaction.Store.Name : string.Empty,
+                    Price = transaction.Price,
+                    PointsEarned = transaction.Points,
+                    ReceiptDescription = transaction.ReceiptDescription,
+                    ReceiptImageUrl = transaction.ReceiptImageUrl,
+                    Status = transaction.TransactionStatus,
+                    CreatedAt = transaction.CreatedAt
+                })
+                .ToListAsync(cancellationToken);
+
+            return new PagedResult<ReceiptListItemResponse>
+            {
+                Items = items,
+                Page = query.Page,
+                PageSize = query.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<ReceiptDetailsResponse?> GetReceiptDetailsForUserAsync(Guid currentUserId, long transactionId, CancellationToken cancellationToken = default)
+        {
+            UserAccessContext access = await _userAccessService.GetUserAccessContextAsync(currentUserId, cancellationToken);
+
+            var receipt = await _db.Transactions
+                .AsNoTracking()
+                .Include(transaction => transaction.Store)
+                .Where(transaction => transaction.Id == transactionId)
+                .Select(transaction => new
+                {
+                    transaction.Id,
+                    transaction.UserId,
+                    transaction.ReceiptId,
+                    transaction.ReceiptDescription,
+                    transaction.ReceiptUrl,
+                    transaction.ReceiptImageUrl,
+                    transaction.StoreId,
+                    StoreName = transaction.Store != null ? transaction.Store.Name : string.Empty,
+                    StoreMallId = transaction.Store != null ? transaction.Store.MallID : Guid.Empty,
+                    transaction.Price,
+                    transaction.Points,
+                    transaction.TransactionStatus,
+                    transaction.CreatedAt
+                })
+                .SingleOrDefaultAsync(cancellationToken);
+
+            if (receipt == null)
+                return null;
+
+            bool canAccess = receipt.UserId == currentUserId;
+            if (!canAccess && access.IsManager)
+            {
+                canAccess = access.IsMallWideManager
+                    ? receipt.StoreMallId == access.MallID
+                    : access.AssignedStoreIds.Contains(receipt.StoreId);
+            }
+
+            if (!canAccess)
+                throw new ApiForbiddenException("You are not allowed to access this receipt.", "RECEIPT_ACCESS_DENIED");
+
+            return new ReceiptDetailsResponse
+            {
+                TransactionId = receipt.Id,
+                UserId = receipt.UserId,
+                ReceiptId = receipt.ReceiptId,
+                ReceiptDescription = receipt.ReceiptDescription,
+                ReceiptUrl = receipt.ReceiptUrl,
+                ReceiptImageUrl = receipt.ReceiptImageUrl,
+                StoreId = receipt.StoreId,
+                StoreName = receipt.StoreName,
+                MallID = receipt.StoreMallId,
+                Price = receipt.Price,
+                PointsEarned = receipt.Points,
+                Status = receipt.TransactionStatus,
+                CreatedAt = receipt.CreatedAt
+            };
         }
 
         private ValueTask PublishPointsChangedAsync(Guid userId, int totalPoints, string source)

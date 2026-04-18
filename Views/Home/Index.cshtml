@@ -58,6 +58,20 @@
             </article>
 
             <article class="card">
+                <h2>Manager Quick Login</h2>
+                <p>Creates a session directly from an existing manager record so you can test manager APIs immediately.</p>
+                <form id="managerQuickLoginForm" class="stack">
+                    <label>Manager ID<input name="managerId" type="text" placeholder="Existing manager GUID" required></label>
+                    <div class="hint">
+                        This is a temporary test shortcut. If the linked user account does not exist yet, the backend creates it automatically and then starts a session.
+                    </div>
+                    <div class="actions">
+                        <button class="secondary" type="submit">Quick Login</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="card">
                 <h2>Login / Logout</h2>
                 <p>Login refreshes the session. Logout removes the current one.</p>
                 <form id="loginForm" class="stack">
@@ -79,7 +93,10 @@
                         <button id="pointsButton" class="secondary" type="button">Get My Points</button>
                         <button id="myCouponsButton" class="secondary" type="button">Get My Coupons</button>
                         <button id="offersButton" class="secondary" type="button">Get Offers</button>
+                        <button id="announcementsButton" class="secondary" type="button">Get Announcements</button>
                         <button id="storesButton" class="secondary" type="button">Get Stores</button>
+                        <button id="myReceiptsButton" class="secondary" type="button">Get My Receipts</button>
+                        <button id="chatbotHistoryButton" class="secondary" type="button">Chatbot History</button>
                     </div>
 
                     <form id="storeByIdForm" class="stack">
@@ -108,6 +125,41 @@
                         <label>Coupon ID<input name="couponId" type="text" placeholder="Coupon GUID" required></label>
                         <button type="submit">Redeem Coupon</button>
                     </form>
+
+                    <form id="receiptByIdForm" class="stack">
+                        <label>Transaction ID<input name="transactionId" type="number" min="1" placeholder="Transaction id" required></label>
+                        <button type="submit">Get Receipt By ID</button>
+                    </form>
+
+                    <form id="receiptFiltersForm" class="stack">
+                        <div class="row">
+                            <label>Store ID<input name="storeId" type="text" placeholder="Optional store GUID"></label>
+                            <label>Status<input name="status" type="text" placeholder="Optional status"></label>
+                        </div>
+                        <div class="row">
+                            <label>From<input name="from" type="datetime-local"></label>
+                            <label>To<input name="to" type="datetime-local"></label>
+                        </div>
+                        <div class="row">
+                            <label>Page<input name="page" type="number" min="1" value="1"></label>
+                            <label>Page Size<input name="pageSize" type="number" min="1" max="100" value="20"></label>
+                        </div>
+                        <button type="submit">Filter My Receipts</button>
+                    </form>
+
+                    <form id="chatbotAskForm" class="stack">
+                        <label>Message<textarea name="message" placeholder="Ask about hours, parking, services, offers, or a store" required></textarea></label>
+                        <label>Conversation Session ID<input name="conversationSessionId" type="text" placeholder="Optional conversation GUID"></label>
+                        <div class="hint">
+                            The chatbot can now answer about mall settings, store details, active offers and announcements, your points, your coupons, your recent receipts, and follow-up questions in the same conversation.
+                        </div>
+                        <button type="submit">Ask Chatbot</button>
+                    </form>
+
+                    <form id="chatbotHistoryForm" class="stack">
+                        <label>Conversation Session ID<input name="conversationSessionId" type="text" placeholder="Optional conversation GUID"></label>
+                        <button type="submit">Get Chatbot History</button>
+                    </form>
                 </div>
             </article>
 
@@ -133,12 +185,236 @@
                         <label>Price<input name="price" type="number" step="0.01" min="0" placeholder="0.00" required></label>
                         <button type="submit">Add Transaction</button>
                     </form>
-
-                    <form id="transactionByIdForm" class="stack">
-                        <label>Transaction ID<input name="transactionId" type="number" min="1" placeholder="Transaction id" required></label>
-                        <button type="submit">Get Transaction By ID</button>
-                    </form>
                 </div>
+            </article>
+
+            <article class="card wide">
+                <h2>Manager Store & Content APIs</h2>
+                <p>These forms assume the current session belongs to a manager account whose user id matches a row in <code>managers</code>.</p>
+                <div class="stack">
+                    <div class="actions">
+                        <button id="managedStoresButton" class="secondary" type="button">Get Managed Stores</button>
+                        <button id="managedOffersButton" class="secondary" type="button">Get Managed Offers</button>
+                        <button id="managedAnnouncementsButton" class="secondary" type="button">Get Managed Announcements</button>
+                    </div>
+
+                    <form id="createStoreForm" class="stack">
+                        <div class="row">
+                            <label>Name<input name="name" type="text" placeholder="Store name" required></label>
+                            <label>Operating Hours<input name="operatingHours" type="text" placeholder="9 AM - 10 PM"></label>
+                        </div>
+                        <div class="row">
+                            <label>Email<input name="email" type="email" placeholder="info@store.jo"></label>
+                            <label>Phone<input name="phoneNumber" type="text" placeholder="+9627XXXXXXXX"></label>
+                        </div>
+                        <div class="row">
+                            <label>Floor<input name="floorNumber" type="text" placeholder="First Floor"></label>
+                            <label>Image URL<input name="storeImageUrl" type="text" placeholder="https://..."></label>
+                        </div>
+                        <label>Description<textarea name="description" placeholder="Store description"></textarea></label>
+                        <label>Social Media Links JSON<textarea name="socialMediaLinks" placeholder='{"instagram":"https://..."}'></textarea></label>
+                        <label>Category IDs (comma separated)<input name="categoryIds" type="text" placeholder="11,12"></label>
+                        <button type="submit">Create Store</button>
+                    </form>
+
+                    <form id="updateStoreForm" class="stack">
+                        <label>Store ID<input name="storeId" type="text" placeholder="Store GUID" required></label>
+                        <div class="row">
+                            <label>Name<input name="name" type="text" placeholder="Store name" required></label>
+                            <label>Operating Hours<input name="operatingHours" type="text" placeholder="9 AM - 10 PM"></label>
+                        </div>
+                        <div class="row">
+                            <label>Email<input name="email" type="email" placeholder="info@store.jo"></label>
+                            <label>Phone<input name="phoneNumber" type="text" placeholder="+9627XXXXXXXX"></label>
+                        </div>
+                        <div class="row">
+                            <label>Floor<input name="floorNumber" type="text" placeholder="First Floor"></label>
+                            <label>Image URL<input name="storeImageUrl" type="text" placeholder="https://..."></label>
+                        </div>
+                        <label>Description<textarea name="description" placeholder="Store description"></textarea></label>
+                        <label>Social Media Links JSON<textarea name="socialMediaLinks" placeholder='{"instagram":"https://..."}'></textarea></label>
+                        <label>Category IDs (comma separated)<input name="categoryIds" type="text" placeholder="11,12"></label>
+                        <button type="submit">Update Store</button>
+                    </form>
+
+                    <form id="createOfferForm" class="stack">
+                        <div class="row">
+                            <label>Store ID<input name="storeId" type="text" placeholder="Store GUID" required></label>
+                            <label>Title<input name="title" type="text" placeholder="Offer title" required></label>
+                        </div>
+                        <label>Description<textarea name="description" placeholder="Offer description"></textarea></label>
+                        <div class="row">
+                            <label>Start At<input name="startAt" type="datetime-local" required></label>
+                            <label>End At<input name="endAt" type="datetime-local" required></label>
+                            <label>
+                                Active
+                                <select name="isActive">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </label>
+                        </div>
+                        <button type="submit">Create Offer</button>
+                    </form>
+
+                    <form id="updateOfferForm" class="stack">
+                        <label>Offer ID<input name="offerId" type="number" min="1" placeholder="Offer id" required></label>
+                        <div class="row">
+                            <label>Store ID<input name="storeId" type="text" placeholder="Store GUID" required></label>
+                            <label>Title<input name="title" type="text" placeholder="Offer title" required></label>
+                        </div>
+                        <label>Description<textarea name="description" placeholder="Offer description"></textarea></label>
+                        <div class="row">
+                            <label>Start At<input name="startAt" type="datetime-local" required></label>
+                            <label>End At<input name="endAt" type="datetime-local" required></label>
+                            <label>
+                                Active
+                                <select name="isActive">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </label>
+                        </div>
+                        <button type="submit">Update Offer</button>
+                    </form>
+
+                    <div class="row">
+                        <form id="offerStatusForm" class="stack">
+                            <label>Offer ID<input name="offerId" type="number" min="1" placeholder="Offer id" required></label>
+                            <label>
+                                Active
+                                <select name="isActive">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </label>
+                            <button type="submit">Set Offer Status</button>
+                        </form>
+
+                        <form id="deleteOfferForm" class="stack">
+                            <label>Offer ID<input name="offerId" type="number" min="1" placeholder="Offer id" required></label>
+                            <button class="danger" type="submit">Delete Offer</button>
+                        </form>
+                    </div>
+
+                    <form id="createAnnouncementForm" class="stack">
+                        <div class="row">
+                            <label>Store ID<input name="storeId" type="text" placeholder="Optional store GUID"></label>
+                            <label>Title<input name="title" type="text" placeholder="Announcement title" required></label>
+                        </div>
+                        <label>Content<textarea name="content" placeholder="Announcement content" required></textarea></label>
+                        <div class="row">
+                            <label>Type<input name="announcementType" type="text" placeholder="general"></label>
+                            <label>Priority<input name="priority" type="text" placeholder="normal"></label>
+                            <label>Image URL<input name="imageUrl" type="text" placeholder="https://..."></label>
+                        </div>
+                        <div class="row">
+                            <label>Start Date<input name="startDate" type="datetime-local" required></label>
+                            <label>End Date<input name="endDate" type="datetime-local" required></label>
+                        </div>
+                        <div class="row">
+                            <label>
+                                Active
+                                <select name="isActive">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </label>
+                            <label>
+                                Pinned
+                                <select name="isPinned">
+                                    <option value="false">False</option>
+                                    <option value="true">True</option>
+                                </select>
+                            </label>
+                        </div>
+                        <button type="submit">Create Announcement</button>
+                    </form>
+
+                    <form id="updateAnnouncementForm" class="stack">
+                        <label>Announcement ID<input name="announcementId" type="text" placeholder="Announcement GUID" required></label>
+                        <div class="row">
+                            <label>Store ID<input name="storeId" type="text" placeholder="Optional store GUID"></label>
+                            <label>Title<input name="title" type="text" placeholder="Announcement title" required></label>
+                        </div>
+                        <label>Content<textarea name="content" placeholder="Announcement content" required></textarea></label>
+                        <div class="row">
+                            <label>Type<input name="announcementType" type="text" placeholder="general"></label>
+                            <label>Priority<input name="priority" type="text" placeholder="normal"></label>
+                            <label>Image URL<input name="imageUrl" type="text" placeholder="https://..."></label>
+                        </div>
+                        <div class="row">
+                            <label>Start Date<input name="startDate" type="datetime-local" required></label>
+                            <label>End Date<input name="endDate" type="datetime-local" required></label>
+                        </div>
+                        <div class="row">
+                            <label>
+                                Active
+                                <select name="isActive">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </label>
+                            <label>
+                                Pinned
+                                <select name="isPinned">
+                                    <option value="false">False</option>
+                                    <option value="true">True</option>
+                                </select>
+                            </label>
+                        </div>
+                        <button type="submit">Update Announcement</button>
+                    </form>
+
+                    <div class="row">
+                        <form id="announcementStatusForm" class="stack">
+                            <label>Announcement ID<input name="announcementId" type="text" placeholder="Announcement GUID" required></label>
+                            <label>
+                                Active
+                                <select name="isActive">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </label>
+                            <button type="submit">Set Announcement Status</button>
+                        </form>
+
+                        <form id="announcementPinForm" class="stack">
+                            <label>Announcement ID<input name="announcementId" type="text" placeholder="Announcement GUID" required></label>
+                            <label>
+                                Pinned
+                                <select name="isPinned">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </label>
+                            <button type="submit">Set Announcement Pin</button>
+                        </form>
+
+                        <form id="deleteAnnouncementForm" class="stack">
+                            <label>Announcement ID<input name="announcementId" type="text" placeholder="Announcement GUID" required></label>
+                            <button class="danger" type="submit">Delete Announcement</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <h2>Dashboard APIs</h2>
+                <p>Dashboard endpoints require a manager session and honor mall-wide or store-scoped access automatically.</p>
+                <form id="dashboardFiltersForm" class="stack">
+                    <div class="row">
+                        <label>From<input name="from" type="datetime-local"></label>
+                        <label>To<input name="to" type="datetime-local"></label>
+                    </div>
+                    <div class="actions">
+                        <button id="dashboardSummaryButton" class="secondary" type="button">Summary</button>
+                        <button id="dashboardSalesButton" class="secondary" type="button">Sales</button>
+                        <button id="dashboardPointsButton" class="secondary" type="button">Points</button>
+                        <button id="dashboardCouponsButton" class="secondary" type="button">Coupons</button>
+                        <button id="dashboardActivityButton" class="secondary" type="button">Activity</button>
+                    </div>
+                </form>
             </article>
 
             <article class="card wide">
@@ -187,6 +463,6 @@
             });
         })();
     </script>
-    <script src="/js/test-console.js?v=20260406-3"></script>
+    <script src="/js/test-console.js?v=20260418-1"></script>
 </body>
 </html>

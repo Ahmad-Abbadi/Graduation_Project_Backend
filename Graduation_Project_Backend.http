@@ -12,6 +12,14 @@ Content-Type: application/json
   "mallID": "00000000-0000-0000-0000-000000000001"
 }
 
+### Manager Quick Login
+POST {{baseUrl}}/api/auth/manager-quick-login
+Content-Type: application/json
+
+{
+  "managerId": "491ead79-af30-44f6-ac53-d835e5889e72"
+}
+
 ### Login
 POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
@@ -82,3 +90,185 @@ Content-Type: application/json
   "receiptDescription": "Test receipt",
   "price": 19.99
 }
+
+### Get Receipt By ID
+GET {{baseUrl}}/api/transactions/1
+X-Session-Id: {{sessionId}}
+
+### Get My Receipts
+GET {{baseUrl}}/api/transactions/my-receipts?page=1&pageSize=20
+X-Session-Id: {{sessionId}}
+
+### Get Announcements
+GET {{baseUrl}}/api/announcements
+X-Session-Id: {{sessionId}}
+
+### Ask Chatbot
+POST {{baseUrl}}/api/chatbot/ask
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "message": "What are the mall opening hours?"
+}
+
+### Get Chatbot History
+GET {{baseUrl}}/api/chatbot/history
+X-Session-Id: {{sessionId}}
+
+### Get Managed Stores
+GET {{baseUrl}}/api/stores/manage
+X-Session-Id: {{sessionId}}
+
+### Create Store
+POST {{baseUrl}}/api/stores
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "name": "New Shop",
+  "operatingHours": "9 AM - 10 PM",
+  "description": "New test store",
+  "phoneNumber": "+962799999999",
+  "email": "newshop@example.com",
+  "floorNumber": "Second Floor",
+  "categoryIds": [11, 12]
+}
+
+### Update Store
+PUT {{baseUrl}}/api/stores/00000000-0000-0000-0000-000000000003
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "name": "Updated Shop",
+  "operatingHours": "10 AM - 11 PM",
+  "description": "Updated description",
+  "phoneNumber": "+962788888888",
+  "email": "updatedshop@example.com",
+  "floorNumber": "Ground Floor",
+  "categoryIds": [11]
+}
+
+### Get Managed Offers
+GET {{baseUrl}}/api/offers/manage
+X-Session-Id: {{sessionId}}
+
+### Create Offer
+POST {{baseUrl}}/api/offers
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "storeId": "00000000-0000-0000-0000-000000000003",
+  "title": "Weekend Sale",
+  "description": "20% off selected items",
+  "startAt": "2026-04-18T09:00:00Z",
+  "endAt": "2026-04-25T21:00:00Z",
+  "isActive": true
+}
+
+### Update Offer
+PUT {{baseUrl}}/api/offers/1
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "storeId": "00000000-0000-0000-0000-000000000003",
+  "title": "Weekend Sale Updated",
+  "description": "25% off selected items",
+  "startAt": "2026-04-18T09:00:00Z",
+  "endAt": "2026-04-26T21:00:00Z",
+  "isActive": true
+}
+
+### Set Offer Status
+PATCH {{baseUrl}}/api/offers/1/status
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "isActive": false
+}
+
+### Delete Offer
+DELETE {{baseUrl}}/api/offers/1
+X-Session-Id: {{sessionId}}
+
+### Get Managed Announcements
+GET {{baseUrl}}/api/announcements/manage
+X-Session-Id: {{sessionId}}
+
+### Create Announcement
+POST {{baseUrl}}/api/announcements
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "title": "Mall Event",
+  "content": "Live music this weekend",
+  "announcementType": "event",
+  "priority": "high",
+  "startDate": "2026-04-18T09:00:00Z",
+  "endDate": "2026-04-22T21:00:00Z",
+  "isActive": true,
+  "isPinned": true
+}
+
+### Update Announcement
+PUT {{baseUrl}}/api/announcements/00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "title": "Mall Event Updated",
+  "content": "Live music and food festival",
+  "announcementType": "event",
+  "priority": "high",
+  "startDate": "2026-04-18T09:00:00Z",
+  "endDate": "2026-04-23T21:00:00Z",
+  "isActive": true,
+  "isPinned": true
+}
+
+### Set Announcement Status
+PATCH {{baseUrl}}/api/announcements/00000000-0000-0000-0000-000000000001/status
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "isActive": false
+}
+
+### Set Announcement Pin
+PATCH {{baseUrl}}/api/announcements/00000000-0000-0000-0000-000000000001/pin
+Content-Type: application/json
+X-Session-Id: {{sessionId}}
+
+{
+  "isPinned": true
+}
+
+### Delete Announcement
+DELETE {{baseUrl}}/api/announcements/00000000-0000-0000-0000-000000000001
+X-Session-Id: {{sessionId}}
+
+### Dashboard Summary
+GET {{baseUrl}}/api/dashboard/summary
+X-Session-Id: {{sessionId}}
+
+### Dashboard Sales
+GET {{baseUrl}}/api/dashboard/sales
+X-Session-Id: {{sessionId}}
+
+### Dashboard Points
+GET {{baseUrl}}/api/dashboard/points
+X-Session-Id: {{sessionId}}
+
+### Dashboard Coupons
+GET {{baseUrl}}/api/dashboard/coupons
+X-Session-Id: {{sessionId}}
+
+### Dashboard Activity
+GET {{baseUrl}}/api/dashboard/activity
+X-Session-Id: {{sessionId}}
