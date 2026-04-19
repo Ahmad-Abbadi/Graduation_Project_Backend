@@ -149,15 +149,13 @@
 
                     <form id="chatbotAskForm" class="stack">
                         <label>Message<textarea name="message" placeholder="Ask about hours, parking, services, offers, or a store" required></textarea></label>
-                        <label>Conversation Session ID<input name="conversationSessionId" type="text" placeholder="Optional conversation GUID"></label>
                         <div class="hint">
-                            The chatbot can now answer about mall settings, store details, active offers and announcements, your points, your coupons, your recent receipts, and follow-up questions in the same conversation.
+                            The chatbot answers as mall customer service using the configured AI model and the static mall info context.
                         </div>
                         <button type="submit">Ask Chatbot</button>
                     </form>
 
                     <form id="chatbotHistoryForm" class="stack">
-                        <label>Conversation Session ID<input name="conversationSessionId" type="text" placeholder="Optional conversation GUID"></label>
                         <button type="submit">Get Chatbot History</button>
                     </form>
                 </div>
@@ -463,6 +461,6 @@
             });
         })();
     </script>
-    <script src="/js/test-console.js?v=20260418-1"></script>
+    <script src="/js/test-console.js?v=20260419-2"></script>
 </body>
 </html>

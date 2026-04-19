@@ -106,15 +106,13 @@ X-Session-Id: {{sessionId}}
 ### Ask Chatbot
 POST {{baseUrl}}/api/chatbot/ask
 Content-Type: application/json
-X-Session-Id: {{sessionId}}
 
 {
-  "message": "What are the mall opening hours?"
+  "msg": "What are the mall opening hours?"
 }
 
 ### Get Chatbot History
 GET {{baseUrl}}/api/chatbot/history
-X-Session-Id: {{sessionId}}
 
 ### Get Managed Stores
 GET {{baseUrl}}/api/stores/manage

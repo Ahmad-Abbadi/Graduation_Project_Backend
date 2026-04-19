@@ -54,4 +54,12 @@ namespace Graduation_Project_Backend.Service.Common
         {
         }
     }
+
+    public sealed class ApiExternalServiceException : ApiException
+    {
+        public ApiExternalServiceException(string message, string code = "EXTERNAL_SERVICE_ERROR")
+            : base(message, code, StatusCodes.Status502BadGateway)
+        {
+        }
+    }
 }

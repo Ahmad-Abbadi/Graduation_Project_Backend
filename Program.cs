@@ -1,4 +1,5 @@
 using Graduation_Project_Backend.Data;
+using Graduation_Project_Backend.Extensions;
 using Graduation_Project_Backend.Filters;
 using Graduation_Project_Backend.Models.User;
 using Graduation_Project_Backend.Service;
@@ -8,6 +9,8 @@ using Graduation_Project_Backend.Service.Realtime;
 using Graduation_Project_Backend.Service.Session;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +31,7 @@ builder.Services.AddScoped<IOffersService, OffersService>();
 builder.Services.AddScoped<IAnnouncementsService, AnnouncementsService>();
 builder.Services.AddScoped<IStoresService, StoresService>();
 builder.Services.AddScoped<IRewardsService, RewardsService>();
-builder.Services.AddScoped<IChatbotService, ChatbotService>();
+builder.Services.AddHttpClient<IChatbotService, ChatbotService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 var app = builder.Build();
 

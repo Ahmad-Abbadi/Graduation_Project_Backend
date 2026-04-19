@@ -1,8 +1,10 @@
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
 using Graduation_Project_Backend.DTOs.Chatbot;
-using Graduation_Project_Backend.Models.Entities;
-using Graduation_Project_Backend.Models.User;
 using Graduation_Project_Backend.Service;
-using Graduation_Project_Backend.Tests.TestSupport;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Graduation_Project_Backend.Tests
@@ -10,248 +12,120 @@ namespace Graduation_Project_Backend.Tests
     public sealed class ChatbotServiceTests
     {
         [Fact]
-        public async Task AskAsync_ExactFaqMatch_ReturnsFaqAnswerAndLogsConversation()
+        public async Task AskAsync_UsesOnlyMsgAndStaticMallInfo()
         {
-            using AppDbContext db = TestInfrastructure.CreateDbContext();
-            Guid mallId = Guid.NewGuid();
-            Guid userId = Guid.NewGuid();
-            Guid faqId = Guid.NewGuid();
+            var handler = new RecordingAiHandler();
+            handler.EnqueueResponse("The mall opens Saturday to Thursday from 10:00 AM to 10:00 PM.");
+            ChatbotService chatbotService = CreateService(handler);
 
-            db.Malls.Add(new Mall { Id = mallId, Name = "City Mall", CreatedAt = DateTimeOffset.UtcNow });
-            db.UserProfiles.Add(new UserProfile
+            ChatbotAnswerResponse response = await chatbotService.AskAsync(new AskChatbotRequest
             {
-                Id = userId,
-                Name = "User",
-                PhoneNumber = "+962700000007",
-                PasswordHash = "hash",
-                Role = "user",
-                MallID = mallId
-            });
-            db.Faqs.Add(new Faq
-            {
-                Id = faqId,
-                MallID = mallId,
-                Question = "What are the mall opening hours?",
-                Answer = "The mall is open from 9 AM to 10 PM.",
-                IsActive = true,
-                Priority = 10,
-                UsageCount = 0,
-                CreatedAt = DateTimeOffset.UtcNow,
-                UpdatedAt = DateTimeOffset.UtcNow
-            });
-            await db.SaveChangesAsync();
-
-            var accessService = new UserAccessService(db, NullLogger<UserAccessService>.Instance);
-            var chatbotService = new ChatbotService(db, accessService, NullLogger<ChatbotService>.Instance);
-
-            ChatbotAnswerResponse response = await chatbotService.AskAsync(userId, new AskChatbotRequest
-            {
-                Message = "What are the mall opening hours?"
+                Msg = "When does the mall open?"
             });
 
-            Assert.Equal(faqId, response.MatchedFaqId);
-            Assert.Equal("The mall is open from 9 AM to 10 PM.", response.BotResponse);
-            Assert.Single(db.ChatbotConversations);
-            Assert.Equal(1, db.Faqs.Single(faq => faq.Id == faqId).UsageCount);
+            Assert.Equal("ai_model", response.MatchSource);
+            Assert.Null(response.MatchedFaqId);
+            Assert.Equal("When does the mall open?", response.UserMessage);
+            Assert.Equal("The mall opens Saturday to Thursday from 10:00 AM to 10:00 PM.", response.BotResponse);
+
+            Assert.Equal("Bearer", handler.Authorization?.Scheme);
+            Assert.Equal("test-api-key", handler.Authorization?.Parameter);
+
+            using JsonDocument requestJson = JsonDocument.Parse(handler.RequestBodies.Single());
+            JsonElement root = requestJson.RootElement;
+            Assert.Equal("test-model", root.GetProperty("model").GetString());
+
+            JsonElement[] messages = root.GetProperty("messages").EnumerateArray().ToArray();
+            Assert.Equal(2, messages.Length);
+            Assert.Equal("system", messages[0].GetProperty("role").GetString());
+            Assert.Contains("mall_info", messages[0].GetProperty("content").GetString());
+            Assert.Contains("City Mall", messages[0].GetProperty("content").GetString());
+            Assert.Equal("user", messages[1].GetProperty("role").GetString());
+            Assert.Equal("When does the mall open?", messages[1].GetProperty("content").GetString());
         }
 
         [Fact]
-        public async Task AskAsync_FollowUpStoreQuestion_UsesConversationStoreContext()
+        public async Task AskAsync_AcceptsMessegeAlias()
         {
-            using AppDbContext db = TestInfrastructure.CreateDbContext();
-            Guid mallId = Guid.NewGuid();
-            Guid userId = Guid.NewGuid();
-            Guid storeId = Guid.NewGuid();
-            DateTimeOffset now = DateTimeOffset.UtcNow;
+            var handler = new RecordingAiHandler();
+            handler.EnqueueResponse("Parking is free in the outdoor and basement parking areas.");
+            ChatbotService chatbotService = CreateService(handler);
 
-            db.Malls.Add(new Mall { Id = mallId, Name = "City Mall", CreatedAt = now });
-            db.UserProfiles.Add(new UserProfile
+            ChatbotAnswerResponse response = await chatbotService.AskAsync(new AskChatbotRequest
             {
-                Id = userId,
-                Name = "User",
-                PhoneNumber = "+962700000008",
-                PasswordHash = "hash",
-                Role = "user",
-                MallID = mallId
-            });
-            db.Stores.Add(new Store
-            {
-                Id = storeId,
-                MallID = mallId,
-                Name = "Zara",
-                FloorNumber = "First Floor",
-                OperatingHours = "10 AM - 10 PM"
-            });
-            db.Offers.Add(new Offer
-            {
-                Id = 1,
-                StoreId = storeId,
-                MallID = mallId,
-                Title = "Weekend Sale",
-                Description = "20% off",
-                IsActive = true,
-                StartAt = now.AddDays(-1),
-                EndAt = now.AddDays(3),
-                MadeAt = now.AddHours(-1)
-            });
-            await db.SaveChangesAsync();
-
-            ChatbotService chatbotService = CreateService(db);
-
-            ChatbotAnswerResponse firstResponse = await chatbotService.AskAsync(userId, new AskChatbotRequest
-            {
-                Message = "Tell me about Zara"
+                Messege = "Where can I park?"
             });
 
-            ChatbotAnswerResponse secondResponse = await chatbotService.AskAsync(userId, new AskChatbotRequest
-            {
-                Message = "what about its offers?",
-                ConversationSessionId = firstResponse.ConversationSessionId
-            });
+            Assert.Equal("Where can I park?", response.UserMessage);
 
-            Assert.Contains("Zara", firstResponse.BotResponse);
-            Assert.Equal("store_lookup", firstResponse.MatchSource);
-            Assert.Equal(firstResponse.ConversationSessionId, secondResponse.ConversationSessionId);
-            Assert.Equal("store_live_content", secondResponse.MatchSource);
-            Assert.Contains("Active offers for Zara", secondResponse.BotResponse);
-            Assert.Contains("Weekend Sale", secondResponse.BotResponse);
+            using JsonDocument requestJson = JsonDocument.Parse(handler.RequestBodies.Single());
+            JsonElement[] messages = requestJson.RootElement.GetProperty("messages").EnumerateArray().ToArray();
+            Assert.Equal("Where can I park?", messages[1].GetProperty("content").GetString());
         }
 
         [Fact]
-        public async Task AskAsync_PointsQuestion_ReturnsCurrentUserPoints()
+        public async Task GetHistoryAsync_ReturnsEmptyListBecauseChatbotDoesNotUseDatabase()
         {
-            using AppDbContext db = TestInfrastructure.CreateDbContext();
-            Guid mallId = Guid.NewGuid();
-            Guid userId = Guid.NewGuid();
+            ChatbotService chatbotService = CreateService(new RecordingAiHandler());
 
-            db.Malls.Add(new Mall { Id = mallId, Name = "City Mall", CreatedAt = DateTimeOffset.UtcNow });
-            db.UserProfiles.Add(new UserProfile
-            {
-                Id = userId,
-                Name = "User",
-                PhoneNumber = "+962700000009",
-                PasswordHash = "hash",
-                Role = "user",
-                TotalPoints = 125,
-                MallID = mallId
-            });
-            await db.SaveChangesAsync();
+            IReadOnlyList<ChatbotHistoryItemResponse> history = await chatbotService.GetHistoryAsync();
 
-            ChatbotService chatbotService = CreateService(db);
-
-            ChatbotAnswerResponse response = await chatbotService.AskAsync(userId, new AskChatbotRequest
-            {
-                Message = "How many points do I have?"
-            });
-
-            Assert.Equal("user_points", response.MatchSource);
-            Assert.Contains("125", response.BotResponse);
-            Assert.Contains("loyalty points", response.BotResponse, StringComparison.OrdinalIgnoreCase);
+            Assert.Empty(history);
         }
 
-        [Fact]
-        public async Task AskAsync_CategoryQuestion_ReturnsStoresFromCategory()
+        private static ChatbotService CreateService(RecordingAiHandler handler)
         {
-            using AppDbContext db = TestInfrastructure.CreateDbContext();
-            Guid mallId = Guid.NewGuid();
-            Guid userId = Guid.NewGuid();
-            Guid techStoreId = Guid.NewGuid();
-            Guid gadgetsStoreId = Guid.NewGuid();
-
-            db.Malls.Add(new Mall { Id = mallId, Name = "City Mall", CreatedAt = DateTimeOffset.UtcNow });
-            db.UserProfiles.Add(new UserProfile
-            {
-                Id = userId,
-                Name = "User",
-                PhoneNumber = "+962700000010",
-                PasswordHash = "hash",
-                Role = "user",
-                MallID = mallId
-            });
-            db.Stores.AddRange(
-                new Store { Id = techStoreId, MallID = mallId, Name = "Tech Hub", FloorNumber = "Ground Floor" },
-                new Store { Id = gadgetsStoreId, MallID = mallId, Name = "Gadget World", FloorNumber = "Second Floor" });
-            db.Categories.Add(new Category { Id = 1, MallID = mallId, Name = "Electronics" });
-            db.StoreCategories.AddRange(
-                new StoreCategory { StoreId = techStoreId, CategoryId = 1 },
-                new StoreCategory { StoreId = gadgetsStoreId, CategoryId = 1 });
-            await db.SaveChangesAsync();
-
-            ChatbotService chatbotService = CreateService(db);
-
-            ChatbotAnswerResponse response = await chatbotService.AskAsync(userId, new AskChatbotRequest
-            {
-                Message = "What electronics stores are available?"
-            });
-
-            Assert.Equal("category_lookup", response.MatchSource);
-            Assert.Contains("Electronics", response.BotResponse);
-            Assert.Contains("Tech Hub", response.BotResponse);
-            Assert.Contains("Gadget World", response.BotResponse);
-        }
-
-        [Fact]
-        public async Task AskAsync_RecentReceiptsQuestion_ReturnsUserReceiptSummary()
-        {
-            using AppDbContext db = TestInfrastructure.CreateDbContext();
-            Guid mallId = Guid.NewGuid();
-            Guid userId = Guid.NewGuid();
-            Guid storeId = Guid.NewGuid();
-            DateTimeOffset now = DateTimeOffset.UtcNow;
-
-            db.Malls.Add(new Mall { Id = mallId, Name = "City Mall", CreatedAt = now });
-            db.UserProfiles.Add(new UserProfile
-            {
-                Id = userId,
-                Name = "User",
-                PhoneNumber = "+962700000011",
-                PasswordHash = "hash",
-                Role = "user",
-                MallID = mallId
-            });
-            db.Stores.Add(new Store { Id = storeId, MallID = mallId, Name = "Nike" });
-            db.Transactions.AddRange(
-                new Transaction
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    Id = 1,
-                    UserId = userId,
-                    StoreId = storeId,
-                    ReceiptId = "R-1001",
-                    ReceiptDescription = "Shoes",
-                    Price = 25.5m,
-                    Points = 25,
-                    CreatedAt = now.AddDays(-1)
-                },
-                new Transaction
-                {
-                    Id = 2,
-                    UserId = userId,
-                    StoreId = storeId,
-                    ReceiptId = "R-1002",
-                    ReceiptDescription = "Socks",
-                    Price = 10m,
-                    Points = 10,
-                    CreatedAt = now
-                });
-            await db.SaveChangesAsync();
+                    ["AI_API_KEY"] = "test-api-key",
+                    ["AI_API_URL"] = "https://ai-provider.test/v1/chat/completions",
+                    ["AI_MODEL"] = "test-model"
+                })
+                .Build();
 
-            ChatbotService chatbotService = CreateService(db);
-
-            ChatbotAnswerResponse response = await chatbotService.AskAsync(userId, new AskChatbotRequest
-            {
-                Message = "Show me my recent receipts"
-            });
-
-            Assert.Equal("user_receipts", response.MatchSource);
-            Assert.Contains("2 recorded receipts", response.BotResponse);
-            Assert.Contains("Recent receipts", response.BotResponse);
-            Assert.Contains("Nike", response.BotResponse);
+            return new ChatbotService(
+                configuration,
+                new HttpClient(handler),
+                NullLogger<ChatbotService>.Instance);
         }
 
-        private static ChatbotService CreateService(AppDbContext db)
+        private sealed class RecordingAiHandler : HttpMessageHandler
         {
-            var accessService = new UserAccessService(db, NullLogger<UserAccessService>.Instance);
-            return new ChatbotService(db, accessService, NullLogger<ChatbotService>.Instance);
+            private readonly Queue<string> _responses = new();
+
+            public List<string> RequestBodies { get; } = [];
+            public AuthenticationHeaderValue? Authorization { get; private set; }
+
+            public void EnqueueResponse(string response)
+                => _responses.Enqueue(response);
+
+            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                Authorization = request.Headers.Authorization;
+                RequestBodies.Add(request.Content == null
+                    ? string.Empty
+                    : await request.Content.ReadAsStringAsync(cancellationToken));
+
+                string response = _responses.Count == 0 ? string.Empty : _responses.Dequeue();
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = JsonContent.Create(new
+                    {
+                        choices = new[]
+                        {
+                            new
+                            {
+                                message = new
+                                {
+                                    content = response
+                                }
+                            }
+                        }
+                    })
+                };
+            }
         }
     }
 }

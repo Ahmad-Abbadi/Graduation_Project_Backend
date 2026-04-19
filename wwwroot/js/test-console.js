@@ -501,7 +501,7 @@ bindClick("myReceiptsButton", async () => {
 
 bindClick("chatbotHistoryButton", async () => {
     await callApi("/api/chatbot/history", {
-        requiresSession: true
+        requiresSession: false
     });
 });
 
@@ -576,23 +576,20 @@ bindSubmit("receiptFiltersForm", async (form) => {
 });
 
 bindSubmit("chatbotAskForm", async (form) => {
+    const message = formValue(form, "msg") || formValue(form, "message");
+
     await callApi("/api/chatbot/ask", {
         method: "POST",
-        requiresSession: true,
+        requiresSession: false,
         body: {
-            message: formValue(form, "message"),
-            conversationSessionId: optionalValue(form, "conversationSessionId")
+            msg: message
         }
     });
 });
 
 bindSubmit("chatbotHistoryForm", async (form) => {
-    const query = buildQuery({
-        conversationSessionId: optionalValue(form, "conversationSessionId")
-    });
-
-    await callApi("/api/chatbot/history" + query, {
-        requiresSession: true
+    await callApi("/api/chatbot/history", {
+        requiresSession: false
     });
 });
 

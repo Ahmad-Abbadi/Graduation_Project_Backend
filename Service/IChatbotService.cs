@@ -4,7 +4,7 @@ namespace Graduation_Project_Backend.Service
 {
     public interface IChatbotService
     {
-        Task<ChatbotAnswerResponse> AskAsync(Guid currentUserId, AskChatbotRequest request, CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<ChatbotHistoryItemResponse>> GetHistoryAsync(Guid currentUserId, Guid? conversationSessionId, CancellationToken cancellationToken = default);
+        Task<ChatbotAnswerResponse> AskAsync(AskChatbotRequest request, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<ChatbotHistoryItemResponse>> GetHistoryAsync(CancellationToken cancellationToken = default);
     }
 }

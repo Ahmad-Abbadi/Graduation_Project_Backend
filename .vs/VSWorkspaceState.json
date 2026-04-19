@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\DTOs",
-    "\\DTOs\\Auth",
     "\\Filters",
     "\\Service",
+    "\\Service\\Common",
+    "\\Service\\Realtime",
     "\\Service\\Session",
-    "\\tools",
     "\\Views",
     "\\Views\\Home",
-    "\\wwwroot"
+    "\\wwwroot",
+    "\\wwwroot\\js"
   ],
-  "SelectedNode": "\\Service\\OffersService.cs",
+  "SelectedNode": "\\Service\\ChatbotService.cs",
   "PreviewInSolutionExplorer": false
 }

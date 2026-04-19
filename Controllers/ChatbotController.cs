@@ -1,6 +1,4 @@
 using Graduation_Project_Backend.DTOs.Chatbot;
-using Graduation_Project_Backend.Extensions;
-using Graduation_Project_Backend.Filters;
 using Graduation_Project_Backend.Service;
 using Graduation_Project_Backend.Service.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +7,6 @@ namespace Graduation_Project_Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [SessionRequired]
     public sealed class ChatbotController : ControllerBase
     {
         private readonly IChatbotService _chatbotService;
@@ -24,8 +21,7 @@ namespace Graduation_Project_Backend.Controllers
         {
             try
             {
-                var session = HttpContext.GetCurrentUserSession();
-                var response = await _chatbotService.AskAsync(session.UserId, request, cancellationToken);
+                var response = await _chatbotService.AskAsync(request, cancellationToken);
                 return Ok(response);
             }
             catch (ApiException ex)
@@ -35,10 +31,9 @@ namespace Graduation_Project_Backend.Controllers
         }
 
         [HttpGet("history")]
-        public async Task<IActionResult> GetHistory([FromQuery] Guid? conversationSessionId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetHistory(CancellationToken cancellationToken)
         {
-            var session = HttpContext.GetCurrentUserSession();
-            var history = await _chatbotService.GetHistoryAsync(session.UserId, conversationSessionId, cancellationToken);
+            var history = await _chatbotService.GetHistoryAsync(cancellationToken);
             return Ok(history);
         }
 
