@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -11,6 +12,7 @@ namespace Graduation_Project_Backend.Service
     public sealed class ChatbotService : IChatbotService
     {
         private const int DefaultMaxResponseTokens = 450;
+        private const int DefaultRetryDelayMilliseconds = 2000;
 
         private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -69,7 +71,7 @@ namespace Graduation_Project_Backend.Service
 
         public async Task<ChatbotAnswerResponse> AskAsync(AskChatbotRequest request, CancellationToken cancellationToken = default)
         {
-            string userMessage = NormalizeRequired(request.GetMessage(), "msg is required.");
+            string userMessage = NormalizeRequired(request.GetMessage(), "message is required.");
 
             Guid conversationSessionId = request.ConversationSessionId ?? Guid.NewGuid();
             DateTimeOffset createdAt = DateTimeOffset.UtcNow;
@@ -102,6 +104,10 @@ namespace Graduation_Project_Backend.Service
             string apiUrl = GetRequiredSetting("AI_API_URL", "Chatbot:ApiUrl");
             string model = GetRequiredSetting("AI_MODEL", "Chatbot:Model");
             int maxTokens = GetIntSetting("AI_MAX_TOKENS", "Chatbot:MaxTokens", DefaultMaxResponseTokens);
+            int retryDelayMilliseconds = GetIntSetting(
+                "AI_RETRY_DELAY_MS",
+                "Chatbot:RetryDelayMilliseconds",
+                DefaultRetryDelayMilliseconds);
 
             var payload = new AiChatCompletionRequest
             {
@@ -111,32 +117,108 @@ namespace Graduation_Project_Backend.Service
                 MaxTokens = maxTokens
             };
 
-            using var httpRequest = new HttpRequestMessage(HttpMethod.Post, apiUrl);
+            int attempt = 0;
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                attempt++;
+
+                try
+                {
+                    using HttpRequestMessage httpRequest = CreateAiRequest(apiUrl, apiKey, payload);
+                    using HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken);
+
+                    if (!httpResponse.IsSuccessStatusCode)
+                    {
+                        string errorBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+                        if (!IsRetryableStatusCode(httpResponse.StatusCode))
+                        {
+                            _logger.LogWarning(
+                                "Chatbot AI provider returned {StatusCode}: {ErrorBody}",
+                                (int)httpResponse.StatusCode,
+                                Truncate(errorBody, 500));
+
+                            throw new ApiExternalServiceException("The chatbot AI provider is currently unavailable.", "AI_PROVIDER_ERROR");
+                        }
+
+                        _logger.LogWarning(
+                            "Chatbot AI provider returned retryable status {StatusCode} on attempt {Attempt}: {ErrorBody}. Retrying in {RetryDelayMilliseconds} ms.",
+                            (int)httpResponse.StatusCode,
+                            attempt,
+                            Truncate(errorBody, 500),
+                            retryDelayMilliseconds);
+
+                        await DelayBeforeRetryAsync(retryDelayMilliseconds, cancellationToken);
+                        continue;
+                    }
+
+                    AiChatCompletionResponse? completion = await httpResponse.Content.ReadFromJsonAsync<AiChatCompletionResponse>(JsonOptions, cancellationToken);
+                    string? answer = completion?.Choices.FirstOrDefault()?.Message?.Content;
+
+                    if (string.IsNullOrWhiteSpace(answer))
+                    {
+                        _logger.LogWarning(
+                            "Chatbot AI provider returned an empty response on attempt {Attempt}. Retrying in {RetryDelayMilliseconds} ms.",
+                            attempt,
+                            retryDelayMilliseconds);
+
+                        await DelayBeforeRetryAsync(retryDelayMilliseconds, cancellationToken);
+                        continue;
+                    }
+
+                    return answer.Trim();
+                }
+                catch (HttpRequestException ex)
+                {
+                    _logger.LogWarning(
+                        ex,
+                        "Chatbot AI provider request failed on attempt {Attempt}. Retrying in {RetryDelayMilliseconds} ms.",
+                        attempt,
+                        retryDelayMilliseconds);
+
+                    await DelayBeforeRetryAsync(retryDelayMilliseconds, cancellationToken);
+                }
+                catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
+                {
+                    _logger.LogWarning(
+                        ex,
+                        "Chatbot AI provider request timed out on attempt {Attempt}. Retrying in {RetryDelayMilliseconds} ms.",
+                        attempt,
+                        retryDelayMilliseconds);
+
+                    await DelayBeforeRetryAsync(retryDelayMilliseconds, cancellationToken);
+                }
+                catch (JsonException ex)
+                {
+                    _logger.LogWarning(
+                        ex,
+                        "Chatbot AI provider returned invalid JSON on attempt {Attempt}. Retrying in {RetryDelayMilliseconds} ms.",
+                        attempt,
+                        retryDelayMilliseconds);
+
+                    await DelayBeforeRetryAsync(retryDelayMilliseconds, cancellationToken);
+                }
+            }
+        }
+
+        private HttpRequestMessage CreateAiRequest(string apiUrl, string apiKey, AiChatCompletionRequest payload)
+        {
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, apiUrl);
             httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             AddOptionalHeader(httpRequest, "HTTP-Referer", GetOptionalSetting("AI_HTTP_REFERER", "Chatbot:HttpReferer"));
             AddOptionalHeader(httpRequest, "X-Title", GetOptionalSetting("AI_APP_TITLE", "Chatbot:AppTitle"));
             httpRequest.Content = JsonContent.Create(payload, options: JsonOptions);
 
-            using HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken);
-            if (!httpResponse.IsSuccessStatusCode)
-            {
-                string errorBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
-                _logger.LogWarning(
-                    "Chatbot AI provider returned {StatusCode}: {ErrorBody}",
-                    (int)httpResponse.StatusCode,
-                    Truncate(errorBody, 500));
-
-                throw new ApiExternalServiceException("The chatbot AI provider is currently unavailable.", "AI_PROVIDER_ERROR");
-            }
-
-            AiChatCompletionResponse? completion = await httpResponse.Content.ReadFromJsonAsync<AiChatCompletionResponse>(JsonOptions, cancellationToken);
-            string? answer = completion?.Choices.FirstOrDefault()?.Message?.Content;
-
-            if (string.IsNullOrWhiteSpace(answer))
-                throw new ApiExternalServiceException("The chatbot AI provider returned an empty response.", "AI_EMPTY_RESPONSE");
-
-            return answer.Trim();
+            return httpRequest;
         }
+
+        private static bool IsRetryableStatusCode(HttpStatusCode statusCode)
+            => statusCode == HttpStatusCode.RequestTimeout
+                || statusCode == (HttpStatusCode)429
+                || (int)statusCode >= 500;
+
+        private static Task DelayBeforeRetryAsync(int retryDelayMilliseconds, CancellationToken cancellationToken)
+            => Task.Delay(TimeSpan.FromMilliseconds(retryDelayMilliseconds), cancellationToken);
 
         private static List<AiChatMessage> BuildAiMessages(string userMessage)
             =>

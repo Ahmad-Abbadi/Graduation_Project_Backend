@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Graduation_Project_Backend.DTOs.Chatbot;
 using Graduation_Project_Backend.Service;
+using Graduation_Project_Backend.Service.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -12,7 +13,7 @@ namespace Graduation_Project_Backend.Tests
     public sealed class ChatbotServiceTests
     {
         [Fact]
-        public async Task AskAsync_UsesOnlyMsgAndStaticMallInfo()
+        public async Task AskAsync_UsesMessageAndStaticMallInfo()
         {
             var handler = new RecordingAiHandler();
             handler.EnqueueResponse("The mall opens Saturday to Thursday from 10:00 AM to 10:00 PM.");
@@ -20,7 +21,7 @@ namespace Graduation_Project_Backend.Tests
 
             ChatbotAnswerResponse response = await chatbotService.AskAsync(new AskChatbotRequest
             {
-                Msg = "When does the mall open?"
+                Message = "When does the mall open?"
             });
 
             Assert.Equal("ai_model", response.MatchSource);
@@ -45,22 +46,56 @@ namespace Graduation_Project_Backend.Tests
         }
 
         [Fact]
-        public async Task AskAsync_AcceptsMessegeAlias()
+        public async Task AskAsync_RetriesTransientProviderFailuresUntilSuccess()
         {
             var handler = new RecordingAiHandler();
-            handler.EnqueueResponse("Parking is free in the outdoor and basement parking areas.");
-            ChatbotService chatbotService = CreateService(handler);
+            handler.EnqueueStatus(HttpStatusCode.ServiceUnavailable, "temporary outage");
+            handler.EnqueueException(new HttpRequestException("connection dropped"));
+            handler.EnqueueResponse("City Mall is open Saturday to Thursday from 10:00 AM to 10:00 PM.");
+            ChatbotService chatbotService = CreateService(handler, new Dictionary<string, string?>
+            {
+                ["AI_RETRY_DELAY_MS"] = "1"
+            });
 
             ChatbotAnswerResponse response = await chatbotService.AskAsync(new AskChatbotRequest
             {
-                Messege = "Where can I park?"
+                Message = "When is City Mall open?"
             });
 
-            Assert.Equal("Where can I park?", response.UserMessage);
+            Assert.Equal("City Mall is open Saturday to Thursday from 10:00 AM to 10:00 PM.", response.BotResponse);
+            Assert.Equal(3, handler.RequestBodies.Count);
+        }
 
-            using JsonDocument requestJson = JsonDocument.Parse(handler.RequestBodies.Single());
-            JsonElement[] messages = requestJson.RootElement.GetProperty("messages").EnumerateArray().ToArray();
-            Assert.Equal("Where can I park?", messages[1].GetProperty("content").GetString());
+        [Fact]
+        public async Task AskAsync_DoesNotRetryProviderConfigurationErrors()
+        {
+            var handler = new RecordingAiHandler();
+            handler.EnqueueStatus(HttpStatusCode.Unauthorized, "bad api key");
+            ChatbotService chatbotService = CreateService(handler, new Dictionary<string, string?>
+            {
+                ["AI_RETRY_DELAY_MS"] = "1"
+            });
+
+            var exception = await Assert.ThrowsAsync<ApiExternalServiceException>(
+                () => chatbotService.AskAsync(new AskChatbotRequest
+                {
+                    Message = "When is City Mall open?"
+                }));
+
+            Assert.Equal("AI_PROVIDER_ERROR", exception.Code);
+            Assert.Single(handler.RequestBodies);
+        }
+
+        [Fact]
+        public async Task AskAsync_RejectsMissingMessage()
+        {
+            ChatbotService chatbotService = CreateService(new RecordingAiHandler());
+
+            var exception = await Assert.ThrowsAsync<ApiValidationException>(
+                () => chatbotService.AskAsync(new AskChatbotRequest()));
+
+            Assert.Equal("message is required.", exception.Message);
+            Assert.Equal("VALUE_REQUIRED", exception.Code);
         }
 
         [Fact]
@@ -73,15 +108,25 @@ namespace Graduation_Project_Backend.Tests
             Assert.Empty(history);
         }
 
-        private static ChatbotService CreateService(RecordingAiHandler handler)
+        private static ChatbotService CreateService(
+            RecordingAiHandler handler,
+            Dictionary<string, string?>? settings = null)
         {
+            var configurationValues = new Dictionary<string, string?>
+            {
+                ["AI_API_KEY"] = "test-api-key",
+                ["AI_API_URL"] = "https://ai-provider.test/v1/chat/completions",
+                ["AI_MODEL"] = "test-model"
+            };
+
+            if (settings is not null)
+            {
+                foreach (KeyValuePair<string, string?> setting in settings)
+                    configurationValues[setting.Key] = setting.Value;
+            }
+
             IConfiguration configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string?>
-                {
-                    ["AI_API_KEY"] = "test-api-key",
-                    ["AI_API_URL"] = "https://ai-provider.test/v1/chat/completions",
-                    ["AI_MODEL"] = "test-model"
-                })
+                .AddInMemoryCollection(configurationValues)
                 .Build();
 
             return new ChatbotService(
@@ -92,13 +137,22 @@ namespace Graduation_Project_Backend.Tests
 
         private sealed class RecordingAiHandler : HttpMessageHandler
         {
-            private readonly Queue<string> _responses = new();
+            private readonly Queue<Func<HttpResponseMessage>> _responses = new();
 
             public List<string> RequestBodies { get; } = [];
             public AuthenticationHeaderValue? Authorization { get; private set; }
 
             public void EnqueueResponse(string response)
-                => _responses.Enqueue(response);
+                => _responses.Enqueue(() => CreateChatCompletionResponse(response));
+
+            public void EnqueueStatus(HttpStatusCode statusCode, string responseBody)
+                => _responses.Enqueue(() => new HttpResponseMessage(statusCode)
+                {
+                    Content = new StringContent(responseBody)
+                });
+
+            public void EnqueueException(Exception exception)
+                => _responses.Enqueue(() => throw exception);
 
             protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
@@ -107,8 +161,15 @@ namespace Graduation_Project_Backend.Tests
                     ? string.Empty
                     : await request.Content.ReadAsStringAsync(cancellationToken));
 
-                string response = _responses.Count == 0 ? string.Empty : _responses.Dequeue();
+                Func<HttpResponseMessage> response = _responses.Count == 0
+                    ? () => CreateChatCompletionResponse(string.Empty)
+                    : _responses.Dequeue();
 
+                return response();
+            }
+
+            private static HttpResponseMessage CreateChatCompletionResponse(string response)
+            {
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
                     Content = JsonContent.Create(new

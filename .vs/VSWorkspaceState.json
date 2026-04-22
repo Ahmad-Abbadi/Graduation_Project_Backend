@@ -1,9 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Filters",
+    "\\DTOs",
+    "\\DTOs\\Chatbot",
     "\\Service",
-    "\\Service\\Common",
     "\\Service\\Realtime",
     "\\Service\\Session",
     "\\Views",
@@ -11,6 +11,6 @@
     "\\wwwroot",
     "\\wwwroot\\js"
   ],
-  "SelectedNode": "\\Service\\ChatbotService.cs",
+  "SelectedNode": "\\DTOs\\AuthResponseDto.cs",
   "PreviewInSolutionExplorer": false
 }
