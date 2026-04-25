@@ -11,6 +11,6 @@
     "\\wwwroot",
     "\\wwwroot\\js"
   ],
-  "SelectedNode": "\\DTOs\\AuthResponseDto.cs",
+  "SelectedNode": "\\Service\\ChatbotService.cs",
   "PreviewInSolutionExplorer": false
 }
