@@ -1,6 +1,7 @@
 using System.Threading.Channels;
 using Graduation_Project_Backend.Data;
 using Graduation_Project_Backend.DTOs.Realtime;
+using Graduation_Project_Backend.Service;
 using Graduation_Project_Backend.Service.Realtime;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,12 @@ namespace Graduation_Project_Backend.Tests.TestSupport
 
             return new AppDbContext(options);
         }
+    }
+
+    internal sealed class NoOpNotificationService : INotificationService
+    {
+        public Task SendToAllMallUsersAsync(Guid mallId, string title, string message, string notificationType, CancellationToken cancellationToken = default)
+            => Task.CompletedTask;
     }
 
     internal sealed class NoOpUserPointsUpdatesService : IUserPointsUpdatesService

@@ -1,5 +1,6 @@
 using Graduation_Project_Backend.DTOs;
 using Graduation_Project_Backend.DTOs.Common;
+using Graduation_Project_Backend.DTOs.Coupons;
 using Graduation_Project_Backend.DTOs.Receipts;
 using Graduation_Project_Backend.Models.Entities;
 
@@ -7,6 +8,7 @@ namespace Graduation_Project_Backend.Service
 {
     public interface IRewardsService
     {
+        Task<Coupon> CreateCouponAsync(Guid currentUserId, CreateCouponRequest request, CancellationToken cancellationToken = default);
         Task<TransactionResultDto> ProcessTransactionAsync(
             string phoneNumber,
             Guid storeId,

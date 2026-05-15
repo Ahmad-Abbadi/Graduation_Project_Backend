@@ -26,6 +26,7 @@ namespace Graduation_Project_Backend.Data
         public DbSet<ChatbotConversation> ChatbotConversations => Set<ChatbotConversation>();
         public DbSet<MallSetting> MallSettings => Set<MallSetting>();
         public DbSet<Notification> Notifications => Set<Notification>();
+        public DbSet<UserNotification> UserNotifications => Set<UserNotification>();
         public DbSet<Transaction> Transactions => Set<Transaction>();
         public DbSet<Coupon> Coupons => Set<Coupon>();
         public DbSet<UserCoupon> UserCoupons => Set<UserCoupon>();
@@ -293,7 +294,6 @@ namespace Graduation_Project_Backend.Data
                 entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Id).HasColumnName("id").IsRequired();
-                entity.Property(e => e.UserId).HasColumnName("user_id").IsRequired();
                 entity.Property(e => e.Title).HasColumnName("title").IsRequired();
                 entity.Property(e => e.Message).HasColumnName("message").IsRequired();
                 entity.Property(e => e.NotificationType).HasColumnName("notification_type");
@@ -303,6 +303,22 @@ namespace Graduation_Project_Backend.Data
                 entity.Property(e => e.ScheduledFor).HasColumnName("scheduled_for").HasColumnType("timestamptz");
                 entity.Property(e => e.SentAt).HasColumnName("sent_at").HasColumnType("timestamptz");
                 ConfigureJsonDocumentProperty(entity.Property(e => e.Metadata)).HasColumnName("metadata").HasColumnType("jsonb");
+            });
+
+            modelBuilder.Entity<UserNotification>(entity =>
+            {
+                entity.ToTable("User_notifications");
+
+                entity.HasKey(e => new { e.NotificationsId, e.UserId });
+
+                entity.Property(e => e.NotificationsId).HasColumnName("notifications_id").IsRequired();
+                entity.Property(e => e.UserId).HasColumnName("user_id").IsRequired();
+                entity.Property(e => e.IsRead).HasColumnName("is_read").HasDefaultValue(false);
+
+                entity.HasOne(e => e.Notification)
+                      .WithMany()
+                      .HasForeignKey(e => e.NotificationsId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Transaction>(entity =>

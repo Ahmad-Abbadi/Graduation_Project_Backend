@@ -10,12 +10,14 @@ namespace Graduation_Project_Backend.Service
     {
         private readonly AppDbContext _db;
         private readonly IUserAccessService _userAccessService;
+        private readonly INotificationService _notificationService;
         private readonly ILogger<OffersService> _logger;
 
-        public OffersService(AppDbContext db, IUserAccessService userAccessService, ILogger<OffersService> logger)
+        public OffersService(AppDbContext db, IUserAccessService userAccessService, INotificationService notificationService, ILogger<OffersService> logger)
         {
             _db = db;
             _userAccessService = userAccessService;
+            _notificationService = notificationService;
             _logger = logger;
         }
 
@@ -88,6 +90,17 @@ namespace Graduation_Project_Backend.Service
             _db.Offers.Add(offer);
             await _db.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Manager {UserId} created offer {OfferId}.", currentUserId, offer.Id);
+
+            if (offer.MallID.HasValue)
+            {
+                _logger.LogInformation("[DEBUG] Sending notifications for offer {OfferId}, mall {MallId}", offer.Id, offer.MallID.Value);
+                await _notificationService.SendToAllMallUsersAsync(
+                    offer.MallID.Value,
+                    "New Offer!",
+                    $"A new offer has been added: {offer.Title}",
+                    "offer",
+                    cancellationToken);
+            }
 
             return await GetOfferByIdRequiredAsync(offer.Id, cancellationToken);
         }

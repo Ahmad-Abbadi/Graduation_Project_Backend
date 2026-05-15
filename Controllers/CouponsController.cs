@@ -1,7 +1,9 @@
 using Graduation_Project_Backend.DTOs;
+using Graduation_Project_Backend.DTOs.Coupons;
 using Graduation_Project_Backend.Extensions;
 using Graduation_Project_Backend.Filters;
 using Graduation_Project_Backend.Service;
+using Graduation_Project_Backend.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Graduation_Project_Backend.Controllers
@@ -15,6 +17,22 @@ namespace Graduation_Project_Backend.Controllers
         public CouponsController(IRewardsService rewardsService)
         {
             _rewardsService = rewardsService;
+        }
+
+        [SessionRequired]
+        [HttpPost]
+        public async Task<IActionResult> CreateCoupon([FromBody] CreateCouponRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var session = HttpContext.GetCurrentUserSession();
+                var coupon = await _rewardsService.CreateCouponAsync(session.UserId, request, cancellationToken);
+                return CreatedAtAction(nameof(GetCouponById), new { id = coupon.Id }, coupon);
+            }
+            catch (ApiException ex)
+            {
+                return ToErrorResult(ex);
+            }
         }
 
         [SessionRequired]
@@ -93,5 +111,12 @@ namespace Graduation_Project_Backend.Controllers
             var coupons = await _rewardsService.GetUserCouponsViewAsync(session.UserId);
             return Ok(coupons);
         }
+
+        private IActionResult ToErrorResult(ApiException exception)
+            => StatusCode(exception.StatusCode, new
+            {
+                success = false,
+                error = new { code = exception.Code, message = exception.Message }
+            });
     }
 }

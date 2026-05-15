@@ -2,6 +2,7 @@
 using Graduation_Project_Backend.Data;
 using Graduation_Project_Backend.DTOs;
 using Graduation_Project_Backend.DTOs.Common;
+using Graduation_Project_Backend.DTOs.Coupons;
 using Graduation_Project_Backend.DTOs.Receipts;
 using Graduation_Project_Backend.Models.Entities;
 using Graduation_Project_Backend.Models.User;
@@ -17,17 +18,57 @@ namespace Graduation_Project_Backend.Service
         private readonly IPhoneNumberService _phoneNumberService;
         private readonly IUserPointsUpdatesService _userPointsUpdatesService;
         private readonly IUserAccessService _userAccessService;
+        private readonly INotificationService _notificationService;
 
         public RewardsService(
             AppDbContext db,
             IPhoneNumberService phoneNumberService,
             IUserPointsUpdatesService userPointsUpdatesService,
-            IUserAccessService userAccessService)
+            IUserAccessService userAccessService,
+            INotificationService notificationService)
         {
             _db = db;
             _phoneNumberService = phoneNumberService;
             _userPointsUpdatesService = userPointsUpdatesService;
             _userAccessService = userAccessService;
+            _notificationService = notificationService;
+        }
+
+        public async Task<Coupon> CreateCouponAsync(Guid currentUserId, CreateCouponRequest request, CancellationToken cancellationToken = default)
+        {
+            UserAccessContext access = await _userAccessService.GetUserAccessContextAsync(currentUserId, cancellationToken);
+            if (!access.IsManager)
+                throw new ApiForbiddenException("Only managers can create coupons.", "MANAGER_REQUIRED");
+
+            if (request.StartAt >= request.EndAt)
+                throw new ApiValidationException("Start date must be earlier than end date.", "INVALID_DATE_RANGE");
+
+            var coupon = new Coupon
+            {
+                Id = Guid.NewGuid(),
+                ManagerId = currentUserId,
+                MallID = access.MallID,
+                Type = request.Type.Trim(),
+                Discription = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim(),
+                StartAt = request.StartAt,
+                EndAt = request.EndAt,
+                IsActive = request.IsActive,
+                CostPoint = request.CostPoint,
+                CreatedAt = DateTimeOffset.UtcNow
+            };
+
+            _db.Coupons.Add(coupon);
+            await _db.SaveChangesAsync(cancellationToken);
+
+            string pointsInfo = coupon.CostPoint.HasValue ? $" ({coupon.CostPoint} pts)" : string.Empty;
+            await _notificationService.SendToAllMallUsersAsync(
+                access.MallID,
+                "New Coupon!",
+                $"A new coupon has been added: {coupon.Type}{pointsInfo}",
+                "coupon",
+                cancellationToken);
+
+            return coupon;
         }
 
         private string NormalizePhone(string phone)

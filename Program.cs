@@ -33,6 +33,8 @@ builder.Services.AddScoped<IStoresService, StoresService>();
 builder.Services.AddScoped<IRewardsService, RewardsService>();
 builder.Services.AddHttpClient<IChatbotService, ChatbotService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<INotificationsService, NotificationsService>();
 var app = builder.Build();
 
 var runMigrations = builder.Configuration.GetValue("RunMigrations", true);

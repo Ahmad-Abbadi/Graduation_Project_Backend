@@ -157,10 +157,10 @@ namespace Graduation_Project_Backend.Service
             if (access.IsMallWideManager)
             {
                 unreadNotifications = await (
-                    from notification in _db.Notifications.AsNoTracking()
-                    join user in _db.UserProfiles.AsNoTracking() on notification.UserId equals user.Id
-                    where user.MallID == access.MallID && !notification.IsRead
-                    select notification.Id
+                    from un in _db.UserNotifications.AsNoTracking()
+                    join user in _db.UserProfiles.AsNoTracking() on un.UserId equals user.Id
+                    where user.MallID == access.MallID && !un.IsRead
+                    select un.NotificationsId
                 ).CountAsync(cancellationToken);
             }
 

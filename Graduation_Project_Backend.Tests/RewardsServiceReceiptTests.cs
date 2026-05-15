@@ -44,7 +44,8 @@ namespace Graduation_Project_Backend.Tests
                 db,
                 new PhoneNumberService(),
                 new NoOpUserPointsUpdatesService(),
-                accessService);
+                accessService,
+                new NoOpNotificationService());
 
             await Assert.ThrowsAsync<ApiForbiddenException>(() => rewardsService.GetReceiptDetailsForUserAsync(otherUserId, 1));
         }
@@ -73,7 +74,8 @@ namespace Graduation_Project_Backend.Tests
                 db,
                 new PhoneNumberService(),
                 new NoOpUserPointsUpdatesService(),
-                accessService);
+                accessService,
+                new NoOpNotificationService());
 
             var result = await rewardsService.GetMyReceiptsAsync(userId, new ReceiptListQuery());
 

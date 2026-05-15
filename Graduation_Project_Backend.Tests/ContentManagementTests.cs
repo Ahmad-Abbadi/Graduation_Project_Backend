@@ -30,7 +30,7 @@ namespace Graduation_Project_Backend.Tests
             await db.SaveChangesAsync();
 
             var accessService = new UserAccessService(db, NullLogger<UserAccessService>.Instance);
-            var offersService = new OffersService(db, accessService, NullLogger<OffersService>.Instance);
+            var offersService = new OffersService(db, accessService, new NoOpNotificationService(), NullLogger<OffersService>.Instance);
 
             await Assert.ThrowsAsync<ApiForbiddenException>(() => offersService.CreateOfferAsync(managerId, new CreateOfferRequest
             {
