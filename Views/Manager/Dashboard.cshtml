@@ -1,0 +1,8 @@
+@model Graduation_Project_Backend.Models.ViewModels.PortalDashboardReportViewModel
+@{
+    Layout = "_ManagerLayout";
+    ViewData["Title"] = "Dashboard";
+    ViewData["DashboardBasePath"] = "/manager/dashboard";
+}
+
+@await Html.PartialAsync("~/Views/Shared/_PortalDashboardReport.cshtml", Model)

@@ -5,6 +5,7 @@ namespace Graduation_Project_Backend.Service
         public Guid UserId { get; init; }
         public Guid MallID { get; init; }
         public string UserRole { get; init; } = string.Empty;
+        public bool IsAdmin => string.Equals(UserRole, "admin", StringComparison.OrdinalIgnoreCase);
         public bool IsManager { get; init; }
         public bool IsMallWideManager { get; init; }
         public Guid? ManagerId { get; init; }
@@ -12,6 +13,6 @@ namespace Graduation_Project_Backend.Service
         public HashSet<Guid> AssignedStoreIds { get; init; } = [];
 
         public bool CanAccessStore(Guid storeId)
-            => IsManager && (IsMallWideManager || AssignedStoreIds.Contains(storeId));
+            => IsAdmin || (IsManager && (IsMallWideManager || AssignedStoreIds.Contains(storeId)));
     }
 }

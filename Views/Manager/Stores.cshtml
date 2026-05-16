@@ -1,0 +1,44 @@
+@model Graduation_Project_Backend.Models.ViewModels.ManagerStoresPageViewModel
+@{
+    Layout = "_ManagerLayout";
+    ViewData["Title"] = "Stores";
+}
+
+<section class="page-heading"><div><p class="eyebrow">Manager</p><h1>Stores</h1></div></section>
+
+<section class="two-column">
+    <form class="panel form-panel" method="post" action="/manager/stores">
+        <h2>Create store</h2>
+        <label>Store name<input name="Name" type="text" maxlength="200" required placeholder="Store name"></label>
+        <div class="field-grid">
+            <label>Floor<input name="FloorNumber" type="text" maxlength="50" placeholder="F2"></label>
+            <label>Phone<input name="PhoneNumber" type="text" maxlength="50" placeholder="+962..."></label>
+        </div>
+        <label>Email<input name="Email" type="email" maxlength="200" placeholder="store@example.com"></label>
+        <label>Operating hours<input name="OperatingHours" type="text" maxlength="200" placeholder="Sat-Thu 10:00-22:00"></label>
+        <label>Image URL<input name="StoreImageUrl" type="text" maxlength="1000" placeholder="https://..."></label>
+        <label>Description<textarea name="Description" maxlength="2000" rows="4"></textarea></label>
+        <label>Social media JSON<textarea name="SocialMediaLinksJson" rows="4" placeholder='{"instagram":"https://..."}'></textarea></label>
+        <button type="submit">Create store</button>
+    </form>
+
+    <section class="panel">
+        <h2>Your stores</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Name</th><th>Floor</th><th>Contact</th><th>ID</th></tr></thead>
+                <tbody>
+                @foreach (var store in Model.Stores)
+                {
+                    <tr>
+                        <td>@store.Name</td>
+                        <td>@(store.FloorNumber ?? "-")</td>
+                        <td><span>@(store.PhoneNumber ?? "-")</span><small>@(store.Email ?? "")</small></td>
+                        <td><code>@store.Id</code></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>

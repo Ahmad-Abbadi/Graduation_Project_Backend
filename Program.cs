@@ -5,6 +5,7 @@ using Graduation_Project_Backend.Models.User;
 using Graduation_Project_Backend.Service;
 using Graduation_Project_Backend.Service.Auth;
 using Graduation_Project_Backend.Service.Common;
+using Graduation_Project_Backend.Service.Portal;
 using Graduation_Project_Backend.Service.Realtime;
 using Graduation_Project_Backend.Service.Session;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +31,9 @@ builder.Services.AddScoped<IUserAccessService, UserAccessService>();
 builder.Services.AddScoped<IOffersService, OffersService>();
 builder.Services.AddScoped<IAnnouncementsService, AnnouncementsService>();
 builder.Services.AddScoped<IStoresService, StoresService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IPortalAuthService, PortalAuthService>();
+builder.Services.AddScoped<IManagerPortalService, ManagerPortalService>();
 builder.Services.AddScoped<IRewardsService, RewardsService>();
 builder.Services.AddHttpClient<IChatbotService, ChatbotService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
@@ -45,6 +49,7 @@ if (runMigrations)
     try
     {
         db.Database.Migrate();
+        await DatabaseSchemaRepair.EnsureManagerUserProfileForeignKeyAsync(db);
     }
     catch (Exception ex)
     {

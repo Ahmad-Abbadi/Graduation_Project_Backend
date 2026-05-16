@@ -1,0 +1,1484 @@
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5240
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (359ms) [Parameters=[@__normalizedPhone_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."PhoneNumber" = @__normalizedPhone_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (293ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId"
+      FROM user_sessions AS u
+      WHERE u."UserId" = @__userId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (315ms) [Parameters=[@p0='?', @p1='?', @p2='?' (DbType = DateTime), @p3='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      DELETE FROM user_sessions
+      WHERE "Id" = @p0;
+      INSERT INTO user_sessions ("Id", "CreatedAtUtc", "UserId")
+      VALUES (@p1, @p2, @p3);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (299ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (298ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM malls AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (294ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM stores AS s
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM managers AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM management AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (298ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (304ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (300ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (307ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (298ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (302ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (299ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (308ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "User_notifications" AS u
+      INNER JOIN user_profiles AS u0 ON u.user_id = u0."Id"
+      WHERE NOT (u.is_read)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (300ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c.id AS "CategoryId", c.name AS "CategoryName", count(*)::int AS "StoresCount"
+      FROM store_category AS s
+      INNER JOIN categories AS c ON s.category_id = c.id
+      WHERE s.store_id IN (
+          SELECT s0.id
+          FROM stores AS s0
+      )
+      GROUP BY c.id, c.name
+      ORDER BY count(*)::int DESC, c.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (293ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (294ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (294ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "User_notifications" AS u
+      INNER JOIN user_profiles AS u0 ON u.user_id = u0."Id"
+      WHERE NOT (u.is_read)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c.id AS "CategoryId", c.name AS "CategoryName", count(*)::int AS "StoresCount"
+      FROM store_category AS s
+      INNER JOIN categories AS c ON s.category_id = c.id
+      WHERE s.store_id IN (
+          SELECT s0.id
+          FROM stores AS s0
+      )
+      GROUP BY c.id, c.name
+      ORDER BY count(*)::int DESC, c.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (301ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (317ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id AS "Id", m.name AS "Name", m.created_at AS "CreatedAt", (
+          SELECT count(*)::int
+          FROM stores AS s
+          WHERE s.mall_id = m.id) AS "StoresCount", (
+          SELECT count(*)::int
+          FROM managers AS m0
+          WHERE m0.mall_id = m.id) AS "ManagersCount"
+      FROM malls AS m
+      ORDER BY m.created_at DESC, m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (309ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id AS "Id", m.mall_id AS "MallID", m0.name AS "MallName", m.name AS "Name", u."PhoneNumber", m.role AS "Role", s.id AS "StoreId", s.name AS "StoreName"
+      FROM managers AS m
+      INNER JOIN user_profiles AS u ON m.id = u."Id"
+      INNER JOIN malls AS m0 ON m.mall_id = m0.id
+      LEFT JOIN management AS m1 ON m.id = m1.manager_id
+      LEFT JOIN stores AS s ON m1.store_id = s.id
+      ORDER BY m0.name, m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.name, m.id::text
+      FROM malls AS m
+      ORDER BY m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (302ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.id AS "Id", s.mall_id AS "MallID", m.name AS "MallName", s.name AS "Name", s.floor_number AS "FloorNumber", s.phone_number AS "PhoneNumber", s.email AS "Email"
+      FROM stores AS s
+      INNER JOIN malls AS m ON s.mall_id = m.id
+      ORDER BY m.name, s.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId"
+      FROM user_sessions AS u
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@p0='?'], CommandType='Text', CommandTimeout='30']
+      DELETE FROM user_sessions
+      WHERE "Id" = @p0;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__normalizedPhone_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."PhoneNumber" = @__normalizedPhone_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (297ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId"
+      FROM user_sessions AS u
+      WHERE u."UserId" = @__userId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime), @p2='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO user_sessions ("Id", "CreatedAtUtc", "UserId")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM malls AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM stores AS s
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (297ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM managers AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (297ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM management AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (305ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (309ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (297ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (301ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (297ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (293ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (294ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (303ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (312ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (309ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (303ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (305ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (305ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (300ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "User_notifications" AS u
+      INNER JOIN user_profiles AS u0 ON u.user_id = u0."Id"
+      WHERE NOT (u.is_read)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (294ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c.id AS "CategoryId", c.name AS "CategoryName", count(*)::int AS "StoresCount"
+      FROM store_category AS s
+      INNER JOIN categories AS c ON s.category_id = c.id
+      WHERE s.store_id IN (
+          SELECT s0.id
+          FROM stores AS s0
+      )
+      GROUP BY c.id, c.name
+      ORDER BY count(*)::int DESC, c.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id AS "Id", m.mall_id AS "MallID", m0.name AS "MallName", m.name AS "Name", u."PhoneNumber", m.role AS "Role", s.id AS "StoreId", s.name AS "StoreName"
+      FROM managers AS m
+      INNER JOIN user_profiles AS u ON m.id = u."Id"
+      INNER JOIN malls AS m0 ON m.mall_id = m0.id
+      LEFT JOIN management AS m1 ON m.id = m1.manager_id
+      LEFT JOIN stores AS s ON m1.store_id = s.id
+      ORDER BY m0.name, m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.name, m.id::text
+      FROM malls AS m
+      ORDER BY m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.id AS "Id", s.mall_id AS "MallID", m.name AS "MallName", s.name AS "Name", s.floor_number AS "FloorNumber", s.phone_number AS "PhoneNumber", s.email AS "Email"
+      FROM stores AS s
+      INNER JOIN malls AS m ON s.mall_id = m.id
+      ORDER BY m.name, s.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (300ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.id AS "Id", s.mall_id AS "MallID", m.name AS "MallName", s.name AS "Name", s.floor_number AS "FloorNumber", s.phone_number AS "PhoneNumber", s.email AS "Email"
+      FROM stores AS s
+      INNER JOIN malls AS m ON s.mall_id = m.id
+      ORDER BY m.name, s.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.name, m.id::text
+      FROM malls AS m
+      ORDER BY m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id AS "Id", m.name AS "Name", m.created_at AS "CreatedAt", (
+          SELECT count(*)::int
+          FROM stores AS s
+          WHERE s.mall_id = m.id) AS "StoresCount", (
+          SELECT count(*)::int
+          FROM managers AS m0
+          WHERE m0.mall_id = m.id) AS "ManagersCount"
+      FROM malls AS m
+      ORDER BY m.created_at DESC, m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (293ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (301ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (299ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (305ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (319ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (306ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (300ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (297ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (296ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (295ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (318ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (294ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (301ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "User_notifications" AS u
+      INNER JOIN user_profiles AS u0 ON u.user_id = u0."Id"
+      WHERE NOT (u.is_read)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (298ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c.id AS "CategoryId", c.name AS "CategoryName", count(*)::int AS "StoresCount"
+      FROM store_category AS s
+      INNER JOIN categories AS c ON s.category_id = c.id
+      WHERE s.store_id IN (
+          SELECT s0.id
+          FROM stores AS s0
+      )
+      GROUP BY c.id, c.name
+      ORDER BY count(*)::int DESC, c.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (312ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (313ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (287ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (299ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "User_notifications" AS u
+      INNER JOIN user_profiles AS u0 ON u.user_id = u0."Id"
+      WHERE NOT (u.is_read)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c.id AS "CategoryId", c.name AS "CategoryName", count(*)::int AS "StoresCount"
+      FROM store_category AS s
+      INNER JOIN categories AS c ON s.category_id = c.id
+      WHERE s.store_id IN (
+          SELECT s0.id
+          FROM stores AS s0
+      )
+      GROUP BY c.id, c.name
+      ORDER BY count(*)::int DESC, c.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId"
+      FROM user_sessions AS u
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@p0='?'], CommandType='Text', CommandTimeout='30']
+      DELETE FROM user_sessions
+      WHERE "Id" = @p0;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__normalizedPhone_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."PhoneNumber" = @__normalizedPhone_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId"
+      FROM user_sessions AS u
+      WHERE u."UserId" = @__userId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (294ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime), @p2='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO user_sessions ("Id", "CreatedAtUtc", "UserId")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM malls AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM stores AS s
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM managers AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM management AS m
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (308ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (292ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (290ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (291ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "User_notifications" AS u
+      INNER JOIN user_profiles AS u0 ON u.user_id = u0."Id"
+      WHERE NOT (u.is_read)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (322ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c.id AS "CategoryId", c.name AS "CategoryName", count(*)::int AS "StoresCount"
+      FROM store_category AS s
+      INNER JOIN categories AS c ON s.category_id = c.id
+      WHERE s.store_id IN (
+          SELECT s0.id
+          FROM stores AS s0
+      )
+      GROUP BY c.id, c.name
+      ORDER BY count(*)::int DESC, c.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (267ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (267ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id AS "Id", m.name AS "Name", m.created_at AS "CreatedAt", (
+          SELECT count(*)::int
+          FROM stores AS s
+          WHERE s.mall_id = m.id) AS "StoresCount", (
+          SELECT count(*)::int
+          FROM managers AS m0
+          WHERE m0.mall_id = m.id) AS "ManagersCount"
+      FROM malls AS m
+      ORDER BY m.created_at DESC, m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (289ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (279ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.id AS "Id", s.mall_id AS "MallID", m.name AS "MallName", s.name AS "Name", s.floor_number AS "FloorNumber", s.phone_number AS "PhoneNumber", s.email AS "Email"
+      FROM stores AS s
+      INNER JOIN malls AS m ON s.mall_id = m.id
+      ORDER BY m.name, s.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (281ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.name, m.id::text
+      FROM malls AS m
+      ORDER BY m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (269ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (267ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.id AS "Id", m.mall_id AS "MallID", m0.name AS "MallName", m.name AS "Name", u."PhoneNumber", m.role AS "Role", s.id AS "StoreId", s.name AS "StoreName"
+      FROM managers AS m
+      INNER JOIN user_profiles AS u ON m.id = u."Id"
+      INNER JOIN malls AS m0 ON m.mall_id = m0.id
+      LEFT JOIN management AS m1 ON m.id = m1.manager_id
+      LEFT JOIN stores AS s ON m1.store_id = s.id
+      ORDER BY m0.name, m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (274ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT m.name, m.id::text
+      FROM malls AS m
+      ORDER BY m.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (279ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s.id AS "Id", s.mall_id AS "MallID", m.name AS "MallName", s.name AS "Name", s.floor_number AS "FloorNumber", s.phone_number AS "PhoneNumber", s.email AS "Email"
+      FROM stores AS s
+      INNER JOIN malls AS m ON s.mall_id = m.id
+      ORDER BY m.name, s.name
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (279ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (266ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (275ms) [Parameters=[@__normalizedSessionId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u."CreatedAtUtc", u."UserId", u0."Id", u0.mall_id, u0."Name", u0."PasswordHash", u0."PhoneNumber", u0."Role", u0."TotalPoints"
+      FROM user_sessions AS u
+      INNER JOIN user_profiles AS u0 ON u."UserId" = u0."Id"
+      WHERE u."Id" = @__normalizedSessionId_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (278ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (269ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (268ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (266ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (273ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (267ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (274ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (270ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (268ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (267ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (274ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (279ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (273ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (272ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (276ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (267ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (266ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (280ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM coupons AS c
+      WHERE c.is_active AND c.start_at <= @__now_0 AND c.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (276ms) [Parameters=[@__from_Value_UtcDateTime_0='?' (DbType = DateTime), @__to_Value_UtcDateTime_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT date_trunc('day', u.created_at, 'UTC'), u.is_redeemed, COALESCE(c.cost_point, 0.0)
+      FROM users_coupons AS u
+      INNER JOIN coupons AS c ON u.coupon_id = c.id
+      WHERE u.created_at >= @__from_Value_UtcDateTime_0 AND u.created_at <= @__to_Value_UtcDateTime_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (269ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT u."Id", u.mall_id, u."Name", u."PasswordHash", u."PhoneNumber", u."Role", u."TotalPoints"
+      FROM user_profiles AS u
+      WHERE u."Id" = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (274ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT m.id, m.mall_id, m.name, m.role
+      FROM managers AS m
+      WHERE m.id = @__userId_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (288ms) [Parameters=[@__from_Value_0='?' (DbType = DateTime), @__to_Value_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT t.id, t.store_id, s.name, t.receipt_id, t.price, t.points, t.created_at, t.transaction_status
+      FROM transactions AS t
+      INNER JOIN stores AS s ON t.store_id = s.id
+      WHERE t.created_at >= @__from_Value_0 AND t.created_at <= @__to_Value_1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (269ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (266ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (273ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM offers AS o
+      WHERE o.is_active AND o.start_at <= @__now_0 AND o.end_at >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (283ms) [Parameters=[@__now_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM announcements AS a
+      WHERE a.is_active AND a.start_date <= @__now_0 AND a.end_date >= @__now_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (271ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT count(*)::int
+      FROM "User_notifications" AS u
+      INNER JOIN user_profiles AS u0 ON u.user_id = u0."Id"
+      WHERE NOT (u.is_read)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (274ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c.id AS "CategoryId", c.name AS "CategoryName", count(*)::int AS "StoresCount"
+      FROM store_category AS s
+      INNER JOIN categories AS c ON s.category_id = c.id
+      WHERE s.store_id IN (
+          SELECT s0.id
+          FROM stores AS s0
+      )
+      GROUP BY c.id, c.name
+      ORDER BY count(*)::int DESC, c.name

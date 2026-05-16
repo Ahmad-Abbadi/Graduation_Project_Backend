@@ -40,6 +40,7 @@ namespace Graduation_Project_Backend.Service
         public async Task<IReadOnlyList<ManageAnnouncementListItemResponse>> GetManagedAnnouncementsAsync(Guid currentUserId, CancellationToken cancellationToken = default)
         {
             UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            EnsureMallWideManager(access);
 
             var items = await BuildAnnouncementProjectionQuery(FilterAnnouncementsByScope(access, _db.Announcements.AsNoTracking()))
                 .OrderByDescending(announcement => announcement.UpdatedAt)
@@ -63,6 +64,7 @@ namespace Graduation_Project_Backend.Service
         public async Task<AnnouncementResponse> CreateAnnouncementAsync(Guid currentUserId, CreateAnnouncementRequest request, CancellationToken cancellationToken = default)
         {
             UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            EnsureMallWideManager(access);
             await ValidateAnnouncementRequestAsync(access, request.StoreId, request.StartDate, request.EndDate, cancellationToken);
 
             var announcement = new Announcement
@@ -94,6 +96,7 @@ namespace Graduation_Project_Backend.Service
         public async Task<AnnouncementResponse> UpdateAnnouncementAsync(Guid currentUserId, Guid announcementId, UpdateAnnouncementRequest request, CancellationToken cancellationToken = default)
         {
             UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            EnsureMallWideManager(access);
             Announcement announcement = await GetManagedAnnouncementEntityAsync(access, announcementId, cancellationToken);
 
             await ValidateAnnouncementRequestAsync(access, request.StoreId, request.StartDate, request.EndDate, cancellationToken);
@@ -119,6 +122,7 @@ namespace Graduation_Project_Backend.Service
         public async Task DeleteAnnouncementAsync(Guid currentUserId, Guid announcementId, CancellationToken cancellationToken = default)
         {
             UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            EnsureMallWideManager(access);
             Announcement announcement = await GetManagedAnnouncementEntityAsync(access, announcementId, cancellationToken);
 
             _db.Announcements.Remove(announcement);
@@ -128,6 +132,7 @@ namespace Graduation_Project_Backend.Service
         public async Task<AnnouncementResponse> SetAnnouncementStatusAsync(Guid currentUserId, Guid announcementId, bool isActive, CancellationToken cancellationToken = default)
         {
             UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            EnsureMallWideManager(access);
             Announcement announcement = await GetManagedAnnouncementEntityAsync(access, announcementId, cancellationToken);
 
             announcement.IsActive = isActive;
@@ -140,6 +145,7 @@ namespace Graduation_Project_Backend.Service
         public async Task<AnnouncementResponse> SetAnnouncementPinAsync(Guid currentUserId, Guid announcementId, bool isPinned, CancellationToken cancellationToken = default)
         {
             UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            EnsureMallWideManager(access);
             Announcement announcement = await GetManagedAnnouncementEntityAsync(access, announcementId, cancellationToken);
 
             announcement.IsPinned = isPinned;
@@ -156,6 +162,12 @@ namespace Graduation_Project_Backend.Service
                 throw new ApiForbiddenException("Only managers can perform this action.", "MANAGER_REQUIRED");
 
             return access;
+        }
+
+        private static void EnsureMallWideManager(UserAccessContext access)
+        {
+            if (!access.IsMallWideManager)
+                throw new ApiForbiddenException("Only mall-wide managers can manage announcements.", "MALL_WIDE_MANAGER_REQUIRED");
         }
 
         private IQueryable<Announcement> FilterAnnouncementsByScope(UserAccessContext access, IQueryable<Announcement> query)

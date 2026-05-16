@@ -1,0 +1,122 @@
+@model Graduation_Project_Backend.Models.ViewModels.PortalDashboardReportViewModel
+@{
+    string basePath = ViewData["DashboardBasePath"]?.ToString() ?? "";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">@Model.ScopeTitle</p>
+        <h1>Dashboard</h1>
+    </div>
+    <nav class="period-tabs">
+        <a class="@(Model.Period == "daily" ? "active" : "")" href="@basePath?period=daily">Daily</a>
+        <a class="@(Model.Period == "monthly" ? "active" : "")" href="@basePath?period=monthly">Monthly</a>
+        <a class="@(Model.Period == "yearly" ? "active" : "")" href="@basePath?period=yearly">Yearly</a>
+    </nav>
+</section>
+
+<section class="panel report-heading">
+    <div>
+        <p class="eyebrow">@Model.PeriodTitle</p>
+        <h2>Performance report</h2>
+    </div>
+    <span class="pill">Scoped data only</span>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span>Total sales</span><strong>@Model.Summary.TotalSalesAmount.ToString("0.##")</strong></article>
+    <article class="stat-card"><span>Transactions</span><strong>@Model.Summary.TotalTransactions</strong></article>
+    <article class="stat-card"><span>Points issued</span><strong>@Model.Summary.TotalPointsIssued</strong></article>
+    <article class="stat-card"><span>Active offers</span><strong>@Model.Summary.ActiveOffersCount</strong></article>
+</section>
+
+<section class="stats-grid">
+    @if (Model.CanManageMallOperations && !Model.Coupons.IsScopeLimited)
+    {
+        <article class="stat-card"><span>Active coupons</span><strong>@(Model.Coupons.TotalActiveCoupons?.ToString() ?? "-")</strong></article>
+        <article class="stat-card"><span>Activated coupons</span><strong>@(Model.Coupons.TotalActivatedUserCoupons?.ToString() ?? "-")</strong></article>
+        <article class="stat-card"><span>Redeemed coupons</span><strong>@(Model.Coupons.TotalRedeemedCoupons?.ToString() ?? "-")</strong></article>
+        <article class="stat-card"><span>Redemption rate</span><strong>@((Model.Coupons.RedemptionRate * 100)?.ToString("0.##") ?? "-")%</strong></article>
+    }
+    else
+    {
+        <article class="stat-card"><span>Assigned sales</span><strong>@Model.Sales.TotalSalesAmount.ToString("0.##")</strong></article>
+        <article class="stat-card"><span>Assigned transactions</span><strong>@Model.Sales.TotalTransactions</strong></article>
+        <article class="stat-card"><span>Total offers</span><strong>@Model.Activity.TotalOffers</strong></article>
+        <article class="stat-card"><span>Active offers</span><strong>@Model.Activity.ActiveOffers</strong></article>
+    }
+</section>
+
+<section class="dashboard-panels">
+    <section class="panel chart-panel">
+        <h2>Sales chart</h2>
+        @await Html.PartialAsync("~/Views/Shared/_PortalBarChart.cshtml", Model.SalesChart)
+    </section>
+    <section class="panel chart-panel">
+        <h2>Transactions chart</h2>
+        @await Html.PartialAsync("~/Views/Shared/_PortalBarChart.cshtml", Model.TransactionsChart)
+    </section>
+    <section class="panel chart-panel">
+        <h2>Points issued</h2>
+        @await Html.PartialAsync("~/Views/Shared/_PortalBarChart.cshtml", Model.PointsIssuedChart)
+    </section>
+    <section class="panel chart-panel">
+        <h2>Points redeemed</h2>
+        @await Html.PartialAsync("~/Views/Shared/_PortalBarChart.cshtml", Model.PointsRedeemedChart)
+    </section>
+</section>
+
+<section class="two-column dashboard-grid">
+    <section class="panel">
+        <h2>Top stores</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Store</th><th>Sales</th><th>Transactions</th></tr></thead>
+                <tbody>
+                @foreach (var store in Model.Sales.TopStores)
+                {
+                    <tr>
+                        <td>@store.StoreName</td>
+                        <td>@store.SalesAmount.ToString("0.##")</td>
+                        <td>@store.TransactionsCount</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Recent transactions</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Store</th><th>Receipt</th><th>Price</th><th>Points</th></tr></thead>
+                <tbody>
+                @foreach (var transaction in Model.Activity.RecentTransactions)
+                {
+                    <tr>
+                        <td>@transaction.StoreName</td>
+                        <td>@transaction.ReceiptId</td>
+                        <td>@transaction.Price.ToString("0.##")</td>
+                        <td>@transaction.Points</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<section class="panel">
+    <h2>Store categories diagram</h2>
+    <div class="diagram-list">
+        @foreach (var category in Model.Activity.CategoryDistribution)
+        {
+            <div class="diagram-row">
+                <span>@category.CategoryName</span>
+                <div class="diagram-track"><i style="width:@Math.Min(category.StoresCount * 12, 100)%"></i></div>
+                <strong>@category.StoresCount</strong>
+            </div>
+        }
+    </div>
+</section>

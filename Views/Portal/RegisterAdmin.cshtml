@@ -1,0 +1,35 @@
+@model Graduation_Project_Backend.Service.Portal.PortalRegisterAdminRequest
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register Admin - YALLAH REWARDS</title>
+    <link rel="stylesheet" href="/css/admin-console.css">
+</head>
+<body class="login-body">
+    <main class="login-card">
+        <div class="brand login-brand">
+            <span class="brand-mark">YR</span>
+            <div>
+                <strong>YALLAH REWARDS</strong>
+                <span>Create a portal admin</span>
+            </div>
+        </div>
+        @if (ViewData["ErrorMessage"] is string errorMessage)
+        {
+            <div class="alert error">@errorMessage</div>
+        }
+        <form class="form-panel" method="post" action="/portal/register-admin">
+            <label>Name<input name="Name" value="@Model.Name" type="text" required placeholder="Admin name"></label>
+            <label>Phone number<input name="PhoneNumber" value="@Model.PhoneNumber" type="text" required placeholder="0790790790"></label>
+            <label>Password<input name="Password" type="password" required placeholder="Password"></label>
+            <button type="submit">Create admin</button>
+        </form>
+        <p class="muted"><a class="text-link" href="/portal/login">Back to login</a></p>
+    </main>
+</body>
+</html>

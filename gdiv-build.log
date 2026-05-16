@@ -1,0 +1,531 @@
+Build started 5/16/2026 8:55:22 PM.
+Environment at start of build:
+MSBuildLoadMicrosoftTargetsReadOnly = true
+MSBuildExtensionsPath = C:\Program Files\dotnet\sdk\8.0.403\
+DOTNET_HOST_PATH = C:\Program Files\dotnet\dotnet.exe
+MSBUILDFAILONDRIVEENUMERATINGWILDCARD = 1
+MSBuildSDKsPath = C:\Program Files\dotnet\sdk\8.0.403\Sdks
+DOTNET_CLI_TELEMETRY_SESSIONID = 6181be04-f0a5-4b90-b210-ce7f9f8c28d0
+MSBUILDUSESERVER = 0
+
+Logging verbosity is set to: Diagnostic.20:55:22.352     0>Process = "C:\Program Files\dotnet\dotnet.exe"
+                   MSBuild executable path = "C:\Program Files\dotnet\sdk\8.0.403\MSBuild.dll"
+                   Command line arguments = "C:\Program Files\dotnet\sdk\8.0.403\MSBuild.dll -maxcpucount -verbosity:m -nologo -consoleloggerparameters:Summary --property:UseSharedCompilation=false --property:RunAnalyzersDuringBuild=false --property:EnableNETAnalyzers=false -verbosity:diag .\Graduation_Project_Backend.csproj -flp:logfile=.\gdiv-build.log;verbosity=diagnostic -distributedlogger:Microsoft.DotNet.Tools.MSBuild.MSBuildLogger,C:\Program Files\dotnet\sdk\8.0.403\dotnet.dll*Microsoft.DotNet.Tools.MSBuild.MSBuildForwardingLogger,C:\Program Files\dotnet\sdk\8.0.403\dotnet.dll"
+                   Current directory = "C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend"
+                   MSBuild version = "17.11.9+a69bbaaf5"
+                   Based on the Windows registry key LongPathsEnabled, the LongPaths feature is enabled.
+                   The SDK "Microsoft.NET.Sdk.Web" was successfully resolved by the "DefaultSdkResolver" resolver to location "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Web\Sdk" and version "".
+                   Assembly loaded during Evaluation: Microsoft.NET.StringTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\sdk\8.0.403\Microsoft.NET.StringTools.dll, MVID: c1dce7a7-0cd0-47bd-ba43-43439506a596, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: NuGet.Frameworks, Version=6.11.1.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\dotnet\sdk\8.0.403\NuGet.Frameworks.dll, MVID: 36fa17a1-abb6-4cce-b85c-dd32a6dcc45f, AssemblyLoadContext: Assembly.LoadFile(C:\Program Files\dotnet\sdk\8.0.403\NuGet.Frameworks.dll))
+                   The SDK "Microsoft.NET.Sdk" was successfully resolved by the "DefaultSdkResolver" resolver to location "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\Sdk" and version "".
+                   Property 'MSBuildExtensionsPath' with value 'C:\Program Files\dotnet\sdk\8.0.403\' expanded from the environment.
+                   Property reassignment: $(MSBuildProjectExtensionsPath)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\" (previous value: "obj\") at C:\Program Files\dotnet\sdk\8.0.403\Current\Microsoft.Common.props (60,5)
+                   Assembly loaded during Evaluation: System.Threading.Tasks.Parallel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Threading.Tasks.Parallel.dll, MVID: 8be9146c-e03e-4aa3-b454-718dd28d2695, AssemblyLoadContext: Default)
+                   Property 'USERPROFILE' with value 'C:\Users\JUST' expanded from the environment.
+                   Property reassignment: $(OpenApiGenerateDocumentsOnBuild)="false" (previous value: "") at C:\Users\JUST\.nuget\packages\swashbuckle.aspnetcore\6.6.2\build\Swashbuckle.AspNetCore.props (3,5)
+                   Property 'MSBuildUserExtensionsPath' with value 'C:\Users\JUST\AppData\Local\Microsoft\MSBuild' expanded from the environment.
+                   Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};{HintPathFromItem}" (previous value: "{CandidateAssemblyFiles}") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.props (91,5)
+                   Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};{HintPathFromItem};{TargetFrameworkDirectory}" (previous value: "{CandidateAssemblyFiles};{HintPathFromItem}") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.props (92,5)
+                   Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};{HintPathFromItem};{TargetFrameworkDirectory};{RawFileName}" (previous value: "{CandidateAssemblyFiles};{HintPathFromItem};{TargetFrameworkDirectory}") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.props (93,5)
+                   The "DefaultSdkResolver" resolver attempted to resolve the SDK "Microsoft.NET.SDK.WorkloadAutoImportPropsLocator".
+                   Warnings: null
+                   Errors: MSB4276: The default SDK resolver failed to resolve SDK "Microsoft.NET.SDK.WorkloadAutoImportPropsLocator" because directory "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.SDK.WorkloadAutoImportPropsLocator\Sdk" did not exist.
+                   Assembly loaded during Evaluation: Microsoft.Build.NuGetSdkResolver, Version=6.11.1.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Build.NuGetSdkResolver.dll, MVID: ae254ffe-3ea7-4bba-8a74-0bd55e8cfe87, AssemblyLoadContext: MSBuild plugin C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Build.NuGetSdkResolver.dll)
+                   Assembly loaded during Evaluation: Microsoft.NET.Sdk.WorkloadMSBuildSdkResolver, Version=8.0.403.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\dotnet\sdk\8.0.403\Microsoft.NET.Sdk.WorkloadMSBuildSdkResolver.dll, MVID: 9a69f5ef-809a-4e11-b65f-d2d4257d3425, AssemblyLoadContext: MSBuild plugin C:\Program Files\dotnet\sdk\8.0.403\Microsoft.NET.Sdk.WorkloadMSBuildSdkResolver.dll)
+                   Assembly loaded during Evaluation: System.Reflection.Metadata, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Reflection.Metadata.dll, MVID: ce0045dd-621c-454c-bd77-937a1fb5ab4b, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: Microsoft.DotNet.Cli.Utils, Version=8.0.403.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 (location: C:\Program Files\dotnet\sdk\8.0.403\Microsoft.DotNet.Cli.Utils.dll, MVID: 7000f026-4f0d-41d5-a028-5cdee68b3a1a, AssemblyLoadContext: MSBuild plugin C:\Program Files\dotnet\sdk\8.0.403\Microsoft.NET.Sdk.WorkloadMSBuildSdkResolver.dll)
+                   Assembly loaded during Evaluation: Microsoft.NET.Sdk.WorkloadManifestReader, Version=8.0.403.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 (location: C:\Program Files\dotnet\sdk\8.0.403\Microsoft.NET.Sdk.WorkloadManifestReader.dll, MVID: 28faaf62-5383-4a08-bd4e-dfd83f324056, AssemblyLoadContext: MSBuild plugin C:\Program Files\dotnet\sdk\8.0.403\Microsoft.NET.Sdk.WorkloadMSBuildSdkResolver.dll)
+                   Assembly loaded during Evaluation: Microsoft.Deployment.DotNet.Releases, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Deployment.DotNet.Releases.dll, MVID: eb340e0e-b895-41fa-8fc4-c04faee03b3b, AssemblyLoadContext: MSBuild plugin C:\Program Files\dotnet\sdk\8.0.403\Microsoft.NET.Sdk.WorkloadMSBuildSdkResolver.dll)
+                   The SDK "Microsoft.NET.SDK.WorkloadAutoImportPropsLocator" was successfully resolved by the "Microsoft.DotNet.MSBuildWorkloadSdkResolver" resolver to location "null" and version "null".
+                   Property reassignment: $(TargetsForTfmSpecificContentInPackage)=";PackTool;_PackProjectToolValidation" (previous value: ";PackTool") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.PackProjectTool.props (15,5)
+                   The SDK "Microsoft.NET.Sdk.Razor" was successfully resolved by the "DefaultSdkResolver" resolver to location "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\Sdk" and version "".
+                   The SDK "Microsoft.NET.Sdk.StaticWebAssets" was successfully resolved by the "DefaultSdkResolver" resolver to location "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\Sdk" and version "".
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**" (previous value: ";**\node_modules\**;node_modules\**") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\Sdk\Sdk.StaticWebAssets.StaticAssets.ProjectSystem.props (23,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\Sdk\Sdk.StaticWebAssets.StaticAssets.ProjectSystem.props (24,5)
+                   The SDK "Microsoft.NET.Sdk.Web.ProjectSystem" was successfully resolved by the "DefaultSdkResolver" resolver to location "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Web.ProjectSystem\Sdk" and version "".
+                   Property reassignment: $(OutputType)="Exe" (previous value: "Library") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Web.ProjectSystem\targets\Microsoft.NET.Sdk.Web.ProjectSystem.props (16,5)
+                   The SDK "Microsoft.NET.Sdk.Publish" was successfully resolved by the "DefaultSdkResolver" resolver to location "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Publish\Sdk" and version "".
+                   Property reassignment: $(PublishProfileImported)="false" (previous value: "true") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.ImportPublishProfile.targets (28,5)
+                   Property reassignment: $(TargetPlatformVersion)="" (previous value: "0.0") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.TargetFrameworkInference.targets (69,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.DefaultOutputPaths.targets (121,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.DefaultOutputPaths.targets (122,5)
+                   Property reassignment: $(OutputPath)="bin\Debug\net8.0\" (previous value: "bin\Debug\") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.DefaultOutputPaths.targets (137,5)
+                   Property reassignment: $(IntermediateOutputPath)="obj\Debug\net8.0\" (previous value: "obj\Debug\") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.DefaultOutputPaths.targets (142,5)
+                   The "DefaultSdkResolver" resolver attempted to resolve the SDK "Microsoft.NET.SDK.WorkloadManifestTargetsLocator".
+                   Warnings: null
+                   Errors: MSB4276: The default SDK resolver failed to resolve SDK "Microsoft.NET.SDK.WorkloadManifestTargetsLocator" because directory "C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.SDK.WorkloadManifestTargetsLocator\Sdk" did not exist.
+                   The SDK "Microsoft.NET.SDK.WorkloadManifestTargetsLocator" was successfully resolved by the "Microsoft.DotNet.MSBuildWorkloadSdkResolver" resolver to location "C:\Program Files\dotnet\sdk-manifests\8.0.100\microsoft.net.sdk.android\34.0.43" and version "null".
+                   Property reassignment: $(_FrameworkIdentifierForImplicitDefine)="NET" (previous value: "NETCOREAPP") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.BeforeCommon.targets (187,5)
+                   Property reassignment: $(_FrameworkVersionForImplicitDefine)="8_0" (previous value: "8.0") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.BeforeCommon.targets (192,5)
+                   Property reassignment: $(CommandLineArgsForDesignTimeEvaluation)="-langversion:12.0 -define:TRACE" (previous value: "-langversion:12.0") at C:\Program Files\dotnet\sdk\8.0.403\Roslyn\Microsoft.CSharp.Core.targets (200,5)
+                   Assembly loaded during Evaluation: Microsoft.Build.Utilities.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Build.Utilities.Core.dll, MVID: 8fec54c5-cd29-413f-afca-8becd33d1cad, AssemblyLoadContext: Default)
+                   Property reassignment: $(_DebugSymbolsProduced)="true" (previous value: "false") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (175,5)
+                   Property reassignment: $(_DocumentationFileProduced)="false" (previous value: "true") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (185,5)
+                   Property reassignment: $(MSBuildCopyMarkerName)="Graduati.A359455B" (previous value: "Graduation_Project_Backend.csproj") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (392,5)
+                   Property reassignment: $(MSBuildCopyMarkerName)="Graduati.A359455B.Up2Date" (previous value: "Graduati.A359455B") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (393,5)
+                   Property reassignment: $(ProcessorArchitecture)="msil" (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (541,5)
+                   Property reassignment: $(DelaySign)="" (previous value: "false") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (580,5)
+                   Property 'LOCALAPPDATA' with value 'C:\Users\JUST\AppData\Local' expanded from the environment.
+                   Property reassignment: $(_SGenGenerateSerializationAssembliesConfig)="Auto" (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (3896,5)
+                   Property reassignment: $(_SGenGenerateSerializationAssembliesConfig)="Off" (previous value: "Auto") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (3897,5)
+                   Property reassignment: $(_TargetsThatPrepareProjectReferences)="
+                         AssignProjectConfiguration;
+                         _SplitProjectReferencesByFileExistence
+                       " (previous value: "_SplitProjectReferencesByFileExistence") at C:\Program Files\dotnet\sdk\8.0.403\Microsoft.Common.CurrentVersion.targets (5099,5)
+                   Property 'MSBuildExtensionsPath32' with value 'C:\Program Files\dotnet\sdk\8.0.403' expanded from the environment.
+                   Property reassignment: $(OpenApiGenerateDocuments)="true" (previous value: "") at C:\Users\JUST\.nuget\packages\microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.targets (9,5)
+                   Property reassignment: $(ProjectAssetsCacheFile)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\Debug\net8.0\Graduation_Project_Backend.assets.cache" (previous value: "obj\Debug\net8.0\Graduation_Project_Backend.assets.cache") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.PackageDependencyResolution.targets (29,5)
+                   Property reassignment: $(ResolveAssemblyReferencesDependsOn)="
+                         
+                         ResolveProjectReferences;
+                         FindInvalidProjectReferences;
+                         GetFrameworkPaths;
+                         GetReferenceAssemblyPaths;
+                         PrepareForBuild;
+                         ResolveSDKReferences;
+                         ExpandSDKReferences;
+                       ;
+                         ResolvePackageDependenciesForBuild;
+                         _HandlePackageFileConflicts;
+                       " (previous value: "
+                         ResolveProjectReferences;
+                         FindInvalidProjectReferences;
+                         GetFrameworkPaths;
+                         GetReferenceAssemblyPaths;
+                         PrepareForBuild;
+                         ResolveSDKReferences;
+                         ExpandSDKReferences;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.PackageDependencyResolution.targets (80,5)
+                   Property reassignment: $(PrepareResourcesDependsOn)="
+                         ResolvePackageDependenciesForBuild;
+                         _HandlePackageFileConflicts;
+                         
+                         ;
+                         PrepareResourceNames;
+                         ResGen;
+                         CompileLicxFiles
+                       
+                       " (previous value: "
+                         ;
+                         PrepareResourceNames;
+                         ResGen;
+                         CompileLicxFiles
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.PackageDependencyResolution.targets (86,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets (27,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets (29,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets (32,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user;**/*.*proj" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets (33,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user;**/*.*proj;**/*.sln" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user;**/*.*proj") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets (34,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user;**/*.*proj;**/*.sln;**/*.vssscc" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user;**/*.*proj;**/*.sln") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets (35,5)
+                   Property reassignment: $(DefaultItemExcludes)=";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user;**/*.*proj;**/*.sln;**/*.vssscc;**/.DS_Store" (previous value: ";**\node_modules\**;node_modules\**;**\jspm_packages\**;jspm_packages\**;**\bower_components\**;bower_components\**;bin\Debug\/**;obj\Debug\/**;bin\/**;obj\/**;**/*.user;**/*.*proj;**/*.sln;**/*.vssscc") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.DefaultItems.targets (36,5)
+                   Property reassignment: $(ResolveAssemblyReferencesDependsOn)="
+                         
+                         
+                         ResolveProjectReferences;
+                         FindInvalidProjectReferences;
+                         GetFrameworkPaths;
+                         GetReferenceAssemblyPaths;
+                         PrepareForBuild;
+                         ResolveSDKReferences;
+                         ExpandSDKReferences;
+                       ;
+                         ResolvePackageDependenciesForBuild;
+                         _HandlePackageFileConflicts;
+                       ;
+                         ResolveTargetingPackAssets;
+                       " (previous value: "
+                         
+                         ResolveProjectReferences;
+                         FindInvalidProjectReferences;
+                         GetFrameworkPaths;
+                         GetReferenceAssemblyPaths;
+                         PrepareForBuild;
+                         ResolveSDKReferences;
+                         ExpandSDKReferences;
+                       ;
+                         ResolvePackageDependenciesForBuild;
+                         _HandlePackageFileConflicts;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets (14,5)
+                   Property reassignment: $(_GenerateRuntimeConfigurationPropertyInputsCache)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\Debug\net8.0\Graduation_Project_Backend.genruntimeconfig.cache" (previous value: "obj\Debug\net8.0\Graduation_Project_Backend.genruntimeconfig.cache") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (44,5)
+                   Property reassignment: $(_GeneratePublishDependencyFilePropertyInputsCache)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\Debug\net8.0\Graduation_Project_Backend.genpublishdeps.cache" (previous value: "obj\Debug\net8.0\Graduation_Project_Backend.genpublishdeps.cache") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (46,5)
+                   Property reassignment: $(_GenerateSingleFileBundlePropertyInputsCache)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\Debug\net8.0\Graduation_Project_Backend.genbundle.cache" (previous value: "obj\Debug\net8.0\Graduation_Project_Backend.genbundle.cache") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (48,5)
+                   Property reassignment: $(GenerateRuntimeConfigDevFile)="false" (previous value: "true") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (81,5)
+                   Property reassignment: $(_DefaultUserProfileRuntimeStorePath)="C:\Users\JUST" (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (97,5)
+                   Property reassignment: $(_DefaultUserProfileRuntimeStorePath)="C:\Users\JUST\.dotnet\store" (previous value: "C:\Users\JUST") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (98,5)
+                   Property reassignment: $(AvailablePlatforms)="Any CPU,x86,x64,ARM32" (previous value: "Any CPU,x86,x64") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (136,5)
+                   Property reassignment: $(AvailablePlatforms)="Any CPU,x86,x64,ARM32,ARM64" (previous value: "Any CPU,x86,x64,ARM32") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (140,5)
+                   Property reassignment: $(CoreBuildDependsOn)="
+                         _CheckForBuildWithNoBuild;
+                         
+                         BuildOnlySettings;
+                         PrepareForBuild;
+                         PreBuildEvent;
+                         ResolveReferences;
+                         PrepareResources;
+                         ResolveKeySource;
+                         Compile;
+                         ExportWindowsMDFile;
+                         UnmanagedUnregistration;
+                         GenerateSerializationAssemblies;
+                         CreateSatelliteAssemblies;
+                         GenerateManifests;
+                         GetTargetPath;
+                         PrepareForRun;
+                         UnmanagedRegistration;
+                         IncrementalClean;
+                         PostBuildEvent
+                       ;
+                         GenerateBuildDependencyFile;
+                         GenerateBuildRuntimeConfigurationFiles
+                       " (previous value: "
+                         BuildOnlySettings;
+                         PrepareForBuild;
+                         PreBuildEvent;
+                         ResolveReferences;
+                         PrepareResources;
+                         ResolveKeySource;
+                         Compile;
+                         ExportWindowsMDFile;
+                         UnmanagedUnregistration;
+                         GenerateSerializationAssemblies;
+                         CreateSatelliteAssemblies;
+                         GenerateManifests;
+                         GetTargetPath;
+                         PrepareForRun;
+                         UnmanagedRegistration;
+                         IncrementalClean;
+                         PostBuildEvent
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (197,5)
+                   Property reassignment: $(CoreCleanDependsOn)="
+                         _SdkBeforeClean;
+                         
+                       " (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (206,5)
+                   Property reassignment: $(RebuildDependsOn)="
+                         _SdkBeforeRebuild;
+                         
+                         BeforeRebuild;
+                         Clean;
+                         Build;
+                         AfterRebuild;
+                       
+                       " (previous value: "
+                         BeforeRebuild;
+                         Clean;
+                         Build;
+                         AfterRebuild;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (213,5)
+                   Property reassignment: $(CompileDependsOn)="
+                         
+                         ResolveReferences;
+                         ResolveKeySource;
+                         SetWin32ManifestProperties;
+                         _SetPreferNativeArm64Win32ManifestProperties;
+                         FindReferenceAssembliesForReferences;
+                         _GenerateCompileInputs;
+                         BeforeCompile;
+                         _TimeStampBeforeCompile;
+                         _GenerateCompileDependencyCache;
+                         CoreCompile;
+                         _TimeStampAfterCompile;
+                         AfterCompile;
+                       ;
+                         _CreateAppHost;
+                         _CreateComHost;
+                         _GetIjwHostPaths;
+                       " (previous value: "
+                         ResolveReferences;
+                         ResolveKeySource;
+                         SetWin32ManifestProperties;
+                         _SetPreferNativeArm64Win32ManifestProperties;
+                         FindReferenceAssembliesForReferences;
+                         _GenerateCompileInputs;
+                         BeforeCompile;
+                         _TimeStampBeforeCompile;
+                         _GenerateCompileDependencyCache;
+                         CoreCompile;
+                         _TimeStampAfterCompile;
+                         AfterCompile;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (679,5)
+                   Property reassignment: $(CreateSatelliteAssembliesDependsOn)="
+                         
+                         ;
+                         _GenerateSatelliteAssemblyInputs;
+                         ComputeIntermediateSatelliteAssemblies;
+                         GenerateSatelliteAssemblies
+                       ;
+                         CoreGenerateSatelliteAssemblies
+                       " (previous value: "
+                         ;
+                         _GenerateSatelliteAssemblyInputs;
+                         ComputeIntermediateSatelliteAssemblies;
+                         GenerateSatelliteAssemblies
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.targets (1065,5)
+                   Property reassignment: $(SourceLinkUrlInitializerTargets)=";_InitializeGitHubSourceLinkUrl;_InitializeGitLabSourceLinkUrl" (previous value: ";_InitializeGitHubSourceLinkUrl") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.SourceLink.GitLab\build\Microsoft.SourceLink.GitLab.targets (12,5)
+                   Property reassignment: $(SourceControlManagerUrlTranslationTargets)=";TranslateGitHubUrlsInSourceControlInformation;TranslateGitLabUrlsInSourceControlInformation" (previous value: ";TranslateGitHubUrlsInSourceControlInformation") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.SourceLink.GitLab\build\Microsoft.SourceLink.GitLab.targets (13,5)
+                   Property reassignment: $(SourceLinkUrlInitializerTargets)=";_InitializeGitHubSourceLinkUrl;_InitializeGitLabSourceLinkUrl;_InitializeAzureReposGitSourceLinkUrl" (previous value: ";_InitializeGitHubSourceLinkUrl;_InitializeGitLabSourceLinkUrl") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.SourceLink.AzureRepos.Git\build\Microsoft.SourceLink.AzureRepos.Git.targets (12,5)
+                   Property reassignment: $(SourceControlManagerUrlTranslationTargets)=";TranslateGitHubUrlsInSourceControlInformation;TranslateGitLabUrlsInSourceControlInformation;TranslateAzureReposGitUrlsInSourceControlInformation" (previous value: ";TranslateGitHubUrlsInSourceControlInformation;TranslateGitLabUrlsInSourceControlInformation") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.SourceLink.AzureRepos.Git\build\Microsoft.SourceLink.AzureRepos.Git.targets (13,5)
+                   Property reassignment: $(SourceLinkUrlInitializerTargets)=";_InitializeGitHubSourceLinkUrl;_InitializeGitLabSourceLinkUrl;_InitializeAzureReposGitSourceLinkUrl;_InitializeBitbucketGitSourceLinkUrl" (previous value: ";_InitializeGitHubSourceLinkUrl;_InitializeGitLabSourceLinkUrl;_InitializeAzureReposGitSourceLinkUrl") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.SourceLink.Bitbucket.Git\build\Microsoft.SourceLink.Bitbucket.Git.targets (12,5)
+                   Property reassignment: $(SourceControlManagerUrlTranslationTargets)=";TranslateGitHubUrlsInSourceControlInformation;TranslateGitLabUrlsInSourceControlInformation;TranslateAzureReposGitUrlsInSourceControlInformation;TranslateBitbucketGitUrlsInSourceControlInformation" (previous value: ";TranslateGitHubUrlsInSourceControlInformation;TranslateGitLabUrlsInSourceControlInformation;TranslateAzureReposGitUrlsInSourceControlInformation") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.SourceLink.Bitbucket.Git\build\Microsoft.SourceLink.Bitbucket.Git.targets (13,5)
+                   Property reassignment: $(DesignerRuntimeImplementationProjectOutputGroupDependsOn)="
+                         
+                         ;
+                         
+                         ;
+                         BuildOnlySettings;
+                         PrepareForBuild;
+                         AssignTargetPaths;
+                         ResolveReferences
+                       
+                       ;
+                         _GenerateDesignerDepsFile;
+                         _GenerateDesignerRuntimeConfigFile;
+                         GetCopyToOutputDirectoryItems;
+                         _GatherDesignerShadowCopyFiles;
+                       " (previous value: "
+                         ;
+                         
+                         ;
+                         BuildOnlySettings;
+                         PrepareForBuild;
+                         AssignTargetPaths;
+                         ResolveReferences
+                       
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.DesignerSupport.targets (21,5)
+                   Property reassignment: $(_GenerateToolsSettingsFileCacheFile)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\Debug\net8.0\Graduation_Project_Backend.toolssettingsinput.cache" (previous value: "obj\Debug\net8.0\Graduation_Project_Backend.toolssettingsinput.cache") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.PackTool.targets (68,5)
+                   Property reassignment: $(_ShimInputCacheFile)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\Debug\net8.0\Graduation_Project_Backend.shiminput.cache" (previous value: "obj\Debug\net8.0\Graduation_Project_Backend.shiminput.cache") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.PackTool.targets (137,5)
+                   Property reassignment: $(_ShimCreatedSentinelFile)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\Debug\net8.0\Graduation_Project_Backend.shimcreated.sentinel" (previous value: "obj\Debug\net8.0\Graduation_Project_Backend.shimcreated.sentinel") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.PackTool.targets (139,5)
+                   Property reassignment: $(DefineConstants)="TRACE;DEBUG" (previous value: "TRACE") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.CSharp.targets (31,5)
+                   Property reassignment: $(DefineConstants)="TRACE;DEBUG;NET;NET8_0;NETCOREAPP" (previous value: "TRACE;DEBUG") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.CSharp.targets (34,5)
+                   Property reassignment: $(WarningsAsErrors)=";NU1605;SYSLIB0011" (previous value: ";NU1605") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.CSharp.targets (48,5)
+                   The "EnableNETAnalyzers" property is a global property, and cannot be modified.
+                   Property reassignment: $(PackageDescription)="Package Description" (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\NuGet.Build.Tasks.Pack\build\NuGet.Build.Tasks.Pack.targets (34,5)
+                   Property reassignment: $(GenerateNuspecDependsOn)="Build;_LoadPackInputItems; _GetTargetFrameworksOutput; _WalkEachTargetPerFramework; _GetPackageFiles; " (previous value: "_LoadPackInputItems; _GetTargetFrameworksOutput; _WalkEachTargetPerFramework; _GetPackageFiles; ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\NuGet.Build.Tasks.Pack\build\NuGet.Build.Tasks.Pack.targets (59,5)
+                   Property reassignment: $(_IsSDKContainerAllowedVersion)="true" (previous value: "false") at C:\Program Files\dotnet\sdk\8.0.403\Containers\build\Microsoft.NET.Build.Containers.targets (5,5)
+                   Property reassignment: $(_ContainerIsTargetingNet8TFM)="true" (previous value: "false") at C:\Program Files\dotnet\sdk\8.0.403\Containers\build\Microsoft.NET.Build.Containers.targets (15,5)
+                   Property 'DOTNET_HOST_PATH' with value 'C:\Program Files\dotnet\dotnet.exe' expanded from the environment.
+                   Property reassignment: $(PrepareForRunDependsOn)="StaticWebAssetsPrepareForRun;
+                         CopyFilesToOutputDirectory
+                       " (previous value: "
+                         CopyFilesToOutputDirectory
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.targets (255,5)
+                   Property reassignment: $(GetCopyToOutputDirectoryItemsDependsOn)="
+                         AssignTargetPaths;
+                         
+                         AssignProjectConfiguration;
+                         _SplitProjectReferencesByFileExistence
+                       ;
+                         _GetProjectReferenceTargetFrameworkProperties;
+                         _PopulateCommonStateForGetCopyToOutputDirectoryItems
+                       ;AddStaticWebAssetsManifest" (previous value: "
+                         AssignTargetPaths;
+                         
+                         AssignProjectConfiguration;
+                         _SplitProjectReferencesByFileExistence
+                       ;
+                         _GetProjectReferenceTargetFrameworkProperties;
+                         _PopulateCommonStateForGetCopyToOutputDirectoryItems
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.targets (266,5)
+                   Property reassignment: $(GenerateNuspecDependsOn)="
+                         IncludeStaticWebAssetsPackItems;
+                         Build;_LoadPackInputItems; _GetTargetFrameworksOutput; _WalkEachTargetPerFramework; _GetPackageFiles; ;
+                       " (previous value: "Build;_LoadPackInputItems; _GetTargetFrameworksOutput; _WalkEachTargetPerFramework; _GetPackageFiles; ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.Pack.targets (41,5)
+                   Property reassignment: $(IncludeStaticWebAssetsPackItemsDependsOn)="
+                         Build;
+                         ResolveStaticWebAssetsConfiguration;LoadStaticWebAssetsBuildManifest
+                       ;
+                       " (previous value: "
+                         ResolveStaticWebAssetsConfiguration;LoadStaticWebAssetsBuildManifest
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.Pack.targets (50,5)
+                   Property reassignment: $(ResolveStaticWebAssetsInputsDependsOn)="
+                       UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;;
+                       UpdateLegacyPackageScopedCssBundles;
+                       _AddScopedCssBundles;
+                     " (previous value: "UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.ScopedCss.targets (55,3)
+                   Property reassignment: $(GenerateComputedBuildStaticWebAssetsDependsOn)="
+                       ;
+                       _ResolveBundlingConfiguration;
+                       _GenerateScopedCssFiles;
+                       BundleScopedCssFiles;
+                     " (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.ScopedCss.targets (61,3)
+                   Property reassignment: $(ResolveStaticWebAssetsInputsDependsOn)="
+                         
+                       UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;;
+                       UpdateLegacyPackageScopedCssBundles;
+                       _AddScopedCssBundles;
+                     ;
+                         _AddJsModulesToStaticWebAssets;
+                       " (previous value: "
+                       UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;;
+                       UpdateLegacyPackageScopedCssBundles;
+                       _AddScopedCssBundles;
+                     ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.JSModules.targets (36,5)
+                   Property reassignment: $(StaticWebAssetsPrepareForRunDependsOn)="
+                         ;GenerateStaticWebAssetsManifest;GenerateComputedBuildStaticWebAssets;CopyStaticWebAssetsToOutputDirectory;
+                         _GenerateBuildJsModuleManifest;
+                       " (previous value: ";GenerateStaticWebAssetsManifest;GenerateComputedBuildStaticWebAssets;CopyStaticWebAssetsToOutputDirectory") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.JSModules.targets (44,5)
+                   Property reassignment: $(StaticWebAssetsPrepareForPublishDependsOn)="
+                         ;ResolveStaticWebAssetsConfiguration;GenerateStaticWebAssetsPublishManifest;GenerateComputedPublishStaticWebAssets;
+                         _GeneratePublishJsModuleManifest;
+                       " (previous value: ";ResolveStaticWebAssetsConfiguration;GenerateStaticWebAssetsPublishManifest;GenerateComputedPublishStaticWebAssets") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.JSModules.targets (49,5)
+                   Property reassignment: $(ResolveStaticWebAssetsInputsDependsOn)="
+                         
+                         
+                       UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;;
+                       UpdateLegacyPackageScopedCssBundles;
+                       _AddScopedCssBundles;
+                     ;
+                         _AddJsModulesToStaticWebAssets;
+                       ;
+                         _AddBuildJsModuleManifest;
+                       " (previous value: "
+                         
+                       UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;;
+                       UpdateLegacyPackageScopedCssBundles;
+                       _AddScopedCssBundles;
+                     ;
+                         _AddJsModulesToStaticWebAssets;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.JSModules.targets (54,5)
+                   Property reassignment: $(ResolvePublishStaticWebAssetsDependsOn)="
+                         LoadStaticWebAssetsBuildManifest;ComputeReferencedProjectsEmbeddedPublishAssets;ComputeReferencedProjectsPublishAssets;;
+                         _AddPublishJsModuleManifest
+                       " (previous value: "LoadStaticWebAssetsBuildManifest;ComputeReferencedProjectsEmbeddedPublishAssets;ComputeReferencedProjectsPublishAssets;") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.JSModules.targets (59,5)
+                   Property reassignment: $(GenerateComputedBuildStaticWebAssetsDependsOn)="
+                         
+                       ;
+                       _ResolveBundlingConfiguration;
+                       _GenerateScopedCssFiles;
+                       BundleScopedCssFiles;
+                     ;
+                         _CompressFiles;
+                       " (previous value: "
+                       ;
+                       _ResolveBundlingConfiguration;
+                       _GenerateScopedCssFiles;
+                       BundleScopedCssFiles;
+                     ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.Compression.targets (35,5)
+                   Property reassignment: $(GenerateComputedPublishStaticWebAssetsDependsOn)="
+                         ;
+                         _CompressFilesForPublish;
+                       " (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.Compression.targets (39,5)
+                   Property reassignment: $(StaticWebAssetsPrepareForPublishDependsOn)="
+                         
+                         ;ResolveStaticWebAssetsConfiguration;GenerateStaticWebAssetsPublishManifest;GenerateComputedPublishStaticWebAssets;
+                         _GeneratePublishJsModuleManifest;
+                       ;
+                         _CompressFilesForPublish;
+                       " (previous value: "
+                         ;ResolveStaticWebAssetsConfiguration;GenerateStaticWebAssetsPublishManifest;GenerateComputedPublishStaticWebAssets;
+                         _GeneratePublishJsModuleManifest;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.Compression.targets (43,5)
+                   Property reassignment: $(ResolveStaticWebAssetsInputsDependsOn)="
+                         
+                         
+                         
+                       UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;;
+                       UpdateLegacyPackageScopedCssBundles;
+                       _AddScopedCssBundles;
+                     ;
+                         _AddJsModulesToStaticWebAssets;
+                       ;
+                         _AddBuildJsModuleManifest;
+                       ;
+                         _ResolveCompressedFiles;
+                       " (previous value: "
+                         
+                         
+                       UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets;ResolveEmbeddedProjectsStaticWebAssets;ResolveReferencedProjectsStaticWebAssets;;
+                       UpdateLegacyPackageScopedCssBundles;
+                       _AddScopedCssBundles;
+                     ;
+                         _AddJsModulesToStaticWebAssets;
+                       ;
+                         _AddBuildJsModuleManifest;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.Compression.targets (47,5)
+                   Property reassignment: $(ResolvePublishStaticWebAssetsDependsOn)="
+                         
+                         LoadStaticWebAssetsBuildManifest;ComputeReferencedProjectsEmbeddedPublishAssets;ComputeReferencedProjectsPublishAssets;;
+                         _AddPublishJsModuleManifest
+                       ;
+                         _ResolveCompressedFilesForPublish;
+                       " (previous value: "
+                         LoadStaticWebAssetsBuildManifest;ComputeReferencedProjectsEmbeddedPublishAssets;ComputeReferencedProjectsPublishAssets;;
+                         _AddPublishJsModuleManifest
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.StaticWebAssets\targets\Microsoft.NET.Sdk.StaticWebAssets.Compression.targets (51,5)
+                   Property reassignment: $(ResolveScopedCssOutputsDependsOn)="
+                         
+                       ;
+                     ;
+                         ResolveCssScopes;
+                       " (previous value: "
+                       ;
+                     ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Sdk.Razor.CurrentVersion.targets (188,5)
+                   Property reassignment: $(DebugSymbolsProjectOutputGroupDependsOn)="
+                         ;
+                         _RazorAddDebugSymbolsProjectOutputGroupOutput
+                       " (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Sdk.Razor.CurrentVersion.targets (193,5)
+                   Property reassignment: $(PrepareForBuildDependsOn)="
+                         ;GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata;
+                         ResolveRazorGenerateInputs
+                       " (previous value: ";GetFrameworkPaths;GetReferenceAssemblyPaths;AssignLinkMetadata") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Sdk.Razor.CurrentVersion.targets (198,5)
+                   Property reassignment: $(GenerateNuspecDependsOn)="
+                         ResolveRazorGenerateInputs;
+                         
+                         IncludeStaticWebAssetsPackItems;
+                         Build;_LoadPackInputItems; _GetTargetFrameworksOutput; _WalkEachTargetPerFramework; _GetPackageFiles; ;
+                       
+                       " (previous value: "
+                         IncludeStaticWebAssetsPackItems;
+                         Build;_LoadPackInputItems; _GetTargetFrameworksOutput; _WalkEachTargetPerFramework; _GetPackageFiles; ;
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Sdk.Razor.CurrentVersion.targets (203,5)
+                   Property reassignment: $(PrepareForRunDependsOn)="
+                         _RazorPrepareForRun;
+                         StaticWebAssetsPrepareForRun;
+                         CopyFilesToOutputDirectory
+                       
+                       " (previous value: "StaticWebAssetsPrepareForRun;
+                         CopyFilesToOutputDirectory
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Sdk.Razor.CurrentVersion.targets (208,5)
+                   Property reassignment: $(_RazorDebugSymbolsProduced)="true" (previous value: "false") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Sdk.Razor.CurrentVersion.targets (305,5)
+                   Property reassignment: $(GenerateRazorTargetAssemblyInfoDependsOn)="
+                         _ResolveMvcAssemblyAttributes;
+                         
+                         GetRazorTargetAssemblyAttributes;
+                         _CreateRazorTargetAssemblyInfoInputsCacheFile;
+                         CoreGenerateRazorTargetAssemblyInfo
+                       
+                       " (previous value: "
+                         GetRazorTargetAssemblyAttributes;
+                         _CreateRazorTargetAssemblyInfoInputsCacheFile;
+                         CoreGenerateRazorTargetAssemblyInfo
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Microsoft.NET.Sdk.Razor.GenerateAssemblyInfo.targets (36,5)
+                   Property reassignment: $(CoreCompileDependsOn)="
+                         ;_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet;
+                         _GenerateRazorAssemblyInfo
+                       " (previous value: ";_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Microsoft.NET.Sdk.Razor.GenerateAssemblyInfo.targets (181,5)
+                   Property reassignment: $(_GenerateRazorAssemblyInfoDependsOn)="
+                         _ResolveMvcAssemblyAttributes;
+                         RazorGetAssemblyAttributes;PrepareForBuild;_CoreGenerateRazorAssemblyInfo;
+                       " (previous value: "RazorGetAssemblyAttributes;PrepareForBuild;_CoreGenerateRazorAssemblyInfo") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Microsoft.NET.Sdk.Razor.GenerateAssemblyInfo.targets (189,5)
+                   Property reassignment: $(CoreCompileDependsOn)="
+                         _DiscoverMvcApplicationParts;
+                         
+                         ;_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet;
+                         _GenerateRazorAssemblyInfo
+                       ;
+                       " (previous value: "
+                         ;_ComputeNonExistentFileProperty;ResolveCodeAnalysisRuleSet;
+                         _GenerateRazorAssemblyInfo
+                       ") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Microsoft.NET.Sdk.Razor.MvcApplicationPartsDiscovery.targets (22,5)
+                   Property reassignment: $(RazorDesignTimeTargets)="C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Microsoft.NET.Sdk.Razor.DesignTime.targets" (previous value: "C:\Program Files\dotnet\sdk\8.0.403\\Microsoft\VisualStudio\Razor\Microsoft.NET.Sdk.Razor.DesignTime.targets") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Razor\targets\Sdk.Razor.CurrentVersion.targets (779,5)
+                   Property reassignment: $(RunWorkingDirectory)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend" (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Web.ProjectSystem\targets\Microsoft.NET.Sdk.Web.ProjectSystem.targets (21,5)
+                   Property reassignment: $(PublishProfileImported)="true" (previous value: "false") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Publish\targets\Microsoft.NET.Sdk.Publish.targets (60,5)
+                   Property reassignment: $(PublishConfiguration)="Debug" (previous value: "") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Publish\targets\Microsoft.NET.Sdk.Publish.targets (81,5)
+                   Property reassignment: $(BaseIntermediateOutputPath)="C:\Users\JUST\Downloads\gdiv\Graduation_Project_Backend\obj\" (previous value: "obj\") at C:\Program Files\dotnet\sdk\8.0.403\Sdks\Microsoft.NET.Sdk.Publish\targets\Microsoft.NET.Sdk.Publish.targets (87,5)
+                   Assembly loaded during Evaluation: System.Reflection.Emit.Lightweight, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Reflection.Emit.Lightweight.dll, MVID: e90a710a-32cf-4e8f-bb7f-6a058f7f12b6, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: System.Reflection.Emit.ILGeneration, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Reflection.Emit.ILGeneration.dll, MVID: 1b51ad3f-ea4b-4b9c-99dd-d9ef33193fa2, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: System.Reflection.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Reflection.Primitives.dll, MVID: c78729b3-e26d-471c-a715-91e7c36d071d, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: System.Net.Requests, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Net.Requests.dll, MVID: 8a8c44f7-595f-4fa6-9f38-dde4652b65d4, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: System.Runtime.Intrinsics, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Runtime.Intrinsics.dll, MVID: 81feedc0-6f6d-491a-b062-e4b7a6f3a297, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: System.Net.Sockets, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Net.Sockets.dll, MVID: eff097a5-c594-4256-896b-85e55ee172b4, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: System.Threading.Overlapped, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Threading.Overlapped.dll, MVID: a56fecb0-d940-4dfa-bb12-214e49b2b4b7, AssemblyLoadContext: Default)
+                   Assembly loaded during Evaluation: System.Threading.ThreadPool, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.12\System.Threading.ThreadPool.dll, MVID: 8f9dd36c-ceb6-4b28-9476-ba8b779b668b, AssemblyLoadContext: Default)

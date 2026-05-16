@@ -1,0 +1,70 @@
+@model Graduation_Project_Backend.Models.ViewModels.ManagerOffersPageViewModel
+@{
+    Layout = "_ManagerLayout";
+    ViewData["Title"] = "Offers";
+    string formAction = Model.IsEditing ? "/manager/offers/update" : "/manager/offers";
+}
+
+<section class="page-heading">
+    <div><p class="eyebrow">Manager</p><h1>Offers</h1></div>
+    @if (Model.IsEditing)
+    {
+        <a class="button ghost" href="/manager/offers">Cancel editing</a>
+    }
+</section>
+
+<section class="two-column">
+    <form class="panel form-panel" method="post" action="@formAction">
+        <h2>@(Model.IsEditing ? "Update offer" : "Create offer")</h2>
+        @if (Model.IsEditing)
+        {
+            <input type="hidden" name="Id" value="@Model.Form.Id">
+        }
+        <label>
+            Store
+            <select name="StoreId" required>
+                <option value="">Choose a store</option>
+                @foreach (var store in Model.StoreOptions)
+                {
+                    <option value="@store.Value" selected="@(store.Value == Model.Form.StoreId.ToString())">@store.Text</option>
+                }
+            </select>
+        </label>
+        <label>Title<input name="Title" value="@Model.Form.Title" type="text" maxlength="200" required></label>
+        <label>Description<textarea name="Description" maxlength="2000" rows="4">@Model.Form.Description</textarea></label>
+        <div class="field-grid">
+            <label>Start<input name="StartAt" type="datetime-local" value="@Model.Form.StartAt.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")" required></label>
+            <label>End<input name="EndAt" type="datetime-local" value="@Model.Form.EndAt.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")" required></label>
+        </div>
+        <label>
+            Active
+            <select name="IsActive">
+                <option value="true" selected="@(Model.Form.IsActive)">Yes</option>
+                <option value="false" selected="@(!Model.Form.IsActive)">No</option>
+            </select>
+        </label>
+        <button type="submit">@(Model.IsEditing ? "Save changes" : "Create offer")</button>
+    </form>
+
+    <section class="panel">
+        <h2>Managed offers</h2>
+        <div class="table-wrap"><table><thead><tr><th>Title</th><th>Store</th><th>Status</th><th>Dates</th><th></th></tr></thead><tbody>
+        @foreach (var offer in Model.Offers)
+        {
+            <tr>
+                <td>@offer.Title</td>
+                <td>@offer.StoreName</td>
+                <td>@(offer.IsActive ? "Active" : "Inactive")</td>
+                <td>@offer.StartAt.ToLocalTime().ToString("yyyy-MM-dd") - @offer.EndAt.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                <td class="actions-cell">
+                    <a class="text-link" href="/manager/offers?editOfferId=@offer.Id">Edit</a>
+                    <form method="post" action="/manager/offers/delete">
+                        <input type="hidden" name="offerId" value="@offer.Id">
+                        <button class="link-button danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody></table></div>
+    </section>
+</section>

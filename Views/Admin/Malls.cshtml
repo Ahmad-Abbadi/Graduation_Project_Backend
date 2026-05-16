@@ -1,0 +1,52 @@
+@model Graduation_Project_Backend.Models.ViewModels.AdminMallsPageViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Malls";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Admin</p>
+        <h1>Malls</h1>
+    </div>
+</section>
+
+<section class="two-column">
+    <form class="panel form-panel" method="post" action="/admin/malls">
+        <h2>Create mall</h2>
+        <label>
+            Mall name
+            <input name="Name" value="@Model.Form.Name" type="text" maxlength="200" required placeholder="City Mall">
+        </label>
+        <button type="submit">Create mall</button>
+    </form>
+
+    <section class="panel">
+        <h2>Existing malls</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Stores</th>
+                        <th>Managers</th>
+                        <th>Created</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var mall in Model.Malls)
+                {
+                    <tr>
+                        <td>@mall.Name</td>
+                        <td>@mall.StoresCount</td>
+                        <td>@mall.ManagersCount</td>
+                        <td>@mall.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                        <td><code>@mall.Id</code></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>

@@ -40,6 +40,9 @@ namespace Graduation_Project_Backend.Service
             if (!access.IsManager)
                 throw new ApiForbiddenException("Only managers can create coupons.", "MANAGER_REQUIRED");
 
+            if (!access.IsMallWideManager)
+                throw new ApiForbiddenException("Only mall-wide managers can create coupons.", "MALL_WIDE_MANAGER_REQUIRED");
+
             if (request.StartAt >= request.EndAt)
                 throw new ApiValidationException("Start date must be earlier than end date.", "INVALID_DATE_RANGE");
 

@@ -1,0 +1,84 @@
+@model Graduation_Project_Backend.Models.ViewModels.AdminStoresPageViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Stores";
+    bool isEditing = Model.Form.Id.HasValue;
+    string formAction = isEditing ? "/admin/stores/update" : "/admin/stores";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Admin</p>
+        <h1>Stores</h1>
+    </div>
+    @if (isEditing)
+    {
+        <a class="button ghost" href="/admin/stores">Cancel editing</a>
+    }
+</section>
+
+<section class="two-column">
+    <form class="panel form-panel" method="post" action="@formAction">
+        <h2>@(isEditing ? "Update store" : "Create store")</h2>
+        @if (isEditing)
+        {
+            <input type="hidden" name="Id" value="@Model.Form.Id">
+        }
+        <label>
+            Mall
+            <select name="MallID" required>
+                <option value="">Choose a mall</option>
+                @foreach (var mall in Model.MallOptions)
+                {
+                    <option value="@mall.Value" selected="@(mall.Value == Model.Form.MallID.ToString())">@mall.Text</option>
+                }
+            </select>
+        </label>
+        <label>
+            Store name
+            <input name="Name" value="@Model.Form.Name" type="text" maxlength="200" required placeholder="Zara">
+        </label>
+        <div class="field-grid">
+            <label>Floor<input name="FloorNumber" value="@Model.Form.FloorNumber" type="text" maxlength="50" placeholder="F2"></label>
+            <label>Phone<input name="PhoneNumber" value="@Model.Form.PhoneNumber" type="text" maxlength="50" placeholder="+962..."></label>
+        </div>
+        <label>Email<input name="Email" value="@Model.Form.Email" type="email" maxlength="200" placeholder="store@example.com"></label>
+        <label>Operating hours<input name="OperatingHours" value="@Model.Form.OperatingHours" type="text" maxlength="200" placeholder="Sat-Thu 10:00-22:00"></label>
+        <label>Image URL<input name="StoreImageUrl" value="@Model.Form.StoreImageUrl" type="text" maxlength="1000" placeholder="https://..."></label>
+        <label>Description<textarea name="Description" maxlength="2000" rows="4">@Model.Form.Description</textarea></label>
+        <label>Social media JSON<textarea name="SocialMediaLinksJson" rows="4" placeholder='{"instagram":"https://..."}'>@Model.Form.SocialMediaLinksJson</textarea></label>
+        <button type="submit">@(isEditing ? "Save changes" : "Create store")</button>
+    </form>
+
+    <section class="panel">
+        <h2>Stores</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Mall</th>
+                        <th>Floor</th>
+                        <th>Contact</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var store in Model.Stores)
+                {
+                    <tr>
+                        <td>@store.Name</td>
+                        <td>@store.MallName</td>
+                        <td>@(store.FloorNumber ?? "-")</td>
+                        <td>
+                            <span>@(store.PhoneNumber ?? "-")</span>
+                            <small>@(store.Email ?? "")</small>
+                        </td>
+                        <td><a class="text-link" href="/admin/stores?editStoreId=@store.Id">Edit</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>

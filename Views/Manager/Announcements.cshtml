@@ -1,0 +1,84 @@
+@model Graduation_Project_Backend.Models.ViewModels.ManagerAnnouncementsPageViewModel
+@{
+    Layout = "_ManagerLayout";
+    ViewData["Title"] = "Announcements";
+    string formAction = Model.IsEditing ? "/manager/announcements/update" : "/manager/announcements";
+}
+
+<section class="page-heading">
+    <div><p class="eyebrow">Manager</p><h1>Announcements</h1></div>
+    @if (Model.IsEditing)
+    {
+        <a class="button ghost" href="/manager/announcements">Cancel editing</a>
+    }
+</section>
+
+<section class="two-column">
+    <form class="panel form-panel" method="post" action="@formAction">
+        <h2>@(Model.IsEditing ? "Update announcement" : "Create announcement")</h2>
+        @if (Model.IsEditing)
+        {
+            <input type="hidden" name="Id" value="@Model.Form.Id">
+        }
+        <label>
+            Store
+            <select name="StoreId">
+                <option value="">Mall-wide</option>
+                @foreach (var store in Model.StoreOptions)
+                {
+                    <option value="@store.Value" selected="@(store.Value == Model.Form.StoreId?.ToString())">@store.Text</option>
+                }
+            </select>
+        </label>
+        <label>Title<input name="Title" value="@Model.Form.Title" type="text" maxlength="200" required></label>
+        <label>Content<textarea name="Content" maxlength="4000" rows="5" required>@Model.Form.Content</textarea></label>
+        <div class="field-grid">
+            <label>Type<input name="AnnouncementType" type="text" value="@Model.Form.AnnouncementType" maxlength="100"></label>
+            <label>Priority<input name="Priority" type="text" value="@Model.Form.Priority" maxlength="50"></label>
+        </div>
+        <label>Image URL<input name="ImageUrl" value="@Model.Form.ImageUrl" type="text" maxlength="1000"></label>
+        <div class="field-grid">
+            <label>Start<input name="StartDate" value="@Model.Form.StartDate.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required></label>
+            <label>End<input name="EndDate" value="@Model.Form.EndDate.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required></label>
+        </div>
+        <div class="field-grid">
+            <label>
+                Active
+                <select name="IsActive">
+                    <option value="true" selected="@(Model.Form.IsActive)">Yes</option>
+                    <option value="false" selected="@(!Model.Form.IsActive)">No</option>
+                </select>
+            </label>
+            <label>
+                Pinned
+                <select name="IsPinned">
+                    <option value="false" selected="@(!Model.Form.IsPinned)">No</option>
+                    <option value="true" selected="@(Model.Form.IsPinned)">Yes</option>
+                </select>
+            </label>
+        </div>
+        <button type="submit">@(Model.IsEditing ? "Save changes" : "Create announcement")</button>
+    </form>
+
+    <section class="panel">
+        <h2>Managed announcements</h2>
+        <div class="table-wrap"><table><thead><tr><th>Title</th><th>Store</th><th>Status</th><th>Dates</th><th></th></tr></thead><tbody>
+        @foreach (var announcement in Model.Announcements)
+        {
+            <tr>
+                <td>@announcement.Title</td>
+                <td>@(announcement.StoreName ?? "Mall-wide")</td>
+                <td>@(announcement.IsActive ? "Active" : "Inactive")</td>
+                <td>@announcement.StartDate.ToLocalTime().ToString("yyyy-MM-dd") - @announcement.EndDate.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                <td class="actions-cell">
+                    <a class="text-link" href="/manager/announcements?editAnnouncementId=@announcement.Id">Edit</a>
+                    <form method="post" action="/manager/announcements/delete">
+                        <input type="hidden" name="announcementId" value="@announcement.Id">
+                        <button class="link-button danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody></table></div>
+    </section>
+</section>

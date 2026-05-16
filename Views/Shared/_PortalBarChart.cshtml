@@ -1,0 +1,19 @@
+@model IReadOnlyList<Graduation_Project_Backend.Models.ViewModels.DashboardChartPoint>
+
+@if (Model.Count == 0)
+{
+    <p class="muted">No report data for this period.</p>
+}
+else
+{
+    <div class="bar-chart">
+        @foreach (var point in Model)
+        {
+            <div class="bar-row">
+                <span>@point.Label</span>
+                <div class="bar-track"><i style="width:@point.Percent%"></i></div>
+                <strong>@point.Value.ToString("0.##")</strong>
+            </div>
+        }
+    </div>
+}

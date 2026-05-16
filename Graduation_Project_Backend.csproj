@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DefaultItemExcludes>$(DefaultItemExcludes);.git\**;.github\**;.vs\**;.dotnet\**;bin\**;obj\**;test-build\**;portal-build\**;Graduation_Project_Backend.Tests\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>

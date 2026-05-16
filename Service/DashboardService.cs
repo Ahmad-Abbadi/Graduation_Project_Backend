@@ -18,7 +18,7 @@ namespace Graduation_Project_Backend.Service
 
         public async Task<DashboardSummaryResponse> GetSummaryAsync(Guid currentUserId, DashboardDateRangeQuery query, CancellationToken cancellationToken = default)
         {
-            UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            UserAccessContext access = await GetDashboardAccessAsync(currentUserId, cancellationToken);
             List<TransactionMetricRow> transactions = await GetTransactionMetricsAsync(access, query, cancellationToken);
             CouponMetricSnapshot? coupons = await GetCouponSnapshotAsync(access, query, cancellationToken);
             DateTimeOffset now = DateTimeOffset.UtcNow;
@@ -44,7 +44,7 @@ namespace Graduation_Project_Backend.Service
 
         public async Task<DashboardSalesResponse> GetSalesAsync(Guid currentUserId, DashboardDateRangeQuery query, CancellationToken cancellationToken = default)
         {
-            UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            UserAccessContext access = await GetDashboardAccessAsync(currentUserId, cancellationToken);
             List<TransactionMetricRow> transactions = await GetTransactionMetricsAsync(access, query, cancellationToken);
 
             IReadOnlyList<DailySalesPointResponse> dailySales = transactions
@@ -82,7 +82,7 @@ namespace Graduation_Project_Backend.Service
 
         public async Task<DashboardPointsResponse> GetPointsAsync(Guid currentUserId, DashboardDateRangeQuery query, CancellationToken cancellationToken = default)
         {
-            UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            UserAccessContext access = await GetDashboardAccessAsync(currentUserId, cancellationToken);
             List<TransactionMetricRow> transactions = await GetTransactionMetricsAsync(access, query, cancellationToken);
             CouponMetricSnapshot? coupons = await GetCouponSnapshotAsync(access, query, cancellationToken);
 
@@ -118,7 +118,7 @@ namespace Graduation_Project_Backend.Service
 
         public async Task<DashboardCouponsResponse> GetCouponsAsync(Guid currentUserId, DashboardDateRangeQuery query, CancellationToken cancellationToken = default)
         {
-            UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            UserAccessContext access = await GetDashboardAccessAsync(currentUserId, cancellationToken);
             CouponMetricSnapshot? coupons = await GetCouponSnapshotAsync(access, query, cancellationToken);
             if (coupons == null)
             {
@@ -142,7 +142,7 @@ namespace Graduation_Project_Backend.Service
 
         public async Task<DashboardActivityResponse> GetActivityAsync(Guid currentUserId, DashboardDateRangeQuery query, CancellationToken cancellationToken = default)
         {
-            UserAccessContext access = await GetManagerAccessAsync(currentUserId, cancellationToken);
+            UserAccessContext access = await GetDashboardAccessAsync(currentUserId, cancellationToken);
             List<TransactionMetricRow> transactions = await GetTransactionMetricsAsync(access, query, cancellationToken);
             DateTimeOffset now = DateTimeOffset.UtcNow;
 
@@ -154,12 +154,12 @@ namespace Graduation_Project_Backend.Service
                 .CountAsync(announcement => announcement.IsActive && announcement.StartDate <= now && announcement.EndDate >= now, cancellationToken);
 
             int? unreadNotifications = null;
-            if (access.IsMallWideManager)
+            if (access.IsAdmin || access.IsMallWideManager)
             {
                 unreadNotifications = await (
                     from un in _db.UserNotifications.AsNoTracking()
                     join user in _db.UserProfiles.AsNoTracking() on un.UserId equals user.Id
-                    where user.MallID == access.MallID && !un.IsRead
+                    where (access.IsAdmin || user.MallID == access.MallID) && !un.IsRead
                     select un.NotificationsId
                 ).CountAsync(cancellationToken);
             }
@@ -192,38 +192,28 @@ namespace Graduation_Project_Backend.Service
             };
         }
 
-        private async Task<UserAccessContext> GetManagerAccessAsync(Guid currentUserId, CancellationToken cancellationToken)
+        private async Task<UserAccessContext> GetDashboardAccessAsync(Guid currentUserId, CancellationToken cancellationToken)
         {
             UserAccessContext access = await _userAccessService.GetUserAccessContextAsync(currentUserId, cancellationToken);
-            if (!access.IsManager)
-                throw new ApiForbiddenException("Only managers can access dashboard analytics.", "MANAGER_REQUIRED");
+            if (!access.IsAdmin && !access.IsManager)
+                throw new ApiForbiddenException("Only admins and managers can access dashboard analytics.", "DASHBOARD_ACCESS_REQUIRED");
 
             return access;
         }
 
         private IQueryable<Models.Entities.Offer> FilterOffersByScope(UserAccessContext access, IQueryable<Models.Entities.Offer> query)
-            => access.IsMallWideManager
+            => access.IsAdmin
+                ? query
+                : access.IsMallWideManager
                 ? query.Where(offer => offer.MallID == access.MallID)
                 : query.Where(offer => access.AssignedStoreIds.Contains(offer.StoreId));
 
         private IQueryable<Models.Entities.Announcement> FilterAnnouncementsByScope(UserAccessContext access, IQueryable<Models.Entities.Announcement> query)
-            => access.IsMallWideManager
+            => access.IsAdmin
+                ? query
+                : access.IsMallWideManager
                 ? query.Where(announcement => announcement.MallID == access.MallID)
                 : query.Where(announcement => announcement.StoreId.HasValue && access.AssignedStoreIds.Contains(announcement.StoreId.Value));
-
-        private IQueryable<TransactionMetricRow> BuildTransactionMetricsQuery(UserAccessContext access)
-            => from transaction in _db.Transactions.AsNoTracking()
-               join store in _db.Stores.AsNoTracking() on transaction.StoreId equals store.Id
-               where access.IsMallWideManager ? store.MallID == access.MallID : access.AssignedStoreIds.Contains(store.Id)
-               select new TransactionMetricRow(
-                   transaction.Id,
-                   transaction.StoreId,
-                   store.Name,
-                   transaction.ReceiptId,
-                   transaction.Price,
-                   transaction.Points,
-                   transaction.CreatedAt,
-                   transaction.TransactionStatus);
 
         private async Task<List<TransactionMetricRow>> GetTransactionMetricsAsync(
             UserAccessContext access,
@@ -232,15 +222,42 @@ namespace Graduation_Project_Backend.Service
         {
             ValidateDateRange(query);
 
-            IQueryable<TransactionMetricRow> transactions = BuildTransactionMetricsQuery(access);
+            var transactions =
+                from transaction in _db.Transactions.AsNoTracking()
+                join store in _db.Stores.AsNoTracking() on transaction.StoreId equals store.Id
+                where access.IsAdmin || (access.IsMallWideManager ? store.MallID == access.MallID : access.AssignedStoreIds.Contains(store.Id))
+                select new
+                {
+                    transaction.Id,
+                    transaction.StoreId,
+                    StoreName = store.Name,
+                    transaction.ReceiptId,
+                    transaction.Price,
+                    transaction.Points,
+                    transaction.CreatedAt,
+                    transaction.TransactionStatus
+                };
 
-            if (query.From.HasValue)
-                transactions = transactions.Where(transaction => transaction.CreatedAt >= query.From.Value);
+            DateTimeOffset? from = ToUtc(query.From);
+            DateTimeOffset? to = ToUtc(query.To);
 
-            if (query.To.HasValue)
-                transactions = transactions.Where(transaction => transaction.CreatedAt <= query.To.Value);
+            if (from.HasValue)
+                transactions = transactions.Where(transaction => transaction.CreatedAt >= from.Value);
 
-            return await transactions.ToListAsync(cancellationToken);
+            if (to.HasValue)
+                transactions = transactions.Where(transaction => transaction.CreatedAt <= to.Value);
+
+            return await transactions
+                .Select(transaction => new TransactionMetricRow(
+                    transaction.Id,
+                    transaction.StoreId,
+                    transaction.StoreName,
+                    transaction.ReceiptId,
+                    transaction.Price,
+                    transaction.Points,
+                    transaction.CreatedAt,
+                    transaction.TransactionStatus))
+                .ToListAsync(cancellationToken);
         }
 
         private async Task<CouponMetricSnapshot?> GetCouponSnapshotAsync(
@@ -250,14 +267,14 @@ namespace Graduation_Project_Backend.Service
         {
             ValidateDateRange(query);
 
-            if (!access.IsMallWideManager)
+            if (!access.IsAdmin && !access.IsMallWideManager)
                 return null;
 
             DateTimeOffset now = DateTimeOffset.UtcNow;
 
             int activeCoupons = await _db.Coupons.AsNoTracking()
                 .CountAsync(coupon =>
-                    coupon.MallID == access.MallID &&
+                    (access.IsAdmin || coupon.MallID == access.MallID) &&
                     coupon.IsActive &&
                     coupon.StartAt <= now &&
                     coupon.EndAt >= now,
@@ -266,7 +283,7 @@ namespace Graduation_Project_Backend.Service
             var userCouponsQuery =
                 from userCoupon in _db.UserCoupons.AsNoTracking()
                 join coupon in _db.Coupons.AsNoTracking() on userCoupon.CouponId equals coupon.Id
-                where coupon.MallID == access.MallID
+                where access.IsAdmin || coupon.MallID == access.MallID
                 select new
                 {
                     userCoupon.CreatedAt,
@@ -274,11 +291,14 @@ namespace Graduation_Project_Backend.Service
                     CostPoint = coupon.CostPoint ?? 0
                 };
 
-            if (query.From.HasValue)
-                userCouponsQuery = userCouponsQuery.Where(item => item.CreatedAt >= query.From.Value.UtcDateTime);
+            DateTimeOffset? from = ToUtc(query.From);
+            DateTimeOffset? to = ToUtc(query.To);
 
-            if (query.To.HasValue)
-                userCouponsQuery = userCouponsQuery.Where(item => item.CreatedAt <= query.To.Value.UtcDateTime);
+            if (from.HasValue)
+                userCouponsQuery = userCouponsQuery.Where(item => item.CreatedAt >= from.Value.UtcDateTime);
+
+            if (to.HasValue)
+                userCouponsQuery = userCouponsQuery.Where(item => item.CreatedAt <= to.Value.UtcDateTime);
 
             List<CouponMetricRow> rows = await userCouponsQuery
                 .Select(item => new CouponMetricRow(item.CreatedAt.Date, item.IsRedeemed, item.CostPoint))
@@ -301,7 +321,9 @@ namespace Graduation_Project_Backend.Service
         {
             IQueryable<Guid> scopedStoreIds = access.IsMallWideManager
                 ? _db.Stores.AsNoTracking().Where(store => store.MallID == access.MallID).Select(store => store.Id)
-                : _db.Stores.AsNoTracking().Where(store => access.AssignedStoreIds.Contains(store.Id)).Select(store => store.Id);
+                : access.IsAdmin
+                    ? _db.Stores.AsNoTracking().Select(store => store.Id)
+                    : _db.Stores.AsNoTracking().Where(store => access.AssignedStoreIds.Contains(store.Id)).Select(store => store.Id);
 
             return await (
                 from storeCategory in _db.StoreCategories.AsNoTracking()
@@ -322,6 +344,9 @@ namespace Graduation_Project_Backend.Service
             if (query.From.HasValue && query.To.HasValue && query.From > query.To)
                 throw new ApiValidationException("The from date must be earlier than the to date.", "INVALID_DATE_RANGE");
         }
+
+        private static DateTimeOffset? ToUtc(DateTimeOffset? value)
+            => value?.ToUniversalTime();
 
         private sealed record TransactionMetricRow(
             long TransactionId,

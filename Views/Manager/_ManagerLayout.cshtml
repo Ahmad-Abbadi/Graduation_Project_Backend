@@ -1,0 +1,57 @@
+@{
+    string currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "Index";
+    string title = ViewData["Title"]?.ToString() ?? "Manager";
+    bool canManageMallOperations = Model?.GetType().GetProperty("CanManageMallOperations")?.GetValue(Model) as bool? ?? false;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@title - YALLAH REWARDS</title>
+    <link rel="stylesheet" href="/css/admin-console.css">
+</head>
+<body>
+    <div class="admin-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-mark">YR</span>
+                <div>
+                    <strong>YALLAH REWARDS</strong>
+                    <span>Manager portal</span>
+                </div>
+            </div>
+            <nav class="nav">
+                <a class="@(currentAction == "Index" ? "active" : "")" href="/manager">Overview</a>
+                <a class="@(currentAction == "Dashboard" ? "active" : "")" href="/manager/dashboard">Dashboard</a>
+                @if (canManageMallOperations)
+                {
+                    <a class="@(currentAction == "Stores" ? "active" : "")" href="/manager/stores">Stores</a>
+                    <a class="@(currentAction == "StoreManagers" ? "active" : "")" href="/manager/store-managers">Store managers</a>
+                }
+                <a class="@(currentAction == "Offers" ? "active" : "")" href="/manager/offers">Offers</a>
+                @if (canManageMallOperations)
+                {
+                    <a class="@(currentAction == "Coupons" ? "active" : "")" href="/manager/coupons">Coupons</a>
+                    <a class="@(currentAction == "Announcements" ? "active" : "")" href="/manager/announcements">Announcements</a>
+                }
+                <a href="/portal/account">Account</a>
+            </nav>
+            <form class="logout-form" method="post" action="/portal/logout">
+                <button type="submit">Logout</button>
+            </form>
+        </aside>
+        <main class="content">
+            @if (TempData["SuccessMessage"] is string successMessage)
+            {
+                <div class="alert success">@successMessage</div>
+            }
+            @if (TempData["ErrorMessage"] is string errorMessage)
+            {
+                <div class="alert error">@errorMessage</div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+</body>
+</html>

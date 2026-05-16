@@ -1,0 +1,61 @@
+@model Graduation_Project_Backend.Models.ViewModels.ManagerCouponsPageViewModel
+@{
+    Layout = "_ManagerLayout";
+    ViewData["Title"] = "Coupons";
+    string formAction = Model.IsEditing ? "/manager/coupons/update" : "/manager/coupons";
+}
+
+<section class="page-heading">
+    <div><p class="eyebrow">Manager</p><h1>Coupons</h1></div>
+    @if (Model.IsEditing)
+    {
+        <a class="button ghost" href="/manager/coupons">Cancel editing</a>
+    }
+</section>
+
+<section class="two-column">
+    <form class="panel form-panel" method="post" action="@formAction">
+        <h2>@(Model.IsEditing ? "Update coupon" : "Create coupon")</h2>
+        @if (Model.IsEditing)
+        {
+            <input type="hidden" name="Id" value="@Model.Form.Id">
+        }
+        <label>Type<input name="Type" value="@Model.Form.Type" type="text" maxlength="200" required placeholder="Discount, Gift, Reward"></label>
+        <label>Description<textarea name="Description" maxlength="2000" rows="4">@Model.Form.Description</textarea></label>
+        <div class="field-grid">
+            <label>Start<input name="StartAt" value="@Model.Form.StartAt.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required></label>
+            <label>End<input name="EndAt" value="@Model.Form.EndAt.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" required></label>
+        </div>
+        <label>Cost points<input name="CostPoint" value="@Model.Form.CostPoint" type="number" min="0" step="1" placeholder="Optional"></label>
+        <label>
+            Active
+            <select name="IsActive">
+                <option value="true" selected="@(Model.Form.IsActive)">Yes</option>
+                <option value="false" selected="@(!Model.Form.IsActive)">No</option>
+            </select>
+        </label>
+        <button type="submit">@(Model.IsEditing ? "Save changes" : "Create coupon")</button>
+    </form>
+
+    <section class="panel">
+        <h2>Mall coupons</h2>
+        <div class="table-wrap"><table><thead><tr><th>Type</th><th>Cost</th><th>Status</th><th>Dates</th><th></th></tr></thead><tbody>
+        @foreach (var coupon in Model.Coupons)
+        {
+            <tr>
+                <td>@coupon.Type</td>
+                <td>@(coupon.CostPoint?.ToString() ?? "-")</td>
+                <td>@(coupon.IsActive ? "Active" : "Inactive")</td>
+                <td>@coupon.StartAt.ToLocalTime().ToString("yyyy-MM-dd") - @coupon.EndAt.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                <td class="actions-cell">
+                    <a class="text-link" href="/manager/coupons?editCouponId=@coupon.Id">Edit</a>
+                    <form method="post" action="/manager/coupons/delete">
+                        <input type="hidden" name="couponId" value="@coupon.Id">
+                        <button class="link-button danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody></table></div>
+    </section>
+</section>

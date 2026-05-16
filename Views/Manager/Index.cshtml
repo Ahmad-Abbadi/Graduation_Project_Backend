@@ -1,0 +1,97 @@
+@model Graduation_Project_Backend.Models.ViewModels.ManagerDashboardViewModel
+@{
+    Layout = "_ManagerLayout";
+    ViewData["Title"] = "Overview";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Manager workspace</p>
+        <h1>@Model.MallName</h1>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span>Stores</span><strong>@Model.StoresCount</strong></article>
+    @if (Model.CanManageMallOperations)
+    {
+        <article class="stat-card"><span>Managers</span><strong>@Model.ManagersCount</strong></article>
+    }
+    <article class="stat-card"><span>Active offers</span><strong>@Model.ActiveOffersCount</strong></article>
+    @if (Model.CanManageMallOperations)
+    {
+        <article class="stat-card"><span>Active coupons</span><strong>@Model.ActiveCouponsCount</strong></article>
+    }
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span>Total sales</span><strong>@Model.Summary.TotalSalesAmount.ToString("0.##")</strong></article>
+    <article class="stat-card"><span>Transactions</span><strong>@Model.Summary.TotalTransactions</strong></article>
+    <article class="stat-card"><span>Points issued</span><strong>@Model.Summary.TotalPointsIssued</strong></article>
+    @if (Model.CanManageMallOperations)
+    {
+        <article class="stat-card"><span>Coupons redeemed</span><strong>@(Model.Summary.RedeemedCouponsCount?.ToString() ?? "-")</strong></article>
+    }
+    else
+    {
+        <article class="stat-card"><span>Active offers</span><strong>@Model.Summary.ActiveOffersCount</strong></article>
+    }
+</section>
+
+<section class="two-column dashboard-grid">
+    <section class="panel">
+        <h2>Top stores by sales</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Store</th><th>Sales</th><th>Transactions</th></tr></thead>
+                <tbody>
+                @foreach (var store in Model.Sales.TopStores)
+                {
+                    <tr>
+                        <td>@store.StoreName</td>
+                        <td>@store.SalesAmount.ToString("0.##")</td>
+                        <td>@store.TransactionsCount</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Recent transactions</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Store</th><th>Receipt</th><th>Price</th><th>Points</th></tr></thead>
+                <tbody>
+                @foreach (var transaction in Model.Activity.RecentTransactions)
+                {
+                    <tr>
+                        <td>@transaction.StoreName</td>
+                        <td>@transaction.ReceiptId</td>
+                        <td>@transaction.Price.ToString("0.##")</td>
+                        <td>@transaction.Points</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<section class="panel">
+    <h2>Manager tools</h2>
+    <div class="quick-grid">
+        @if (Model.CanManageMallOperations)
+        {
+            <a href="/manager/stores">Create stores</a>
+            <a href="/manager/store-managers">Create store managers</a>
+        }
+        <a href="/manager/offers">Create offers</a>
+        @if (Model.CanManageMallOperations)
+        {
+            <a href="/manager/coupons">Create coupons</a>
+            <a href="/manager/announcements">Create announcements</a>
+        }
+    </div>
+</section>

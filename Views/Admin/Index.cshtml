@@ -1,0 +1,101 @@
+@model Graduation_Project_Backend.Models.ViewModels.AdminDashboardViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Overview";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Admin workspace</p>
+        <h1>Overview</h1>
+    </div>
+    <a class="button" href="/admin/malls">Create mall</a>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <span>Malls</span>
+        <strong>@Model.MallsCount</strong>
+    </article>
+    <article class="stat-card">
+        <span>Stores</span>
+        <strong>@Model.StoresCount</strong>
+    </article>
+    <article class="stat-card">
+        <span>Managers</span>
+        <strong>@Model.ManagersCount</strong>
+    </article>
+    <article class="stat-card">
+        <span>Store assignments</span>
+        <strong>@Model.StoreAssignmentsCount</strong>
+    </article>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <span>Total sales</span>
+        <strong>@Model.Summary.TotalSalesAmount.ToString("0.##")</strong>
+    </article>
+    <article class="stat-card">
+        <span>Transactions</span>
+        <strong>@Model.Summary.TotalTransactions</strong>
+    </article>
+    <article class="stat-card">
+        <span>Points issued</span>
+        <strong>@Model.Summary.TotalPointsIssued</strong>
+    </article>
+    <article class="stat-card">
+        <span>Coupons redeemed</span>
+        <strong>@(Model.Summary.RedeemedCouponsCount?.ToString() ?? "-")</strong>
+    </article>
+</section>
+
+<section class="two-column dashboard-grid">
+    <section class="panel">
+        <h2>Top stores by sales</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Store</th><th>Sales</th><th>Transactions</th></tr></thead>
+                <tbody>
+                @foreach (var store in Model.Sales.TopStores)
+                {
+                    <tr>
+                        <td>@store.StoreName</td>
+                        <td>@store.SalesAmount.ToString("0.##")</td>
+                        <td>@store.TransactionsCount</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Recent transactions</h2>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Store</th><th>Receipt</th><th>Price</th><th>Points</th></tr></thead>
+                <tbody>
+                @foreach (var transaction in Model.Activity.RecentTransactions)
+                {
+                    <tr>
+                        <td>@transaction.StoreName</td>
+                        <td>@transaction.ReceiptId</td>
+                        <td>@transaction.Price.ToString("0.##")</td>
+                        <td>@transaction.Points</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<section class="panel">
+    <h2>Admin flow</h2>
+    <div class="quick-grid">
+        <a href="/admin/malls">Create a mall</a>
+        <a href="/admin/stores">Create or update stores</a>
+        <a href="/admin/managers">Create managers and assign stores</a>
+    </div>
+</section>

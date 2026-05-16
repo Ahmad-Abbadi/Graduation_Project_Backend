@@ -1,0 +1,36 @@
+@model Graduation_Project_Backend.Service.Portal.PortalLoginRequest
+@{
+    Layout = null;
+    string? returnUrl = ViewData["ReturnUrl"]?.ToString();
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YALLAH REWARDS Login</title>
+    <link rel="stylesheet" href="/css/admin-console.css">
+</head>
+<body class="login-body">
+    <main class="login-card">
+        <div class="brand login-brand">
+            <span class="brand-mark">YR</span>
+            <div>
+                <strong>YALLAH REWARDS</strong>
+                <span>Admin and manager login</span>
+            </div>
+        </div>
+        @if (ViewData["ErrorMessage"] is string errorMessage)
+        {
+            <div class="alert error">@errorMessage</div>
+        }
+        <form class="form-panel" method="post" action="/portal/login">
+            <input type="hidden" name="returnUrl" value="@returnUrl">
+            <label>Phone number<input name="PhoneNumber" value="@Model.PhoneNumber" type="text" required placeholder="07XXXXXXXX"></label>
+            <label>Password<input name="Password" type="password" required placeholder="Password"></label>
+            <button type="submit">Sign in</button>
+        </form>
+        <p class="muted">Need an admin account? <a class="text-link" href="/portal/register-admin">Register admin</a></p>
+    </main>
+</body>
+</html>
