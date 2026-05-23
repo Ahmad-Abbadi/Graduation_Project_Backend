@@ -8,6 +8,10 @@ namespace Graduation_Project_Backend.Controllers
     {
         [HttpGet]
         public IActionResult Index()
+            => Redirect("/portal/login");
+
+        [HttpGet("test-console")]
+        public IActionResult TestConsole()
         {
             var model = new TestConsoleViewModel
             {
@@ -15,7 +19,7 @@ namespace Graduation_Project_Backend.Controllers
                 PointsStreamEndpoint = "/api/realtime/points-stream"
             };
 
-            return View(model);
+            return View("Index", model);
         }
     }
 }

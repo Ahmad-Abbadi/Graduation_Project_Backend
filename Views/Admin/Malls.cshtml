@@ -9,6 +9,7 @@
         <p class="eyebrow">Admin</p>
         <h1>Malls</h1>
     </div>
+    <span class="pill">@Model.Malls.Count mall@(Model.Malls.Count == 1 ? "" : "s")</span>
 </section>
 
 <section class="two-column">
@@ -35,15 +36,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var mall in Model.Malls)
+                @if (Model.Malls.Count == 0)
                 {
-                    <tr>
-                        <td>@mall.Name</td>
-                        <td>@mall.StoresCount</td>
-                        <td>@mall.ManagersCount</td>
-                        <td>@mall.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</td>
-                        <td><code>@mall.Id</code></td>
-                    </tr>
+                    <tr class="empty-row"><td colspan="5">No malls yet.</td></tr>
+                }
+                else
+                {
+                    @foreach (var mall in Model.Malls)
+                    {
+                        <tr>
+                            <td>@mall.Name</td>
+                            <td>@mall.StoresCount</td>
+                            <td>@mall.ManagersCount</td>
+                            <td>@mall.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                            <td><code>@mall.Id</code></td>
+                        </tr>
+                    }
                 }
                 </tbody>
             </table>

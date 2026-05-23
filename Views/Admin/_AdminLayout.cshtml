@@ -10,29 +10,33 @@
     <title>@title - YALLAH REWARDS</title>
     <link rel="stylesheet" href="/css/admin-console.css">
 </head>
-<body>
+<body class="admin-body">
     <div class="admin-shell">
         <aside class="sidebar">
-            <div class="brand">
-                <span class="brand-mark">YR</span>
-                <div>
-                    <strong>YALLAH REWARDS</strong>
-                    <span>Admin console</span>
-                </div>
-            </div>
-            <nav class="nav">
-                <a class="@(currentAction == "Index" ? "active" : "")" href="/admin">Overview</a>
-                <a class="@(currentAction == "Dashboard" ? "active" : "")" href="/admin/dashboard">Dashboard</a>
-                <a class="@(currentAction == "Malls" ? "active" : "")" href="/admin/malls">Malls</a>
-                <a class="@(currentAction == "Stores" ? "active" : "")" href="/admin/stores">Stores</a>
-                <a class="@(currentAction == "Managers" ? "active" : "")" href="/admin/managers">Managers</a>
-                <a href="/portal/account">Account</a>
+            <a class="brand" href="/admin" aria-label="Yalla Rewards admin overview">
+                <img class="brand-logo" src="/images/yalla-rewards-logo.png" alt="Yalla Rewards">
+            </a>
+            <nav class="nav" aria-label="Admin navigation">
+                <a class="@(currentAction == "Index" ? "active" : "")" href="/admin"><span class="nav-icon nav-icon-overview" aria-hidden="true"></span><span>Overview</span></a>
+                <a class="@(currentAction == "Dashboard" ? "active" : "")" href="/admin/dashboard"><span class="nav-icon nav-icon-dashboard" aria-hidden="true"></span><span>Dashboard</span></a>
+                <a class="@(currentAction == "Malls" ? "active" : "")" href="/admin/malls"><span class="nav-icon nav-icon-malls" aria-hidden="true"></span><span>Malls</span></a>
+                <a class="@(currentAction == "Stores" ? "active" : "")" href="/admin/stores"><span class="nav-icon nav-icon-stores" aria-hidden="true"></span><span>Stores</span></a>
+                <a class="@(currentAction == "Managers" ? "active" : "")" href="/admin/managers"><span class="nav-icon nav-icon-managers" aria-hidden="true"></span><span>Managers</span></a>
             </nav>
-            <form class="logout-form" method="post" action="/portal/logout">
-                <button type="submit">Logout</button>
-            </form>
+            <div class="sidebar-footer">
+                <a class="account-link" href="/portal/account"><span class="nav-icon nav-icon-account" aria-hidden="true"></span><span>Account</span></a>
+                <form class="logout-form" method="post" action="/portal/logout">
+                    <button type="submit"><span class="nav-icon nav-icon-logout" aria-hidden="true"></span><span>Logout</span></button>
+                </form>
+            </div>
         </aside>
         <main class="content">
+            <header class="content-topbar">
+                <div>
+                    <span>Admin portal</span>
+                    <strong>@title</strong>
+                </div>
+            </header>
             @if (TempData["SuccessMessage"] is string successMessage)
             {
                 <div class="alert success">@successMessage</div>

@@ -73,13 +73,20 @@
             <table>
                 <thead><tr><th>Store</th><th>Sales</th><th>Transactions</th></tr></thead>
                 <tbody>
-                @foreach (var store in Model.Sales.TopStores)
+                @if (Model.Sales.TopStores.Count == 0)
                 {
-                    <tr>
-                        <td>@store.StoreName</td>
-                        <td>@store.SalesAmount.ToString("0.##")</td>
-                        <td>@store.TransactionsCount</td>
-                    </tr>
+                    <tr class="empty-row"><td colspan="3">No store sales for this period.</td></tr>
+                }
+                else
+                {
+                    @foreach (var store in Model.Sales.TopStores)
+                    {
+                        <tr>
+                            <td>@store.StoreName</td>
+                            <td>@store.SalesAmount.ToString("0.##")</td>
+                            <td>@store.TransactionsCount</td>
+                        </tr>
+                    }
                 }
                 </tbody>
             </table>
@@ -92,14 +99,21 @@
             <table>
                 <thead><tr><th>Store</th><th>Receipt</th><th>Price</th><th>Points</th></tr></thead>
                 <tbody>
-                @foreach (var transaction in Model.Activity.RecentTransactions)
+                @if (Model.Activity.RecentTransactions.Count == 0)
                 {
-                    <tr>
-                        <td>@transaction.StoreName</td>
-                        <td>@transaction.ReceiptId</td>
-                        <td>@transaction.Price.ToString("0.##")</td>
-                        <td>@transaction.Points</td>
-                    </tr>
+                    <tr class="empty-row"><td colspan="4">No transactions for this period.</td></tr>
+                }
+                else
+                {
+                    @foreach (var transaction in Model.Activity.RecentTransactions)
+                    {
+                        <tr>
+                            <td>@transaction.StoreName</td>
+                            <td>@transaction.ReceiptId</td>
+                            <td>@transaction.Price.ToString("0.##")</td>
+                            <td>@transaction.Points</td>
+                        </tr>
+                    }
                 }
                 </tbody>
             </table>
@@ -110,13 +124,20 @@
 <section class="panel">
     <h2>Store categories diagram</h2>
     <div class="diagram-list">
-        @foreach (var category in Model.Activity.CategoryDistribution)
+        @if (Model.Activity.CategoryDistribution.Count == 0)
         {
-            <div class="diagram-row">
-                <span>@category.CategoryName</span>
-                <div class="diagram-track"><i style="width:@Math.Min(category.StoresCount * 12, 100)%"></i></div>
-                <strong>@category.StoresCount</strong>
-            </div>
+            <p class="muted">No categories yet.</p>
+        }
+        else
+        {
+            @foreach (var category in Model.Activity.CategoryDistribution)
+            {
+                <div class="diagram-row">
+                    <span>@category.CategoryName</span>
+                    <div class="diagram-track"><i style="width:@Math.Min(category.StoresCount * 12, 100)%"></i></div>
+                    <strong>@category.StoresCount</strong>
+                </div>
+            }
         }
     </div>
 </section>
