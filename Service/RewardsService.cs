@@ -52,7 +52,7 @@ namespace Graduation_Project_Backend.Service
                 ManagerId = currentUserId,
                 MallID = access.MallID,
                 Type = request.Type.Trim(),
-                Discription = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim(),
+                Discription = string.IsNullOrWhiteSpace(request.Description) ? string.Empty : request.Description.Trim(),
                 StartAt = request.StartAt,
                 EndAt = request.EndAt,
                 IsActive = request.IsActive,
