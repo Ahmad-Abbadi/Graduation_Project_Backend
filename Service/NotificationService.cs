@@ -24,7 +24,6 @@ namespace Graduation_Project_Backend.Service
         {
             _logger.LogInformation("[NOTIF] Sending — mall={MallId} type={Type}", mallId, notificationType);
 
-            // Fetch regular users only (exclude managers)
             var userIds = await _db.UserProfiles
                 .AsNoTracking()
                 .Where(u => u.MallID == mallId && !_db.Managers.Any(m => m.Id == u.Id))
@@ -38,7 +37,6 @@ namespace Graduation_Project_Backend.Service
 
             var now = DateTimeOffset.UtcNow;
 
-            // 1. Insert ONE shared notification row
             var notification = new Notification
             {
                 Id = Guid.NewGuid(),
@@ -53,7 +51,6 @@ namespace Graduation_Project_Backend.Service
             _db.Notifications.Add(notification);
             await _db.SaveChangesAsync(cancellationToken);
 
-            // 2. Insert one row per user in User_notifications
             var userNotifications = userIds.Select(userId => new UserNotification
             {
                 NotificationsId = notification.Id,
